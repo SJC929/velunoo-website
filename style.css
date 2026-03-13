@@ -232,8 +232,9 @@ ul   { list-style: none; }
 .nav-inner { display: flex; align-items: center; gap: 36px; height: var(--nav-h); }
 
 /* ── LOGO ── */
-.nav-logo { flex-shrink: 0; display: flex; align-items: center; }
+.nav-logo { flex-shrink: 0; display: flex; align-items: center; gap: 8px; }
 .logo-img  { height: 68px; width: auto; }
+.logo-paw  { height: 36px; width: auto; opacity: 0.85; }
 
 .nav-links { display: flex; gap: 32px; flex: 1; }
 .nav-links a {
@@ -440,6 +441,26 @@ ul   { list-style: none; }
 .trust-bar { background: var(--white); padding: 28px 0; border-bottom: 1px solid var(--grey-mid); }
 .trust-inner { display: flex; justify-content: center; gap: 48px; flex-wrap: wrap; }
 .trust-item  { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; }
+
+/* ── CHARITY BANNER ── */
+.charity-banner {
+  background: linear-gradient(90deg, #234C2F 0%, #2e6038 100%);
+  padding: 18px 0;
+}
+.charity-inner {
+  display: flex; align-items: center; gap: 16px;
+  flex-wrap: wrap; justify-content: center; text-align: center;
+}
+.charity-icon { font-size: 26px; flex-shrink: 0; }
+.charity-text { color: rgba(255,255,255,.92); font-size: 15px; font-weight: 500; }
+.charity-text strong { color: #fff; font-weight: 800; }
+.charity-link {
+  color: #a8d96a; font-size: 13px; font-weight: 700;
+  text-decoration: none; white-space: nowrap;
+  border: 1px solid rgba(168,217,106,.4); border-radius: 20px;
+  padding: 6px 14px; transition: var(--transition);
+}
+.charity-link:hover { background: rgba(168,217,106,.15); }
 
 /* ================================================================
    FEATURES
@@ -725,6 +746,7 @@ ul   { list-style: none; }
   .hamburger { display: flex; }
   .nav-actions { gap: 8px; }
   .logo-img { height: 52px; }
+  .logo-paw { height: 28px; }
 
   /* Hero */
   .hero-inner { grid-template-columns: 1fr; gap: 32px; padding-bottom: 60px; text-align: center; }
@@ -767,6 +789,7 @@ ul   { list-style: none; }
   :root { --nav-h: 68px; }
   .container { padding: 0 14px; }
   .logo-img { height: 46px; }
+  .logo-paw { height: 24px; }
   .hero-card-main { width: 100%; }
   .hero-image-wrapper { width: 230px; height: 230px; }
   .paw-hero-svg { width: 175px; height: 175px; }
@@ -893,24 +916,27 @@ ul   { list-style: none; }
 .unboxing-badge-br {
   position: absolute;
   z-index: 10;
-  font-size: 11px;
   font-weight: 700;
   letter-spacing: .08em;
   text-transform: uppercase;
-  padding: 5px 12px;
   border-radius: 20px;
 }
 .unboxing-badge-tl {
   top: 16px; left: 16px;
+  font-size: 11px;
+  padding: 5px 12px;
   background: rgba(119,174,58,.95);
   color: #fff;
 }
 .unboxing-badge-br {
-  bottom: 16px; right: 16px;
-  background: rgba(0,0,0,.6);
-  color: rgba(255,255,255,.9);
+  bottom: 20px; right: 20px;
+  font-size: 16px;
+  padding: 10px 22px;
+  background: rgba(0,0,0,.72);
+  color: rgba(255,255,255,.95);
   backdrop-filter: blur(6px);
-  border: 1px solid rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.18);
+  letter-spacing: .12em;
 }
 .unboxing-video {
   width: 100%;
