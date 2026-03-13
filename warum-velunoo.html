@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Warum Velunoo — Premium Tierprodukte aus der Schweiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Page Hero ── */
+    .wv-hero {
+      background: linear-gradient(135deg, #F0F8E8 0%, #E8F4D6 40%, #F5FFF0 100%);
+      padding: calc(var(--nav-h) + 80px) 0 100px;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .wv-hero::before {
+      content:''; position:absolute; top:-150px; right:-150px;
+      width:500px; height:500px;
+      background:radial-gradient(circle,rgba(119,174,58,.18) 0%,transparent 70%);
+      pointer-events:none;
+    }
+    .wv-hero .section-tag { margin-bottom:20px; }
+    .wv-hero h1 {
+      font-size: clamp(36px,6vw,72px); font-weight:900;
+      color: var(--dark-text); line-height:1.1; margin-bottom:24px;
+    }
+    .wv-hero h1 span { color: var(--green-light); }
+    .wv-hero p {
+      font-size:18px; color:var(--grey-text); max-width:600px;
+      margin:0 auto 40px; line-height:1.7;
+    }
+    .wv-hero-cta { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+
+    /* ── Story Section ── */
+    .wv-story { background:var(--white); }
+    .wv-story-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .wv-story-visual {
+      background: linear-gradient(135deg,#EAF4D6,#D4EDBE);
+      border-radius: var(--radius-xl);
+      padding: 60px 40px; text-align:center;
+    }
+    .wv-story-emoji { font-size: 96px; margin-bottom: 24px; display: block; }
+    .wv-story-stat-row { display:flex; gap:24px; justify-content:center; flex-wrap:wrap; margin-top:32px; }
+    .wv-story-stat {
+      background:var(--white); border-radius:var(--radius-md);
+      padding:20px 24px; text-align:center; box-shadow:var(--shadow-sm);
+      min-width:120px;
+    }
+    .wv-story-stat-num  { font-size:28px; font-weight:900; color:var(--green-dark); display:block; }
+    .wv-story-stat-label{ font-size:12px; color:var(--grey-text); font-weight:600; }
+
+    .wv-story-content h2 { font-size:clamp(26px,3.5vw,40px); font-weight:800; margin-bottom:20px; line-height:1.2; }
+    .wv-story-content p  { font-size:15px; color:var(--grey-text); line-height:1.8; margin-bottom:16px; }
+
+    /* ── Values ── */
+    .wv-values { background:var(--grey-light); }
+    .wv-values-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+    .wv-value-card {
+      background:var(--white); border-radius:var(--radius-lg);
+      padding:36px 28px; border:2px solid transparent;
+      transition:var(--transition);
+    }
+    .wv-value-card:hover { border-color:var(--green-pale); box-shadow:var(--shadow-md); transform:translateY(-4px); }
+    .wv-value-icon { font-size:48px; margin-bottom:20px; display:block; }
+    .wv-value-card h3 { font-size:19px; font-weight:800; margin-bottom:10px; color:var(--dark-text); }
+    .wv-value-card p  { font-size:14px; color:var(--grey-text); line-height:1.7; }
+
+    /* ── Promise Section ── */
+    .wv-promise { background:var(--green-dark); color:var(--white); }
+    .wv-promise .section-tag { background:rgba(255,255,255,.15); color:rgba(255,255,255,.9); }
+    .wv-promise .section-title { color:var(--white); }
+    .wv-promise .section-sub { color:rgba(255,255,255,.7); }
+    .wv-promise-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; margin-top:0; }
+    .wv-promise-item {
+      background:rgba(255,255,255,.08); border-radius:var(--radius-lg);
+      padding:28px 24px; border:1px solid rgba(255,255,255,.12);
+      transition:var(--transition);
+    }
+    .wv-promise-item:hover { background:rgba(255,255,255,.13); transform:translateY(-3px); }
+    .wv-promise-item h4 { font-size:16px; font-weight:700; margin-bottom:8px; display:flex; align-items:center; gap:10px; }
+    .wv-promise-item p  { font-size:14px; color:rgba(255,255,255,.65); line-height:1.7; }
+
+    /* ── CTA Banner ── */
+    .wv-cta {
+      background: linear-gradient(135deg, #F0F8E8 0%, #E8F4D6 100%);
+      text-align:center; padding: 96px 0;
+    }
+    .wv-cta h2 { font-size:clamp(28px,4vw,48px); font-weight:900; margin-bottom:16px; }
+    .wv-cta p  { font-size:16px; color:var(--grey-text); margin-bottom:36px; max-width:480px; margin-left:auto; margin-right:auto; }
+    .wv-cta-btns { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+
+    @media(max-width:1024px) {
+      .wv-values-grid { grid-template-columns:repeat(2,1fr); }
+    }
+    @media(max-width:768px) {
+      .wv-story-grid   { grid-template-columns:1fr; gap:40px; }
+      .wv-values-grid  { grid-template-columns:1fr; }
+      .wv-promise-grid { grid-template-columns:1fr; }
+      .wv-hero { padding-bottom:60px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="brand_assets/Velunoo Logo.png" alt="Velunoo" class="logo-img" />
+      </a>
+      <nav class="nav-links">
+        <a href="warum-velunoo.html" style="color:var(--green-dark)">Warum Velunoo</a>
+        <a href="index.html#game">Spielen</a>
+        <a href="index.html#testimonials">Bewertungen</a>
+        <a href="contact.html">Kontakt</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="index.html#products" class="btn btn-primary">Produkte entdecken</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="warum-velunoo.html">Warum Velunoo</a>
+      <a href="index.html#game">Spielen</a>
+      <a href="index.html#testimonials">Bewertungen</a>
+      <a href="contact.html">Kontakt</a>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="wv-hero">
+    <div class="container">
+      <span class="section-tag">Unsere Geschichte</span>
+      <h1>Produkte, die <span>wirklich</span><br />einen Unterschied machen</h1>
+      <p>Velunoo wurde aus einer einfachen Überzeugung geboren: Dein Tier verdient das Beste — und du verdienst eine Marke, der du vertrauen kannst.</p>
+      <div class="wv-hero-cta">
+        <a href="index.html#products" class="btn btn-primary btn-large">Produkte entdecken</a>
+        <a href="contact.html" class="btn btn-outline btn-large">Kontakt aufnehmen</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STORY ===== -->
+  <section class="wv-story section">
+    <div class="container">
+      <div class="wv-story-grid">
+        <div class="wv-story-visual" data-animate="fade-up">
+          <span class="wv-story-emoji">🐾</span>
+          <p style="font-size:16px;font-weight:600;color:var(--green-dark);margin:0;">Jedes Tier verdient das Beste</p>
+          <div class="wv-story-stat-row">
+            <div class="wv-story-stat">
+              <span class="wv-story-stat-num">500</span>
+              <span class="wv-story-stat-label">Glückliche Tiere</span>
+            </div>
+            <div class="wv-story-stat">
+              <span class="wv-story-stat-num">200+</span>
+              <span class="wv-story-stat-label">Produkte</span>
+            </div>
+            <div class="wv-story-stat">
+              <span class="wv-story-stat-num">4.9★</span>
+              <span class="wv-story-stat-label">Bewertung</span>
+            </div>
+          </div>
+        </div>
+        <div class="wv-story-content" data-animate="fade-left">
+          <h2>Warum wir Velunoo gegründet haben</h2>
+          <p>Als Tierliebhaber haben wir selbst erlebt, wie schwierig es sein kann, wirklich hochwertige Produkte für Hunde und Katzen zu finden — ohne stundenlanges Recherchieren und Vergleichen.</p>
+          <p>Viel zu viele Produkte auf dem Markt setzen auf billige Materialien, irreführende Versprechen und fehlendes Engagement für das Tierwohl. Das wollten wir ändern.</p>
+          <p>Mit Velunoo haben wir eine Marke aufgebaut, die Ehrlichkeit, Qualität und echte Leidenschaft für Tiere in den Mittelpunkt stellt. Jedes Produkt in unserem Sortiment wurde mit Sorgfalt ausgewählt — nicht für den schnellen Verkauf, sondern weil wir selbst es unseren Tieren geben würden.</p>
+          <p><strong style="color:var(--green-dark)">Dein Vertrauen ist unser Antrieb. Das Lächeln deines Tieres ist unser Ziel.</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== VALUES ===== -->
+  <section class="wv-values section">
+    <div class="container">
+      <div class="section-header" data-animate="fade-up">
+        <span class="section-tag">Unsere Werte</span>
+        <h2 class="section-title">Was uns antreibt</h2>
+        <p class="section-sub">Diese Grundsätze leiten jede Entscheidung, die wir treffen — von der Produktauswahl bis zum Kundenservice.</p>
+      </div>
+      <div class="wv-values-grid">
+
+        <div class="wv-value-card" data-animate="fade-up" data-delay="0">
+          <span class="wv-value-icon">💚</span>
+          <h3>Echte Leidenschaft für Tiere</h3>
+          <p>Wir sind selbst Tierbesitzer. Unsere Katzen und Hunde sind nicht Mittel zum Zweck — sie sind der Grund, warum wir jeden Morgen aufstehen und das Beste für jedes Tier erreichen wollen.</p>
+        </div>
+
+        <div class="wv-value-card" data-animate="fade-up" data-delay="100">
+          <span class="wv-value-icon">🏆</span>
+          <h3>Kompromisslose Qualität</h3>
+          <p>Wir nehmen nur Produkte ins Sortiment auf, bei denen wir zu 100 % überzeugt sind. Kein Greenwashing, keine leeren Versprechen — nur Produkte, die halten, was sie versprechen.</p>
+        </div>
+
+        <div class="wv-value-card" data-animate="fade-up" data-delay="200">
+          <span class="wv-value-icon">🤝</span>
+          <h3>Ehrlichkeit & Transparenz</h3>
+          <p>Wir sagen dir klar und direkt, was in unseren Produkten steckt, woher sie kommen und warum wir sie empfehlen. Kein Versteckspiel, keine übertriebenen Behauptungen.</p>
+        </div>
+
+        <div class="wv-value-card" data-animate="fade-up" data-delay="0">
+          <span class="wv-value-icon">🚀</span>
+          <h3>Schnell & zuverlässig</h3>
+          <p>Dein Tier soll nicht warten. Wir versenden so schnell wie möglich und halten dich immer auf dem Laufenden. Wenn etwas nicht stimmt, lösen wir es — ohne Wenn und Aber.</p>
+        </div>
+
+        <div class="wv-value-card" data-animate="fade-up" data-delay="100">
+          <span class="wv-value-icon">🌱</span>
+          <h3>Nachhaltig denken</h3>
+          <p>Wir achten darauf, umweltbewusste Produkte zu wählen, Verpackungen zu minimieren und langfristig zu denken. Was gut für die Erde ist, ist auch gut für dein Tier.</p>
+        </div>
+
+        <div class="wv-value-card" data-animate="fade-up" data-delay="200">
+          <span class="wv-value-icon">💬</span>
+          <h3>Deine Stimme zählt</h3>
+          <p>Wir hören zu. Jede Frage, jede Rückmeldung, jede Idee — du kannst uns immer direkt ansprechen. Wir wachsen gemeinsam mit unserer Community.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROMISE ===== -->
+  <section class="wv-promise section">
+    <div class="container">
+      <div class="section-header" data-animate="fade-up">
+        <span class="section-tag">Unser Versprechen</span>
+        <h2 class="section-title">Was du von uns erwarten kannst</h2>
+        <p class="section-sub">Diese vier Versprechen stehen bei jedem Einkauf für dich — ohne Ausnahme.</p>
+      </div>
+      <div class="wv-promise-grid">
+
+        <div class="wv-promise-item" data-animate="fade-up" data-delay="0">
+          <h4>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#77AE3A" stroke-width="2.5" width="22"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Qualitätsgarantie
+          </h4>
+          <p>Jedes Produkt, das wir anbieten, wurde von uns persönlich ausgewählt und geprüft. Wenn du nicht zufrieden bist, kümmern wir uns darum — ganz einfach, ganz unkompliziert.</p>
+        </div>
+
+        <div class="wv-promise-item" data-animate="fade-up" data-delay="100">
+          <h4>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#77AE3A" stroke-width="2.5" width="22"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            Schnelle Lieferung
+          </h4>
+          <p>Wir versenden deine Bestellung so schnell wie möglich. Dein Tier soll seine neuen Lieblingssachen nicht lange warten müssen.</p>
+        </div>
+
+        <div class="wv-promise-item" data-animate="fade-up" data-delay="0">
+          <h4>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#77AE3A" stroke-width="2.5" width="22"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            30 Tage Rückgabe
+          </h4>
+          <p>Nicht das Richtige? Kein Problem. Du hast 30 Tage Zeit, ein Produkt zurückzusenden — ohne Fragen, ohne Stress.</p>
+        </div>
+
+        <div class="wv-promise-item" data-animate="fade-up" data-delay="100">
+          <h4>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#77AE3A" stroke-width="2.5" width="22"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Persönlicher Support
+          </h4>
+          <p>Wir sind echte Menschen, die echte Antworten geben. Du erreichst uns jederzeit per E-Mail oder über unseren Chat — direkt, ehrlich und freundlich.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="wv-cta">
+    <div class="container">
+      <div data-animate="fade-up">
+        <span class="section-tag">Bereit?</span>
+        <h2>Gib deinem Tier das Beste</h2>
+        <p>Entdecke unsere sorgfältig ausgewählten Produkte — und erlebe selbst, was Velunoo für dein Tier bedeuten kann.</p>
+        <div class="wv-cta-btns">
+          <a href="index.html#products" class="btn btn-primary btn-large">Jetzt entdecken</a>
+          <a href="contact.html" class="btn btn-outline btn-large">Fragen? Schreib uns</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <img src="brand_assets/Velunoo Logo.png" alt="Velunoo" class="footer-logo" />
+        <p>Premium-Produkte mit Liebe für Hunde und Katzen. Das beste Leben für deine pelzigen Familienmitglieder.</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/velunoo.ch/" target="_blank" rel="noopener" aria-label="Instagram" class="social-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@velunoo.ch" target="_blank" rel="noopener" aria-label="TikTok" class="social-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Entdecken</h4>
+        <ul>
+          <li><a href="warum-velunoo.html">Warum Velunoo</a></li>
+          <li><a href="index.html#game">Mit Max spielen</a></li>
+          <li><a href="index.html#testimonials">Bewertungen</a></li>
+          <li><a href="contact.html">Kontakt</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Hilfe</h4>
+        <ul>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Versandinfos</a></li>
+          <li><a href="#">Rückgabe</a></li>
+          <li><a href="contact.html">Kontakt</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Unternehmen</h4>
+        <ul>
+          <li><a href="warum-velunoo.html">Über uns</a></li>
+          <li><a href="#">Datenschutz</a></li>
+          <li><a href="#">Nutzungsbedingungen</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>© 2026 Velunoo. Alle Rechte vorbehalten. Mit Liebe für Tiere gemacht.</p>
+        <div class="payment-icons">
+          <span class="payment-icon">VISA</span>
+          <span class="payment-icon">MC</span>
+          <span class="payment-icon">AMEX</span>
+          <span class="payment-icon">PayPal</span>
+          <span class="payment-icon">Apple Pay</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+
+  <script>
+    // Navbar + back to top
+    const navbar    = document.getElementById('navbar');
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 20);
+      backToTop.classList.toggle('visible', window.scrollY > 400);
+    }, { passive: true });
+    backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // Hamburger
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('open');
+      const spans = hamburger.querySelectorAll('span');
+      spans[0].style.transform = open ? 'rotate(45deg) translate(5px,5px)' : '';
+      spans[1].style.opacity   = open ? '0' : '';
+      spans[2].style.transform = open ? 'rotate(-45deg) translate(5px,-5px)' : '';
+    });
+
+    // Scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const delay = parseInt(entry.target.dataset.delay || '0');
+          setTimeout(() => entry.target.classList.add('animated'), delay);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

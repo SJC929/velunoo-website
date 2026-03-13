@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kontakt — Velunoo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .contact-hero {
+      background: linear-gradient(135deg, #F0F8E8 0%, #E8F4D6 40%, #F5FFF0 100%);
+      padding: calc(var(--nav-h) + 60px) 0 80px;
+      text-align: center;
+    }
+    .contact-hero h1 { font-size: clamp(32px,5vw,56px); font-weight:900; color:var(--dark-text); margin-bottom:16px; }
+    .contact-hero p  { font-size:17px; color:var(--grey-text); max-width:520px; margin:0 auto; }
+
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 48px;
+      padding: 80px 0;
+      align-items: start;
+    }
+    .contact-info { display:flex; flex-direction:column; gap:28px; }
+    .contact-info-item {
+      display:flex; align-items:flex-start; gap:16px;
+      background:var(--grey-light); border-radius:var(--radius-lg);
+      padding:24px 20px;
+    }
+    .contact-info-icon {
+      width:48px; height:48px; border-radius:50%; background:var(--green-pale);
+      display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    }
+    .contact-info-icon svg { width:22px; height:22px; }
+    .contact-info-label { font-size:12px; font-weight:700; color:var(--grey-text); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+    .contact-info-val   { font-size:15px; font-weight:600; color:var(--dark-text); }
+
+    .contact-form-card {
+      background:var(--white); border-radius:var(--radius-xl);
+      padding:48px 40px; box-shadow:var(--shadow-md);
+      border:2px solid var(--green-pale);
+    }
+    .contact-form-card h2 { font-size:24px; font-weight:800; margin-bottom:8px; color:var(--dark-text); }
+    .contact-form-card p  { font-size:14px; color:var(--grey-text); margin-bottom:32px; }
+
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .form-group { display:flex; flex-direction:column; gap:6px; margin-bottom:20px; }
+    .form-group label { font-size:13px; font-weight:700; color:var(--dark-text); }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      padding:13px 16px; border:2px solid var(--grey-mid); border-radius:var(--radius-sm);
+      font-family:'Montserrat',sans-serif; font-size:14px; color:var(--dark-text);
+      outline:none; transition:var(--transition); background:var(--white);
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color:var(--green-light); }
+    .form-group textarea { resize:vertical; min-height:130px; }
+
+    .form-submit { width:100%; padding:16px; font-size:15px; }
+
+    .contact-success {
+      display:none; text-align:center; padding:40px 20px;
+    }
+    .contact-success svg { margin:0 auto 16px; display:block; }
+    .contact-success h3 { font-size:22px; font-weight:800; color:var(--green-dark); margin-bottom:8px; }
+    .contact-success p  { color:var(--grey-text); }
+
+    @media(max-width:768px) {
+      .contact-layout { grid-template-columns:1fr; gap:32px; padding:48px 0; }
+      .form-row { grid-template-columns:1fr; }
+      .contact-form-card { padding:28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="brand_assets/Velunoo Logo.png" alt="Velunoo" class="logo-img" />
+      </a>
+      <nav class="nav-links">
+        <a href="warum-velunoo.html">Warum Velunoo</a>
+        <a href="index.html#game">Spielen</a>
+        <a href="index.html#testimonials">Bewertungen</a>
+        <a href="contact.html" style="color:var(--green-dark)">Kontakt</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="index.html#products" class="btn btn-primary">Produkte</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="warum-velunoo.html">Warum Velunoo</a>
+      <a href="index.html#game">Spielen</a>
+      <a href="index.html#testimonials">Bewertungen</a>
+      <a href="contact.html">Kontakt</a>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="contact-hero">
+    <div class="container">
+      <span class="section-tag">Wir sind für dich da</span>
+      <h1>Kontaktiere uns</h1>
+      <p>Hast du Fragen zu unseren Produkten, einer Bestellung oder möchtest du einfach Hallo sagen? Wir freuen uns, von dir zu hören!</p>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT SECTION ===== -->
+  <section class="section" style="background:var(--grey-light)">
+    <div class="container">
+      <div class="contact-layout">
+
+        <!-- Info -->
+        <div class="contact-info">
+          <div class="contact-info-item">
+            <div class="contact-info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#234C2F" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <div class="contact-info-label">E-Mail</div>
+              <div class="contact-info-val">Stajinchirakal@gmail.com</div>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#234C2F" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <div class="contact-info-label">Standort</div>
+              <div class="contact-info-val">Schweiz 🇨🇭</div>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#234C2F" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <div class="contact-info-label">Antwortzeit</div>
+              <div class="contact-info-val">Innerhalb von 24 Stunden</div>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#234C2F" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.97 16.92z"/></svg>
+            </div>
+            <div>
+              <div class="contact-info-label">Social Media</div>
+              <div class="contact-info-val">
+                <a href="https://www.instagram.com/velunoo.ch/" target="_blank" rel="noopener" style="color:var(--green-dark);text-decoration:underline;">@velunoo.ch</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <div class="contact-form-card">
+          <div id="formContent">
+            <h2>Schreib uns eine Nachricht</h2>
+            <p>Fülle das Formular aus und wir melden uns so schnell wie möglich bei dir.</p>
+
+            <form id="contactForm" onsubmit="submitContactForm(event)">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="contactName">Dein Name</label>
+                  <input type="text" id="contactName" name="name" placeholder="Max Mustermann" required />
+                </div>
+                <div class="form-group">
+                  <label for="contactEmail">E-Mail-Adresse</label>
+                  <input type="email" id="contactEmail" name="email" placeholder="deine@email.ch" required />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="contactSubject">Betreff</label>
+                <select id="contactSubject" name="subject">
+                  <option value="Frage zu einem Produkt">Frage zu einem Produkt</option>
+                  <option value="Bestellstatus">Bestellstatus</option>
+                  <option value="Rücksendung / Rückgabe">Rücksendung / Rückgabe</option>
+                  <option value="Zusammenarbeit">Zusammenarbeit</option>
+                  <option value="Sonstiges">Sonstiges</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="contactMsg">Deine Nachricht</label>
+                <textarea id="contactMsg" name="message" placeholder="Was möchtest du uns mitteilen?" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary form-submit" id="contactSubmitBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                Nachricht senden
+              </button>
+            </form>
+          </div>
+
+          <div class="contact-success" id="contactSuccess">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#77AE3A" stroke-width="2" width="64">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="9 12 11 14 15 10"/>
+            </svg>
+            <h3>Nachricht erhalten! 🐾</h3>
+            <p>Vielen Dank! Wir melden uns innerhalb von 24 Stunden bei dir.</p>
+            <a href="index.html" class="btn btn-primary" style="margin-top:24px;display:inline-flex;">Zurück zur Startseite</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <img src="brand_assets/Velunoo Logo.png" alt="Velunoo" class="footer-logo" />
+        <p>Premium-Produkte mit Liebe für Hunde und Katzen. Das beste Leben für deine pelzigen Familienmitglieder.</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/velunoo.ch/" target="_blank" rel="noopener" aria-label="Instagram" class="social-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@velunoo.ch" target="_blank" rel="noopener" aria-label="TikTok" class="social-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Entdecken</h4>
+        <ul>
+          <li><a href="warum-velunoo.html">Warum Velunoo</a></li>
+          <li><a href="index.html#game">Mit Max spielen</a></li>
+          <li><a href="index.html#testimonials">Bewertungen</a></li>
+          <li><a href="contact.html">Kontakt</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Hilfe</h4>
+        <ul>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Versandinfos</a></li>
+          <li><a href="#">Rückgabe</a></li>
+          <li><a href="contact.html">Kontakt</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Unternehmen</h4>
+        <ul>
+          <li><a href="warum-velunoo.html">Über uns</a></li>
+          <li><a href="#">Datenschutz</a></li>
+          <li><a href="#">Nutzungsbedingungen</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>© 2026 Velunoo. Alle Rechte vorbehalten. Mit Liebe für Tiere gemacht.</p>
+        <div class="payment-icons">
+          <span class="payment-icon">VISA</span>
+          <span class="payment-icon">MC</span>
+          <span class="payment-icon">AMEX</span>
+          <span class="payment-icon">PayPal</span>
+          <span class="payment-icon">Apple Pay</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    // Hamburger
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('open');
+      const spans = hamburger.querySelectorAll('span');
+      spans[0].style.transform = open ? 'rotate(45deg) translate(5px,5px)' : '';
+      spans[1].style.opacity   = open ? '0' : '';
+      spans[2].style.transform = open ? 'rotate(-45deg) translate(5px,-5px)' : '';
+    });
+
+    // Contact form submission
+    async function submitContactForm(e) {
+      e.preventDefault();
+      const btn  = document.getElementById('contactSubmitBtn');
+      const name    = document.getElementById('contactName').value.trim();
+      const email   = document.getElementById('contactEmail').value.trim();
+      const subject = document.getElementById('contactSubject').value;
+      const message = document.getElementById('contactMsg').value.trim();
+
+      btn.disabled = true;
+      btn.innerHTML = '<span>Wird gesendet…</span>';
+
+      try {
+        const res = await fetch('https://velunoo-backend.onrender.com/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, subject, message })
+        });
+        // Show success regardless (backend may be offline, message still logged)
+        if (res.ok || res.status === 201) {
+          showSuccess();
+        } else {
+          fallbackMailto(name, email, subject, message);
+        }
+      } catch {
+        // If backend unreachable, open mailto as fallback
+        fallbackMailto(name, email, subject, message);
+      }
+    }
+
+    function showSuccess() {
+      document.getElementById('formContent').style.display = 'none';
+      const s = document.getElementById('contactSuccess');
+      s.style.display = 'block';
+    }
+
+    function fallbackMailto(name, email, subject, message) {
+      const body = encodeURIComponent(`Name: ${name}\nE-Mail: ${email}\n\n${message}`);
+      window.location.href = `mailto:Stajinchirakal@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+      showSuccess();
+    }
+  </script>
+</body>
+</html>
