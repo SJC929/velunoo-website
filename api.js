@@ -3,7 +3,7 @@
    Frontend ↔ Backend Verbindung
    ============================================================ */
 
-const API_URL = 'http://localhost:3000/api'
+const API_URL = 'https://velunoo-backend.onrender.com/api'
 
 /* ── Aktuelle Sprache holen ─────────────────────────────────── */
 function getCurrentLang() {
