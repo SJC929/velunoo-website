@@ -77,32 +77,63 @@ function showAdminToast(message, isError = false) {
   }, 3000)
 }
 
-/* ── Finanzen localStorage ─────────────────────────────────── */
-function getFinanzenData() {
-  try { return JSON.parse(localStorage.getItem('velunoo_finanzen') || '{}') } catch { return {} }
+/* ── Finanzen Transaktionen ────────────────────────────────── */
+const AUFWAND_KATEGORIEN = {
+  tiktok_ads:        '📱 TikTok Ads',
+  meta_ads:          '📘 Meta Ads',
+  ai_bloatato:       '🤖 Bloatato',
+  ai_openai_chat:    '💬 OpenAI ChatGPT',
+  ai_openai_api:     '⚙️ OpenAI API / N8n',
+  ai_claude:         '🧠 Claude AI',
+  transport_einkauf: '🚚 Transport Einkauf',
+  transport_verkauf: '📦 Transport Verkauf',
+  sonstige:          '📎 Sonstige Kosten'
 }
 
-function saveFinanzenData(data) {
-  localStorage.setItem('velunoo_finanzen', JSON.stringify(data))
+const ERTRAG_KATEGORIEN = {
+  produktverkauf:    '🛒 Produktverkauf',
+  sonstige_einnahmen:'💡 Sonstige Einnahmen'
 }
 
-function getMonthData(period) {
-  const all = getFinanzenData()
-  return all[period] || {
-    tiktok_ads: 0, meta_ads: 0, ai_tools: 0,
-    transport_einkauf: 0, transport_verkauf: 0, sonstige: 0,
-    notizen: ''
-  }
+function getAllTransactions() {
+  try { return JSON.parse(localStorage.getItem('velunoo_transactions') || '[]') } catch { return [] }
 }
 
-function saveMonthData(period, data) {
-  const all = getFinanzenData()
-  all[period] = { ...data, updated_at: new Date().toISOString() }
-  saveFinanzenData(all)
+function saveAllTransactions(list) {
+  localStorage.setItem('velunoo_transactions', JSON.stringify(list))
+}
+
+function addTransaction(tx) {
+  const list = getAllTransactions()
+  list.push({ ...tx, id: crypto.randomUUID(), created_at: new Date().toISOString() })
+  saveAllTransactions(list)
+}
+
+function deleteTransaction(id) {
+  saveAllTransactions(getAllTransactions().filter(t => t.id !== id))
+}
+
+function getTransactionsByPeriod(period) {
+  return getAllTransactions().filter(t => t.date?.startsWith(period))
+}
+
+function getTransactionsByYear(year) {
+  return getAllTransactions().filter(t => t.date?.startsWith(String(year)))
 }
 
 function getTotalKosten(period) {
-  const d = getMonthData(period)
-  return (d.tiktok_ads || 0) + (d.meta_ads || 0) + (d.ai_tools || 0) +
-         (d.transport_einkauf || 0) + (d.transport_verkauf || 0) + (d.sonstige || 0)
+  return getTransactionsByPeriod(period)
+    .filter(t => t.type === 'aufwand')
+    .reduce((s, t) => s + (parseFloat(t.amount) || 0), 0)
+}
+
+function getTotalErtrag(period) {
+  return getTransactionsByPeriod(period)
+    .filter(t => t.type === 'ertrag')
+    .reduce((s, t) => s + (parseFloat(t.amount) || 0), 0)
+}
+
+/* Legacy compatibility (für alte Daten) */
+function getFinanzenData() {
+  try { return JSON.parse(localStorage.getItem('velunoo_finanzen') || '{}') } catch { return {} }
 }

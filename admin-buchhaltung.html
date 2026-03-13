@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <!-- Jahresübersicht -->
+    <!-- Jahres-Stats -->
     <div class="stats-grid" style="margin-bottom:24px;">
       <div class="stat-card">
         <div class="stat-icon">📈</div>
@@ -34,7 +34,7 @@
         <div class="stat-icon">📉</div>
         <div class="stat-info">
           <div class="stat-value" id="yearCosts" style="font-size:20px;">CHF —</div>
-          <div class="stat-label">Gesamtkosten</div>
+          <div class="stat-label">Gesamtaufwände</div>
         </div>
       </div>
       <div class="stat-card">
@@ -53,37 +53,93 @@
       </div>
     </div>
 
-    <!-- Monatstabelle -->
-    <div class="table-wrap">
-      <table class="admin-table" id="buchTable">
-        <thead>
-          <tr>
-            <th>Monat</th>
-            <th>Umsatz</th>
-            <th>TikTok Ads</th>
-            <th>Meta Ads</th>
-            <th>AI-Tools</th>
-            <th>Transport</th>
-            <th>Sonstige</th>
-            <th>Total Kosten</th>
-            <th>Gewinn/Verlust</th>
-          </tr>
-        </thead>
-        <tbody id="buchBody">
-          <tr><td colspan="9" style="text-align:center;padding:32px;color:#888;">Lädt...</td></tr>
-        </tbody>
-        <tfoot id="buchFoot"></tfoot>
-      </table>
+    <!-- Tabs -->
+    <div class="buch-tabs">
+      <button class="buch-tab active" id="tabMonat" onclick="switchTab('monat')">📅 Monatsübersicht</button>
+      <button class="buch-tab" id="tabTkonto" onclick="switchTab('tkonto')">📒 T-Konto</button>
+      <button class="buch-tab" id="tabAlle" onclick="switchTab('alle')">📋 Alle Buchungen</button>
     </div>
 
-    <!-- Schweizer Hinweis -->
+    <!-- Tab: Monatsübersicht -->
+    <div id="viewMonat">
+      <div class="table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Monat</th>
+              <th>Umsatz</th>
+              <th>Aufwände</th>
+              <th>Erträge (manuell)</th>
+              <th>Total Einnahmen</th>
+              <th>Gewinn/Verlust</th>
+            </tr>
+          </thead>
+          <tbody id="buchBody"></tbody>
+          <tfoot id="buchFoot"></tfoot>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tab: T-Konto -->
+    <div id="viewTkonto" style="display:none;">
+      <div class="tkonto-wrap">
+        <div class="tkonto-card">
+          <!-- Soll (links) = Aufwände -->
+          <div class="tkonto-side tkonto-soll">
+            <div class="tkonto-header">
+              <span>SOLL — Aufwände</span>
+              <span id="sollTotal" style="font-weight:800;">CHF 0.00</span>
+            </div>
+            <table class="admin-table">
+              <thead>
+                <tr><th>Datum</th><th>Kategorie</th><th>Beschreibung</th><th>CHF</th></tr>
+              </thead>
+              <tbody id="sollBody"></tbody>
+            </table>
+          </div>
+          <!-- Haben (rechts) = Erträge -->
+          <div class="tkonto-side tkonto-haben">
+            <div class="tkonto-header">
+              <span>HABEN — Erträge</span>
+              <span id="habenTotal" style="font-weight:800;">CHF 0.00</span>
+            </div>
+            <table class="admin-table">
+              <thead>
+                <tr><th>Datum</th><th>Kategorie</th><th>Beschreibung</th><th>CHF</th></tr>
+              </thead>
+              <tbody id="habenBody"></tbody>
+            </table>
+          </div>
+        </div>
+        <!-- Saldo -->
+        <div class="tkonto-saldo" id="tkontoSaldo"></div>
+      </div>
+    </div>
+
+    <!-- Tab: Alle Buchungen -->
+    <div id="viewAlle" style="display:none;">
+      <div class="table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Datum</th>
+              <th>Typ</th>
+              <th>Kategorie</th>
+              <th>Beschreibung</th>
+              <th>Betrag</th>
+            </tr>
+          </thead>
+          <tbody id="alleBody"></tbody>
+        </table>
+      </div>
+    </div>
+
     <div class="swiss-note">
-      <strong>🇨🇭 Hinweis für Schweizer Einzelunternehmen:</strong>
+      <strong>🇨🇭 Schweizer Einzelunternehmen:</strong>
       Umsatz unter CHF 100'000/Jahr → keine MWST-Pflicht (Art. 10 MWSTG).
-      Ab CHF 100'000 → MWST-Anmeldung bei ESTV erforderlich. Steuerpflichtiger Gewinn wird im Steuererklärungsformular C (Kanton) eingetragen.
-      Diese Übersicht dient als Grundlage für die Steuererklärung — kein Ersatz für professionelle Steuerberatung.
+      Ab CHF 100'000 → MWST-Anmeldung bei ESTV erforderlich.
+      Steuerpflichtiger Gewinn in Steuererklärung Formular C (Kanton) eintragen.
     </div>
-
   </main>
 
   <div class="admin-toast" id="adminToast"></div>
@@ -94,12 +150,13 @@
 
     let allOrders = []
     let selectedYear = new Date().getFullYear()
+    let currentTab = 'monat'
 
     function buildYearSelect() {
       const sel = document.getElementById('yearSelect')
       const now = new Date().getFullYear()
       let opts = ''
-      for (let y = now; y >= now - 3; y--) {
+      for (let y = now; y >= now - 4; y--) {
         opts += `<option value="${y}" ${y === now ? 'selected' : ''}>${y}</option>`
       }
       sel.innerHTML = opts
@@ -107,150 +164,228 @@
 
     async function loadYear() {
       selectedYear = parseInt(document.getElementById('yearSelect').value)
-      try {
-        allOrders = await authFetch('/orders') || []
-      } catch { allOrders = [] }
-      renderTable()
+      try { allOrders = await authFetch('/orders') || [] } catch { allOrders = [] }
+      renderAll()
     }
 
-    function getMonthName(m) {
-      return new Date(2000, m - 1, 1).toLocaleDateString('de-CH', { month: 'long' })
+    function switchTab(tab) {
+      currentTab = tab
+      document.getElementById('viewMonat').style.display = tab === 'monat' ? '' : 'none'
+      document.getElementById('viewTkonto').style.display = tab === 'tkonto' ? '' : 'none'
+      document.getElementById('viewAlle').style.display = tab === 'alle' ? '' : 'none'
+      document.querySelectorAll('.buch-tab').forEach(b => b.classList.remove('active'))
+      document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active')
     }
 
-    function renderTable() {
-      const finanzen = getFinanzenData()
+    function getOrderRevenue(year, month) {
+      return allOrders
+        .filter(o => {
+          const d = new Date(o.created_at)
+          return o.status === 'paid' && d.getFullYear() === year && (!month || d.getMonth() + 1 === month)
+        })
+        .reduce((s, o) => s + parseFloat(o.total || 0), 0)
+    }
+
+    function renderAll() {
+      renderMonat()
+      renderTkonto()
+      renderAlle()
+      renderStats()
+    }
+
+    function renderMonat() {
       const tbody = document.getElementById('buchBody')
       const tfoot = document.getElementById('buchFoot')
-
-      let totalRevenue = 0, totalCosts = 0
-      const rows = []
+      let totalRev = 0, totalKosten = 0, totalErtrag = 0
+      let rows = ''
 
       for (let m = 1; m <= 12; m++) {
         const period = `${selectedYear}-${String(m).padStart(2,'0')}`
-        const fd = finanzen[period] || {}
+        const rev = getOrderRevenue(selectedYear, m)
+        const kosten = getTotalKosten(period)
+        const ertrag = getTotalErtrag(period)
+        const total = rev + ertrag
+        const profit = total - kosten
+        totalRev += rev; totalKosten += kosten; totalErtrag += ertrag
 
-        const revenue = allOrders
-          .filter(o => {
-            const d = new Date(o.created_at)
-            return o.status === 'paid' &&
-              d.getFullYear() === selectedYear &&
-              d.getMonth() + 1 === m
-          })
-          .reduce((s, o) => s + parseFloat(o.total || 0), 0)
-
-        const tiktok = fd.tiktok_ads || 0
-        const meta = fd.meta_ads || 0
-        const ai = fd.ai_tools || 0
-        const transport = (fd.transport_einkauf || 0) + (fd.transport_verkauf || 0)
-        const sonstige = fd.sonstige || 0
-        const costs = tiktok + meta + ai + transport + sonstige
-        const profit = revenue - costs
-
-        totalRevenue += revenue
-        totalCosts += costs
-
-        rows.push({ period, month: getMonthName(m), revenue, tiktok, meta, ai, transport, sonstige, costs, profit })
+        const monthName = new Date(2000, m-1, 1).toLocaleDateString('de-CH', { month: 'long' })
+        rows += `<tr>
+          <td><strong>${monthName}</strong></td>
+          <td>CHF ${rev.toFixed(2)}</td>
+          <td style="color:#e53e3e;">CHF ${kosten.toFixed(2)}</td>
+          <td style="color:#22c55e;">CHF ${ertrag.toFixed(2)}</td>
+          <td>CHF ${total.toFixed(2)}</td>
+          <td style="font-weight:700;color:${profit>=0?'#22c55e':'#e53e3e'};">
+            ${profit>=0?'+':'−'} CHF ${Math.abs(profit).toFixed(2)}
+          </td>
+        </tr>`
       }
+      tbody.innerHTML = rows
 
-      tbody.innerHTML = rows.map(r => `
-        <tr>
-          <td><strong>${r.month}</strong></td>
-          <td>CHF ${r.revenue.toFixed(2)}</td>
-          <td>${r.tiktok > 0 ? `CHF ${r.tiktok.toFixed(2)}` : '—'}</td>
-          <td>${r.meta > 0 ? `CHF ${r.meta.toFixed(2)}` : '—'}</td>
-          <td>${r.ai > 0 ? `CHF ${r.ai.toFixed(2)}` : '—'}</td>
-          <td>${r.transport > 0 ? `CHF ${r.transport.toFixed(2)}` : '—'}</td>
-          <td>${r.sonstige > 0 ? `CHF ${r.sonstige.toFixed(2)}` : '—'}</td>
-          <td>CHF ${r.costs.toFixed(2)}</td>
-          <td style="font-weight:700;color:${r.profit >= 0 ? '#22c55e' : '#e53e3e'};">
-            ${r.profit >= 0 ? '+' : '−'} CHF ${Math.abs(r.profit).toFixed(2)}
-          </td>
-        </tr>
-      `).join('')
+      const totalProfit = totalRev + totalErtrag - totalKosten
+      tfoot.innerHTML = `<tr style="background:#F5F7F5;font-weight:800;">
+        <td>TOTAL ${selectedYear}</td>
+        <td>CHF ${totalRev.toFixed(2)}</td>
+        <td style="color:#e53e3e;">CHF ${totalKosten.toFixed(2)}</td>
+        <td style="color:#22c55e;">CHF ${totalErtrag.toFixed(2)}</td>
+        <td>CHF ${(totalRev+totalErtrag).toFixed(2)}</td>
+        <td style="color:${totalProfit>=0?'#22c55e':'#e53e3e'};">
+          ${totalProfit>=0?'+':'−'} CHF ${Math.abs(totalProfit).toFixed(2)}
+        </td>
+      </tr>`
+    }
 
-      const totalProfit = totalRevenue - totalCosts
-      const mwst = totalRevenue * 0.081
+    function renderTkonto() {
+      const txs = getTransactionsByYear(selectedYear)
+      const aufwaende = txs.filter(t => t.type === 'aufwand').sort((a,b) => a.date.localeCompare(b.date))
+      const ertraege = txs.filter(t => t.type === 'ertrag').sort((a,b) => a.date.localeCompare(b.date))
 
-      tfoot.innerHTML = `
-        <tr style="background:#F5F7F5;font-weight:800;">
-          <td>TOTAL ${selectedYear}</td>
-          <td>CHF ${totalRevenue.toFixed(2)}</td>
-          <td colspan="5"></td>
-          <td>CHF ${totalCosts.toFixed(2)}</td>
-          <td style="color:${totalProfit >= 0 ? '#22c55e' : '#e53e3e'};">
-            ${totalProfit >= 0 ? '+' : '−'} CHF ${Math.abs(totalProfit).toFixed(2)}
-          </td>
-        </tr>
+      // Bestellungen als Erträge hinzufügen
+      const orderRows = allOrders
+        .filter(o => {
+          const d = new Date(o.created_at)
+          return o.status === 'paid' && d.getFullYear() === selectedYear
+        })
+        .map(o => ({
+          date: new Date(o.created_at).toLocaleDateString('de-CH'),
+          category: '🛒 Produktverkauf',
+          description: `Bestellung ${o.order_number || o.id?.slice(0,8)}`,
+          amount: parseFloat(o.total || 0)
+        }))
+
+      const totalSoll = aufwaende.reduce((s,t) => s + parseFloat(t.amount), 0)
+      const totalHaben = ertraege.reduce((s,t) => s + parseFloat(t.amount), 0) +
+                         orderRows.reduce((s,r) => s + r.amount, 0)
+      const saldo = totalHaben - totalSoll
+
+      document.getElementById('sollTotal').textContent = `CHF ${totalSoll.toFixed(2)}`
+      document.getElementById('habenTotal').textContent = `CHF ${totalHaben.toFixed(2)}`
+
+      document.getElementById('sollBody').innerHTML = aufwaende.length === 0
+        ? '<tr><td colspan="4" style="text-align:center;color:#aaa;padding:16px;">Keine Aufwände</td></tr>'
+        : aufwaende.map(t => `
+          <tr>
+            <td>${t.date}</td>
+            <td>${AUFWAND_KATEGORIEN[t.category] || t.category}</td>
+            <td style="color:#777;font-size:12px;">${t.description || '—'}</td>
+            <td style="font-weight:700;color:#e53e3e;">CHF ${parseFloat(t.amount).toFixed(2)}</td>
+          </tr>`).join('')
+
+      const allHaben = [
+        ...orderRows.map(r => `<tr>
+          <td>${r.date}</td>
+          <td>${r.category}</td>
+          <td style="color:#777;font-size:12px;">${r.description}</td>
+          <td style="font-weight:700;color:#22c55e;">CHF ${r.amount.toFixed(2)}</td>
+        </tr>`),
+        ...ertraege.map(t => `<tr>
+          <td>${t.date}</td>
+          <td>${ERTRAG_KATEGORIEN[t.category] || t.category}</td>
+          <td style="color:#777;font-size:12px;">${t.description || '—'}</td>
+          <td style="font-weight:700;color:#22c55e;">CHF ${parseFloat(t.amount).toFixed(2)}</td>
+        </tr>`)
+      ]
+
+      document.getElementById('habenBody').innerHTML = allHaben.length === 0
+        ? '<tr><td colspan="4" style="text-align:center;color:#aaa;padding:16px;">Keine Erträge</td></tr>'
+        : allHaben.join('')
+
+      document.getElementById('tkontoSaldo').innerHTML = `
+        <span>Saldo ${selectedYear}:</span>
+        <span style="font-size:22px;font-weight:800;color:${saldo>=0?'#22c55e':'#e53e3e'};">
+          ${saldo>=0?'+':'−'} CHF ${Math.abs(saldo).toFixed(2)}
+          <span style="font-size:14px;font-weight:600;">${saldo>=0?' (Gewinn)':' (Verlust)'}</span>
+        </span>
       `
+    }
 
-      document.getElementById('yearRevenue').textContent = `CHF ${totalRevenue.toFixed(2)}`
-      document.getElementById('yearCosts').textContent = `CHF ${totalCosts.toFixed(2)}`
-      const profitEl = document.getElementById('yearProfit')
-      profitEl.textContent = `${totalProfit >= 0 ? '+' : '−'} CHF ${Math.abs(totalProfit).toFixed(2)}`
-      profitEl.style.color = totalProfit >= 0 ? '#22c55e' : '#e53e3e'
+    function renderAlle() {
+      const txs = getAllTransactions()
+        .filter(t => t.date?.startsWith(String(selectedYear)))
+        .sort((a,b) => b.date.localeCompare(a.date))
+
+      document.getElementById('alleBody').innerHTML = txs.length === 0
+        ? '<tr><td colspan="5" style="text-align:center;padding:24px;color:#aaa;">Keine Buchungen</td></tr>'
+        : txs.map(t => {
+          const cat = AUFWAND_KATEGORIEN[t.category] || ERTRAG_KATEGORIEN[t.category] || t.category
+          return `<tr>
+            <td>${t.date}</td>
+            <td><span class="tx-badge ${t.type==='aufwand'?'tx-aufwand':'tx-ertrag'}">${t.type==='aufwand'?'Aufwand':'Ertrag'}</span></td>
+            <td>${cat}</td>
+            <td style="color:#555;">${t.description || '—'}</td>
+            <td style="font-weight:700;color:${t.type==='aufwand'?'#e53e3e':'#22c55e'};">
+              ${t.type==='aufwand'?'−':'+'} CHF ${parseFloat(t.amount).toFixed(2)}
+            </td>
+          </tr>`
+        }).join('')
+    }
+
+    function renderStats() {
+      const totalRev = getOrderRevenue(selectedYear) + getTransactionsByYear(selectedYear)
+        .filter(t => t.type === 'ertrag').reduce((s,t) => s + parseFloat(t.amount), 0)
+      const totalKosten = getTransactionsByYear(selectedYear)
+        .filter(t => t.type === 'aufwand').reduce((s,t) => s + parseFloat(t.amount), 0)
+      const profit = totalRev - totalKosten
+      const mwst = totalRev * 0.081
+
+      document.getElementById('yearRevenue').textContent = `CHF ${totalRev.toFixed(2)}`
+      document.getElementById('yearCosts').textContent = `CHF ${totalKosten.toFixed(2)}`
+      const el = document.getElementById('yearProfit')
+      el.textContent = `${profit>=0?'+':'−'} CHF ${Math.abs(profit).toFixed(2)}`
+      el.style.color = profit >= 0 ? '#22c55e' : '#e53e3e'
       document.getElementById('yearMwst').textContent = `CHF ${mwst.toFixed(2)}`
     }
 
     function exportExcel() {
-      const finanzen = getFinanzenData()
-      const year = selectedYear
       const BOM = '\uFEFF'
-
-      // Header
       let csv = BOM
-      csv += `Velunoo Buchhaltung ${year}\r\n`
-      csv += `Erstellt am;${new Date().toLocaleDateString('de-CH')}\r\n`
-      csv += `\r\n`
-      csv += `Monat;Umsatz (CHF);TikTok Ads (CHF);Meta Ads (CHF);AI-Tools (CHF);Transport Einkauf (CHF);Transport Verkauf (CHF);Sonstige (CHF);Total Kosten (CHF);Gewinn/Verlust (CHF)\r\n`
+      csv += `Velunoo Buchhaltung ${selectedYear}\r\n`
+      csv += `Erstellt am;${new Date().toLocaleDateString('de-CH')}\r\n\r\n`
 
-      let totalRevenue = 0, totalCosts = 0
+      // Alle Buchungen
+      csv += `ALLE BUCHUNGEN\r\n`
+      csv += `Datum;Typ;Kategorie;Beschreibung;Betrag (CHF)\r\n`
 
-      for (let m = 1; m <= 12; m++) {
-        const period = `${year}-${String(m).padStart(2,'0')}`
-        const fd = finanzen[period] || {}
-        const revenue = allOrders
-          .filter(o => {
-            const d = new Date(o.created_at)
-            return o.status === 'paid' && d.getFullYear() === year && d.getMonth() + 1 === m
-          })
-          .reduce((s, o) => s + parseFloat(o.total || 0), 0)
+      const txs = getAllTransactions()
+        .filter(t => t.date?.startsWith(String(selectedYear)))
+        .sort((a,b) => a.date.localeCompare(b.date))
 
-        const tiktok = fd.tiktok_ads || 0
-        const meta = fd.meta_ads || 0
-        const ai = fd.ai_tools || 0
-        const te = fd.transport_einkauf || 0
-        const tv = fd.transport_verkauf || 0
-        const sons = fd.sonstige || 0
-        const costs = tiktok + meta + ai + te + tv + sons
-        const profit = revenue - costs
-        totalRevenue += revenue
-        totalCosts += costs
+      txs.forEach(t => {
+        const cat = AUFWAND_KATEGORIEN[t.category] || ERTRAG_KATEGORIEN[t.category] || t.category
+        const catClean = cat.replace(/[^\w\s\/\-]/gu, '').trim()
+        csv += `${t.date};${t.type==='aufwand'?'Aufwand':'Ertrag'};${catClean};${t.description||''};${t.type==='aufwand'?'-':''}${parseFloat(t.amount).toFixed(2)}\r\n`
+      })
 
-        const monthName = new Date(2000, m-1, 1).toLocaleDateString('de-CH', {month:'long'})
-        csv += `${monthName};${revenue.toFixed(2)};${tiktok.toFixed(2)};${meta.toFixed(2)};${ai.toFixed(2)};${te.toFixed(2)};${tv.toFixed(2)};${sons.toFixed(2)};${costs.toFixed(2)};${profit.toFixed(2)}\r\n`
-      }
+      // Bestellungen
+      csv += `\r\nBESTELLUNGEN (Erträge)\r\n`
+      csv += `Datum;Typ;Kategorie;Bestellnr.;Betrag (CHF)\r\n`
+      allOrders
+        .filter(o => new Date(o.created_at).getFullYear() === selectedYear && o.status === 'paid')
+        .sort((a,b) => a.created_at.localeCompare(b.created_at))
+        .forEach(o => {
+          csv += `${new Date(o.created_at).toLocaleDateString('de-CH')};Ertrag;Produktverkauf;${o.order_number||o.id?.slice(0,8)};${parseFloat(o.total||0).toFixed(2)}\r\n`
+        })
 
-      const totalProfit = totalRevenue - totalCosts
-      csv += `\r\n`
-      csv += `TOTAL ${year};${totalRevenue.toFixed(2)};;;;;;; ${totalCosts.toFixed(2)};${totalProfit.toFixed(2)}\r\n`
-      csv += `\r\n`
-      csv += `Hinweis MWST;Jahresumsatz ${totalRevenue.toFixed(2)} CHF\r\n`
-      csv += `MWST-Grenze;100000.00 CHF (Art. 10 MWSTG)\r\n`
-      if (totalRevenue >= 100000) {
-        csv += `Status;MWST-PFLICHTIG - Bei ESTV anmelden!\r\n`
-      } else {
-        csv += `Status;Nicht MWST-pflichtig (unter CHF 100 000)\r\n`
-      }
-      csv += `Steuerpflichtiger Gewinn;${totalProfit.toFixed(2)} CHF\r\n`
+      // T-Konto Zusammenfassung
+      const totalKosten = txs.filter(t=>t.type==='aufwand').reduce((s,t)=>s+parseFloat(t.amount),0)
+      const totalErtrag = txs.filter(t=>t.type==='ertrag').reduce((s,t)=>s+parseFloat(t.amount),0) + getOrderRevenue(selectedYear)
+      const saldo = totalErtrag - totalKosten
+
+      csv += `\r\nT-KONTO ZUSAMMENFASSUNG ${selectedYear}\r\n`
+      csv += `Total Soll (Aufwände);${totalKosten.toFixed(2)}\r\n`
+      csv += `Total Haben (Erträge);${totalErtrag.toFixed(2)}\r\n`
+      csv += `Saldo (Gewinn/Verlust);${saldo.toFixed(2)}\r\n`
+      csv += `\r\nMWST-Grenze;100000.00 CHF (Art. 10 MWSTG)\r\n`
+      csv += `Status;${totalErtrag >= 100000 ? 'MWST-PFLICHTIG - Bei ESTV anmelden!' : 'Nicht MWST-pflichtig'}\r\n`
 
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
-      a.download = `Velunoo_Buchhaltung_${year}.csv`
+      a.download = `Velunoo_Buchhaltung_${selectedYear}.csv`
       a.click()
       URL.revokeObjectURL(url)
-      showAdminToast('Excel-Datei wird heruntergeladen ✅')
+      showAdminToast('Excel wird heruntergeladen ✅')
     }
 
     buildYearSelect()

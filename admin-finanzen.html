@@ -13,30 +13,28 @@
   <main class="admin-main">
     <div class="admin-header">
       <h1>Finanzen</h1>
-      <div style="display:flex;gap:12px;align-items:center;">
-        <select id="periodSelect" class="period-select" onchange="loadPeriod()"></select>
-      </div>
+      <select id="periodSelect" class="period-select" onchange="loadPeriod()"></select>
     </div>
 
     <!-- Gewinn/Verlust Banner -->
     <div class="profit-banner" id="profitBanner">
       <div class="profit-left">
-        <span class="profit-label">Aktueller Monat</span>
+        <span class="profit-label">Gewinn / Verlust</span>
         <div class="profit-value" id="profitValue">CHF —</div>
         <span class="profit-sub" id="profitSub"></span>
       </div>
       <div class="profit-breakdown">
         <div class="breakdown-item">
-          <span>Umsatz</span>
-          <span id="bRevenue">CHF —</span>
+          <span>Umsatz (Bestellungen)</span>
+          <span id="bRevenue">CHF 0.00</span>
         </div>
         <div class="breakdown-item">
-          <span>Produktkosten</span>
-          <span id="bProductCost">− CHF —</span>
+          <span>Manuelle Erträge</span>
+          <span id="bManualErtrag">CHF 0.00</span>
         </div>
         <div class="breakdown-item">
-          <span>Werbe- & Betriebskosten</span>
-          <span id="bOpCost">− CHF —</span>
+          <span>Aufwände (Kosten)</span>
+          <span id="bOpCost">− CHF 0.00</span>
         </div>
         <div class="breakdown-divider"></div>
         <div class="breakdown-item breakdown-total">
@@ -46,89 +44,65 @@
       </div>
     </div>
 
-    <!-- Kostenformular -->
-    <div class="finance-grid">
-      <div class="finance-card">
-        <h2 class="finance-card-title">Werbekosten</h2>
-
-        <div class="finance-field">
-          <label>
-            <span class="finance-icon">📱</span> TikTok Ads
-          </label>
-          <div class="chf-input">
-            <span>CHF</span>
-            <input type="number" id="tiktok_ads" min="0" step="0.05" placeholder="0.00" oninput="updatePreview()" />
-          </div>
+    <!-- Neuer Eintrag -->
+    <div class="finance-card" style="margin-bottom:20px;">
+      <h2 class="finance-card-title">➕ Neuer Eintrag</h2>
+      <div class="form-grid form-grid-entry">
+        <div class="field-group">
+          <label>Datum</label>
+          <input type="date" id="txDate" />
         </div>
-
-        <div class="finance-field">
-          <label>
-            <span class="finance-icon">📘</span> Meta Ads (Facebook/Instagram)
-          </label>
-          <div class="chf-input">
-            <span>CHF</span>
-            <input type="number" id="meta_ads" min="0" step="0.05" placeholder="0.00" oninput="updatePreview()" />
-          </div>
+        <div class="field-group">
+          <label>Typ</label>
+          <select id="txType" onchange="updateCategoryOptions()">
+            <option value="aufwand">Aufwand (Kosten)</option>
+            <option value="ertrag">Ertrag (Einnahme)</option>
+          </select>
         </div>
-      </div>
-
-      <div class="finance-card">
-        <h2 class="finance-card-title">Betriebskosten</h2>
-
-        <div class="finance-field">
-          <label>
-            <span class="finance-icon">🤖</span> Kosten für AI-Tools
-          </label>
-          <div class="chf-input">
-            <span>CHF</span>
-            <input type="number" id="ai_tools" min="0" step="0.05" placeholder="0.00" oninput="updatePreview()" />
-          </div>
+        <div class="field-group">
+          <label>Kategorie</label>
+          <select id="txCategory"></select>
         </div>
-
-        <div class="finance-field">
-          <label>
-            <span class="finance-icon">🚚</span> Transportkosten Einkauf
-          </label>
+        <div class="field-group">
+          <label>Betrag (CHF)</label>
           <div class="chf-input">
             <span>CHF</span>
-            <input type="number" id="transport_einkauf" min="0" step="0.05" placeholder="0.00" oninput="updatePreview()" />
-          </div>
-        </div>
-
-        <div class="finance-field">
-          <label>
-            <span class="finance-icon">📦</span> Transportkosten Verkauf (Versand)
-          </label>
-          <div class="chf-input">
-            <span>CHF</span>
-            <input type="number" id="transport_verkauf" min="0" step="0.05" placeholder="0.00" oninput="updatePreview()" />
-          </div>
-        </div>
-
-        <div class="finance-field">
-          <label>
-            <span class="finance-icon">📎</span> Sonstige Kosten
-          </label>
-          <div class="chf-input">
-            <span>CHF</span>
-            <input type="number" id="sonstige" min="0" step="0.05" placeholder="0.00" oninput="updatePreview()" />
+            <input type="number" id="txAmount" min="0" step="0.05" placeholder="0.00" />
           </div>
         </div>
       </div>
+      <div class="field-group" style="margin-bottom:16px;">
+        <label>Beschreibung / Notiz</label>
+        <input type="text" id="txDesc" placeholder="z.B. TikTok Kampagne Frühlingsangebot" />
+      </div>
+      <div style="display:flex;justify-content:flex-end;">
+        <button class="btn-primary" style="width:auto;padding:12px 32px;" onclick="addEntry()">
+          Eintrag hinzufügen
+        </button>
+      </div>
     </div>
 
-    <!-- Notizen -->
-    <div class="finance-card" style="margin-top:0;">
-      <h2 class="finance-card-title">📝 Notizen / Bemerkungen</h2>
-      <textarea id="notizen" rows="5" placeholder="z.B. Neue Lieferanten kontaktiert, TikTok-Kampagne gestartet, Probleme mit Versand..." style="width:100%;padding:12px;border:2px solid #E8EDE8;border-radius:10px;font-family:Montserrat,sans-serif;font-size:14px;resize:vertical;outline:none;" oninput="updatePreview()"></textarea>
+    <!-- Einträge dieser Periode -->
+    <div class="finance-card">
+      <h2 class="finance-card-title" id="entriesTitle">Einträge</h2>
+      <div class="table-wrap" style="border-radius:10px;box-shadow:none;">
+        <table class="admin-table" id="txTable">
+          <thead>
+            <tr>
+              <th>Datum</th>
+              <th>Typ</th>
+              <th>Kategorie</th>
+              <th>Beschreibung</th>
+              <th>Betrag</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="txBody">
+            <tr><td colspan="6" style="text-align:center;padding:24px;color:#888;">Noch keine Einträge für diesen Monat</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-
-    <div style="display:flex;justify-content:flex-end;margin-top:8px;">
-      <button class="btn-primary" style="width:auto;padding:14px 36px;" onclick="savePeriod()">
-        💾 Speichern
-      </button>
-    </div>
-
   </main>
 
   <div class="admin-toast" id="adminToast"></div>
@@ -137,93 +111,117 @@
   <script>
     requireAuth()
 
-    const fields = ['tiktok_ads', 'meta_ads', 'ai_tools', 'transport_einkauf', 'transport_verkauf', 'sonstige', 'notizen']
     let currentRevenue = 0
-    let currentProductCost = 0
 
-    // Periode-Dropdown aufbauen (letzte 12 Monate)
     function buildPeriodSelect() {
       const sel = document.getElementById('periodSelect')
       const now = new Date()
-      const options = []
-      for (let i = 0; i < 12; i++) {
+      let opts = ''
+      for (let i = 0; i < 24; i++) {
         const d = new Date(now.getFullYear(), now.getMonth() - i, 1)
         const val = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`
         const label = d.toLocaleDateString('de-CH', { month: 'long', year: 'numeric' })
-        options.push(`<option value="${val}" ${i===0?'selected':''}>${label}</option>`)
+        opts += `<option value="${val}" ${i===0?'selected':''}>${label}</option>`
       }
-      sel.innerHTML = options.join('')
+      sel.innerHTML = opts
+    }
+
+    function updateCategoryOptions() {
+      const type = document.getElementById('txType').value
+      const cats = type === 'aufwand' ? AUFWAND_KATEGORIEN : ERTRAG_KATEGORIEN
+      document.getElementById('txCategory').innerHTML =
+        Object.entries(cats).map(([k,v]) => `<option value="${k}">${v}</option>`).join('')
+    }
+
+    function setTodayDate() {
+      const today = new Date()
+      document.getElementById('txDate').value =
+        `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`
     }
 
     function getPeriod() {
       return document.getElementById('periodSelect').value
     }
 
-    function loadPeriod() {
-      const data = getMonthData(getPeriod())
-      fields.forEach(f => {
-        const el = document.getElementById(f)
-        if (el) el.value = data[f] || (f === 'notizen' ? '' : 0)
-      })
-      loadRevenueForPeriod()
-    }
+    async function loadPeriod() {
+      const period = getPeriod()
+      const label = document.getElementById('periodSelect').selectedOptions[0]?.text || ''
+      document.getElementById('entriesTitle').textContent = `Einträge — ${label}`
 
-    async function loadRevenueForPeriod() {
+      // Bestellungs-Umsatz laden
       try {
         const orders = await authFetch('/orders')
-        const period = getPeriod()
-        const paid = (orders || []).filter(o => {
-          const d = new Date(o.created_at)
-          const p = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`
-          return o.status === 'paid' && p === period
-        })
-        currentRevenue = paid.reduce((s, o) => s + parseFloat(o.total || 0), 0)
+        currentRevenue = (orders || [])
+          .filter(o => {
+            const d = new Date(o.created_at)
+            const p = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`
+            return o.status === 'paid' && p === period
+          })
+          .reduce((s, o) => s + parseFloat(o.total || 0), 0)
+      } catch { currentRevenue = 0 }
 
-        // Produktkosten berechnen (wenn cost_price vorhanden)
-        const products = await authFetch('/products')
-        const productMap = {}
-        ;(products || []).forEach(p => { productMap[p.id] = parseFloat(p.cost_price || 0) })
-        currentProductCost = paid.reduce((sum, o) => {
-          return sum + (o.items || []).reduce((s, item) => {
-            return s + (productMap[item.product_id] || 0) * (item.quantity || 1)
-          }, 0)
-        }, 0)
-
-        updatePreview()
-      } catch(e) {
-        updatePreview()
-      }
+      renderEntries()
+      updateBanner()
     }
 
-    function updatePreview() {
-      const opCost = fields
-        .filter(f => f !== 'notizen')
-        .reduce((s, f) => s + (parseFloat(document.getElementById(f)?.value) || 0), 0)
+    function renderEntries() {
+      const period = getPeriod()
+      const txs = getTransactionsByPeriod(period)
+        .sort((a, b) => b.date.localeCompare(a.date))
 
-      const profit = currentRevenue - currentProductCost - opCost
+      const tbody = document.getElementById('txBody')
+      if (txs.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:24px;color:#888;">Noch keine Einträge für diesen Monat</td></tr>'
+        return
+      }
+
+      tbody.innerHTML = txs.map(t => {
+        const catLabel = (AUFWAND_KATEGORIEN[t.category] || ERTRAG_KATEGORIEN[t.category] || t.category)
+        const isAufwand = t.type === 'aufwand'
+        return `
+          <tr>
+            <td>${t.date}</td>
+            <td><span class="tx-badge ${isAufwand ? 'tx-aufwand' : 'tx-ertrag'}">${isAufwand ? 'Aufwand' : 'Ertrag'}</span></td>
+            <td>${catLabel}</td>
+            <td style="color:#555;">${t.description || '—'}</td>
+            <td style="font-weight:700;color:${isAufwand ? '#e53e3e' : '#22c55e'};">
+              ${isAufwand ? '−' : '+'} CHF ${parseFloat(t.amount).toFixed(2)}
+            </td>
+            <td>
+              <button class="btn-icon btn-danger" onclick="removeEntry('${t.id}')">🗑️</button>
+            </td>
+          </tr>`
+      }).join('')
+    }
+
+    function updateBanner() {
+      const period = getPeriod()
+      const kosten = getTotalKosten(period)
+      const manualErtrag = getTotalErtrag(period)
+      const total = currentRevenue + manualErtrag - kosten
 
       document.getElementById('bRevenue').textContent = `CHF ${currentRevenue.toFixed(2)}`
-      document.getElementById('bProductCost').textContent = `− CHF ${currentProductCost.toFixed(2)}`
-      document.getElementById('bOpCost').textContent = `− CHF ${opCost.toFixed(2)}`
+      document.getElementById('bManualErtrag').textContent = `CHF ${manualErtrag.toFixed(2)}`
+      document.getElementById('bOpCost').textContent = `− CHF ${kosten.toFixed(2)}`
 
       const profitEl = document.getElementById('profitValue')
       const bProfitEl = document.getElementById('bProfit')
       const subEl = document.getElementById('profitSub')
       const banner = document.getElementById('profitBanner')
+      const abs = `CHF ${Math.abs(total).toFixed(2)}`
 
-      const formatted = `CHF ${Math.abs(profit).toFixed(2)}`
-      if (profit >= 0) {
-        profitEl.textContent = `+ ${formatted}`
+      if (total >= 0) {
+        profitEl.textContent = `+ ${abs}`
         profitEl.style.color = '#22c55e'
-        bProfitEl.textContent = `+ ${formatted}`
+        bProfitEl.textContent = `+ ${abs}`
         bProfitEl.style.color = '#22c55e'
         subEl.textContent = 'Gewinn'
         subEl.style.color = '#22c55e'
         banner.style.borderColor = '#22c55e'
       } else {
-        profitEl.textContent = `− ${formatted}`
+        profitEl.textContent = `− ${abs}`
         profitEl.style.color = '#e53e3e'
-        bProfitEl.textContent = `− ${formatted}`
+        bProfitEl.textContent = `− ${abs}`
         bProfitEl.style.color = '#e53e3e'
         subEl.textContent = 'Verlust'
         subEl.style.color = '#e53e3e'
@@ -231,17 +229,35 @@
       }
     }
 
-    function savePeriod() {
-      const data = {}
-      fields.forEach(f => {
-        const el = document.getElementById(f)
-        data[f] = f === 'notizen' ? (el?.value || '') : (parseFloat(el?.value) || 0)
-      })
-      saveMonthData(getPeriod(), data)
-      showAdminToast('Gespeichert ✅')
+    function addEntry() {
+      const date = document.getElementById('txDate').value
+      const type = document.getElementById('txType').value
+      const category = document.getElementById('txCategory').value
+      const amount = parseFloat(document.getElementById('txAmount').value)
+      const description = document.getElementById('txDesc').value.trim()
+
+      if (!date) { showAdminToast('Bitte Datum auswählen', true); return }
+      if (!amount || amount <= 0) { showAdminToast('Bitte gültigen Betrag eingeben', true); return }
+
+      addTransaction({ date, type, category, amount, description })
+      document.getElementById('txAmount').value = ''
+      document.getElementById('txDesc').value = ''
+      renderEntries()
+      updateBanner()
+      showAdminToast('Eintrag gespeichert ✅')
+    }
+
+    function removeEntry(id) {
+      if (!confirm('Eintrag löschen?')) return
+      deleteTransaction(id)
+      renderEntries()
+      updateBanner()
+      showAdminToast('Eintrag gelöscht')
     }
 
     buildPeriodSelect()
+    setTodayDate()
+    updateCategoryOptions()
     loadPeriod()
   </script>
 </body>

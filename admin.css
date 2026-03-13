@@ -673,6 +673,95 @@ body {
   margin-top: 24px;
 }
 
+/* ── TRANSACTION BADGES ─────────────────────────────────────────── */
+.tx-badge {
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.tx-aufwand { background: #FEE2E2; color: #991B1B; }
+.tx-ertrag  { background: #DCFCE7; color: #166534; }
+
+/* ── ENTRY FORM GRID ─────────────────────────────────────────────── */
+.form-grid-entry {
+  grid-template-columns: 140px 1fr 1fr 160px;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+/* ── BUCHHALTUNG TABS ────────────────────────────────────────────── */
+.buch-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.buch-tab {
+  padding: 10px 20px;
+  border: 2px solid #E8EDE8;
+  border-radius: 10px;
+  background: #fff;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #888;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.buch-tab:hover { border-color: #77AE3A; color: #234C2F; }
+.buch-tab.active { background: #234C2F; color: #fff; border-color: #234C2F; }
+
+/* ── T-KONTO ─────────────────────────────────────────────────────── */
+.tkonto-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.tkonto-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 2px solid #234C2F;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.tkonto-side {
+  overflow: hidden;
+}
+
+.tkonto-soll { border-right: 3px solid #234C2F; }
+
+.tkonto-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tkonto-soll .tkonto-header { background: #FEE2E2; color: #991B1B; }
+.tkonto-haben .tkonto-header { background: #DCFCE7; color: #166534; }
+
+.tkonto-saldo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: #F5F7F5;
+  border: 2px solid #234C2F;
+  border-top: none;
+  border-radius: 0 0 16px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #234C2F;
+}
+
 /* ── RESPONSIVE ─────────────────────────────────────────────────── */
 @media (max-width: 900px) {
   .sidebar { width: 200px; }
