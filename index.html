@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Velunoo — Premium Pet Products for Dogs &amp; Cats</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a href="#" class="nav-logo">
+        <img src="brand_assets/Velunoo Logo.png" alt="Velunoo" class="logo-img" />
+      </a>
+      <nav class="nav-links">
+        <a href="#features" data-i18n="nav.why">Why Velunoo</a>
+        <a href="#game"     data-i18n="nav.game">Play</a>
+        <a href="#testimonials" data-i18n="nav.reviews">Reviews</a>
+        <a href="#contact"  data-i18n="nav.contact">Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <!-- Language Switcher -->
+        <div class="lang-switcher" id="langSwitcher">
+          <button class="lang-current" id="langBtn" aria-haspopup="true" aria-expanded="false">
+            <span class="lang-flag" id="currentFlag">🇬🇧</span>
+            <span class="lang-code" id="currentLang">EN</span>
+            <svg class="lang-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="lang-dropdown" id="langDropdown" aria-hidden="true">
+            <div class="lang-group-label">🇨🇭 Schweiz</div>
+            <button class="lang-option active" data-lang="zh-züri"  data-flag="🇨🇭">🇨🇭 Züridütsch</button>
+            <button class="lang-option"        data-lang="zh-bern"  data-flag="🇨🇭">🇨🇭 Bärndütsch</button>
+            <button class="lang-option"        data-lang="zh-basel" data-flag="🇨🇭">🇨🇭 Baseldytsch</button>
+            <div class="lang-group-label">International</div>
+            <button class="lang-option"        data-lang="de"       data-flag="🇩🇪">🇩🇪 Deutsch</button>
+            <button class="lang-option"        data-lang="en"       data-flag="🇬🇧">🇬🇧 English</button>
+            <button class="lang-option"        data-lang="nl"       data-flag="🇳🇱">🇳🇱 Nederlands</button>
+            <button class="lang-option"        data-lang="fr"       data-flag="🇫🇷">🇫🇷 Français</button>
+            <button class="lang-option"        data-lang="it"       data-flag="🇮🇹">🇮🇹 Italiano</button>
+          </div>
+        </div>
+        <div class="cart-wrapper" onclick="showCart()" style="cursor:pointer;margin-right:4px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#234C2F" stroke-width="2" width="26"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </div>
+        <a href="#contact" class="btn btn-primary" data-i18n="nav.cta">Discover</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#features"     data-i18n="nav.why">Why Velunoo</a>
+      <a href="#game"         data-i18n="nav.game">Play</a>
+      <a href="#testimonials" data-i18n="nav.reviews">Reviews</a>
+      <a href="#contact"      data-i18n="nav.contact">Contact</a>
+      <div class="mobile-lang">
+        <button class="mobile-lang-btn" data-lang="zh-züri"  data-flag="🇨🇭">🇨🇭 ZH</button>
+        <button class="mobile-lang-btn" data-lang="zh-bern"  data-flag="🇨🇭">🇨🇭 BE</button>
+        <button class="mobile-lang-btn" data-lang="zh-basel" data-flag="🇨🇭">🇨🇭 BS</button>
+        <button class="mobile-lang-btn" data-lang="de"       data-flag="🇩🇪">🇩🇪 DE</button>
+        <button class="mobile-lang-btn" data-lang="en"       data-flag="🇬🇧">🇬🇧 EN</button>
+        <button class="mobile-lang-btn" data-lang="nl"       data-flag="🇳🇱">🇳🇱 NL</button>
+        <button class="mobile-lang-btn" data-lang="fr"       data-flag="🇫🇷">🇫🇷 FR</button>
+        <button class="mobile-lang-btn" data-lang="it"       data-flag="🇮🇹">🇮🇹 IT</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="home">
+    <div class="container hero-inner">
+      <div class="hero-content" data-animate="fade-up">
+        <span class="hero-badge">
+          <svg class="paw-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M4.5 9.5a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm15 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm-10-5a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm5 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm-2.5 4c-3.5 0-7 3-7 7 0 2.5 2 4 4 4 1.5 0 2.5-.5 3-1 .5.5 1.5 1 3 1 2 0 4-1.5 4-4 0-4-3.5-7-7-7z"/></svg>
+          <span data-i18n="hero.badge">Trusted by 50,000+ pet owners</span>
+        </span>
+        <h1 class="hero-title" data-i18n-html="hero.title">
+          Give Your Pet the<br /><span class="highlight">Best Life</span> Possible
+        </h1>
+        <p class="hero-subtitle" data-i18n="hero.sub">
+          Premium products made with care for dogs and cats. Happiness, comfort, and joy — for every furry family member.
+        </p>
+        <div class="hero-cta">
+          <a href="#features" class="btn btn-primary btn-large" data-i18n="hero.cta1">Discover More</a>
+          <a href="#game"     class="btn btn-outline btn-large" data-i18n="hero.cta2">Play with Max</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-num">50K+</span>
+            <span class="stat-label" data-i18n="hero.stat1">Happy Pets</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <span class="stat-num">200+</span>
+            <span class="stat-label" data-i18n="hero.stat2">Products</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <span class="stat-num">4.9★</span>
+            <span class="stat-label" data-i18n="hero.stat3">Avg. Rating</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual" data-animate="fade-left">
+        <div class="hero-card-main">
+          <div class="hero-image-wrapper">
+            <div class="hero-image-bg"></div>
+            <div class="pet-illustration">
+              <div class="hero-paw" id="heroPaw">
+                <svg class="paw-hero-svg" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <!-- Shadow -->
+                  <ellipse cx="120" cy="228" rx="80" ry="9" fill="rgba(35,76,47,0.13)"/>
+                  <!-- Toe bean 1 (far left) -->
+                  <ellipse cx="54"  cy="99"  rx="27" ry="24" fill="#234C2F"/>
+                  <ellipse cx="49"  cy="91"  rx="12" ry="9"  fill="#77AE3A" opacity="0.35"/>
+                  <!-- Toe bean 2 (center-left) -->
+                  <ellipse cx="94"  cy="73"  rx="27" ry="24" fill="#234C2F"/>
+                  <ellipse cx="89"  cy="65"  rx="12" ry="9"  fill="#77AE3A" opacity="0.35"/>
+                  <!-- Toe bean 3 (center-right) -->
+                  <ellipse cx="146" cy="73"  rx="27" ry="24" fill="#234C2F"/>
+                  <ellipse cx="141" cy="65"  rx="12" ry="9"  fill="#77AE3A" opacity="0.35"/>
+                  <!-- Toe bean 4 (far right) -->
+                  <ellipse cx="186" cy="99"  rx="27" ry="24" fill="#234C2F"/>
+                  <ellipse cx="181" cy="91"  rx="12" ry="9"  fill="#77AE3A" opacity="0.35"/>
+                  <!-- Main pad -->
+                  <ellipse cx="120" cy="168" rx="64" ry="56" fill="#234C2F"/>
+                  <!-- Main pad highlight -->
+                  <ellipse cx="106" cy="152" rx="36" ry="29" fill="#77AE3A" opacity="0.28"/>
+                  <ellipse cx="100" cy="146" rx="16" ry="13" fill="#ffffff"  opacity="0.10"/>
+                  <!-- Paw sparkles -->
+                  <circle cx="185" cy="48"  r="4" fill="#77AE3A" opacity="0.5"/>
+                  <circle cx="195" cy="60"  r="2.5" fill="#77AE3A" opacity="0.35"/>
+                  <circle cx="175" cy="58"  r="2"   fill="#77AE3A" opacity="0.4"/>
+                  <circle cx="42"  cy="52"  r="3.5" fill="#234C2F" opacity="0.3"/>
+                  <circle cx="55"  cy="42"  r="2"   fill="#234C2F" opacity="0.25"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="float-card float-card-1">
+            <svg viewBox="0 0 20 20" fill="#77AE3A" width="20"><path d="M10 3.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zM2 10a8 8 0 1 1 16 0A8 8 0 0 1 2 10z"/><path d="M10 6a1 1 0 0 1 1 1v3h2a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"/></svg>
+            <div>
+              <div class="fc-label" data-i18n="fc1.label">Order Delivered</div>
+              <div class="fc-value" data-i18n="fc1.value">Just now</div>
+            </div>
+          </div>
+          <div class="float-card float-card-2">
+            <div class="fc-stars">★★★★★</div>
+            <div class="fc-review" data-i18n="fc2.text">"My dog loves it!"</div>
+          </div>
+          <div class="float-card float-card-3">
+            <span style="font-size:20px">🐾</span>
+            <span data-i18n="fc3.text">50K+ Happy Pets</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-wave">
+      <svg viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#ffffff"/></svg>
+    </div>
+  </section>
+
+  <!-- ===== TRUST BAR ===== -->
+  <section class="trust-bar">
+    <div class="container trust-inner">
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#77AE3A" stroke-width="2" width="28"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span data-i18n="trust.1">Vet Approved</span>
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#77AE3A" stroke-width="2" width="28"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        <span data-i18n="trust.2">Free Shipping Over €50</span>
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#77AE3A" stroke-width="2" width="28"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span data-i18n="trust.3">30-Day Returns</span>
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#77AE3A" stroke-width="2" width="28"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span data-i18n="trust.4">Made with Love</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRODUCTS ===== -->
+  <section class="products section" id="products">
+    <div class="container">
+      <div class="section-header" data-animate="fade-up">
+        <span class="section-tag">Unsere Produkte</span>
+        <h2 class="section-title">Premium für dein Tier</h2>
+        <p class="section-sub">Hochwertige Produkte — von Tierärzten empfohlen</p>
+      </div>
+      <div class="product-filters" data-animate="fade-up">
+        <button class="filter-btn active" data-filter="all">Alle</button>
+        <button class="filter-btn" data-filter="dog">🐕 Hunde</button>
+        <button class="filter-btn" data-filter="cat">🐈 Katzen</button>
+      </div>
+      <div class="products-grid" id="productsGrid">
+        <div class="products-loading">
+          <div class="loading-spinner"></div>
+          <p>Produkte werden geladen…</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURES ===== -->
+  <section class="features section" id="features">
+    <div class="container">
+      <div class="section-header" data-animate="fade-up">
+        <span class="section-tag" data-i18n="features.tag">Why Choose Us</span>
+        <h2 class="section-title" data-i18n="features.title">The Velunoo Difference</h2>
+        <p class="section-sub" data-i18n="features.sub">We go beyond the ordinary to give your pet an extraordinary life</p>
+      </div>
+      <div class="features-grid">
+
+        <div class="feature-card" data-animate="fade-up" data-delay="0">
+          <div class="feature-icon">
+            <svg viewBox="0 0 48 48" fill="none" width="40">
+              <circle cx="24" cy="24" r="22" fill="#77AE3A" opacity="0.15"/>
+              <path d="M24 13c-6.1 0-11 4.9-11 11s4.9 11 11 11 11-4.9 11-11-4.9-11-11-11z" stroke="#234C2F" stroke-width="2.5"/>
+              <path d="M18 24l4 4 8-8" stroke="#234C2F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 data-i18n="feat1.title">Vet-Approved</h3>
+          <p data-i18n="feat1.text">Every product is reviewed and approved by certified veterinarians to ensure your pet's safety and wellbeing.</p>
+        </div>
+
+        <div class="feature-card" data-animate="fade-up" data-delay="100">
+          <div class="feature-icon">
+            <svg viewBox="0 0 48 48" fill="none" width="40">
+              <circle cx="24" cy="24" r="22" fill="#77AE3A" opacity="0.15"/>
+              <path d="M24 14v10l6 3" stroke="#234C2F" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="24" cy="24" r="10" stroke="#234C2F" stroke-width="2.5"/>
+            </svg>
+          </div>
+          <h3 data-i18n="feat2.title">Fast Delivery</h3>
+          <p data-i18n="feat2.text">Same-day dispatch on orders placed before 2 pm. Your pet won't have to wait long for their new favourites.</p>
+        </div>
+
+        <div class="feature-card" data-animate="fade-up" data-delay="200">
+          <div class="feature-icon">
+            <svg viewBox="0 0 48 48" fill="none" width="40">
+              <circle cx="24" cy="24" r="22" fill="#77AE3A" opacity="0.15"/>
+              <path d="M20 34c0-4.4-3.6-8-8-8v-4c6.6 0 12 5.4 12 12h-4zm10 0c0-9.9-8.1-18-18-18v-4c12.1 0 22 9.9 22 22h-4z" fill="#234C2F"/>
+              <circle cx="14" cy="34" r="3" fill="#234C2F"/>
+            </svg>
+          </div>
+          <h3 data-i18n="feat3.title">Auto-Refill Subscriptions</h3>
+          <p data-i18n="feat3.text">Set up recurring deliveries and save up to 15%. Never run out of your pet's essentials again.</p>
+        </div>
+
+        <div class="feature-card" data-animate="fade-up" data-delay="0">
+          <div class="feature-icon">
+            <svg viewBox="0 0 48 48" fill="none" width="40">
+              <circle cx="24" cy="24" r="22" fill="#77AE3A" opacity="0.15"/>
+              <path d="M24 14c-5.5 0-10 4.5-10 10s4.5 10 10 10 10-4.5 10-10-4.5-10-10-10z" stroke="#234C2F" stroke-width="2.5"/>
+              <path d="M17 24h14M24 17v14" stroke="#234C2F" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 data-i18n="feat4.title">Expert Pet Support</h3>
+          <p data-i18n="feat4.text">Our team of pet care experts is available 7 days a week to help you make the best choices for your pet.</p>
+        </div>
+
+        <div class="feature-card" data-animate="fade-up" data-delay="100">
+          <div class="feature-icon">
+            <svg viewBox="0 0 48 48" fill="none" width="40">
+              <circle cx="24" cy="24" r="22" fill="#77AE3A" opacity="0.15"/>
+              <path d="M14.5 21.5a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm19 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm-9.5-5a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm-4.5 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm4.5 4c-3.5 0-7 3-7 7 0 2.5 2 4 4 4 1.5 0 2.5-.5 3-1 .5.5 1.5 1 3 1 2 0 4-1.5 4-4 0-4-3.5-7-7-7z" fill="#234C2F"/>
+            </svg>
+          </div>
+          <h3 data-i18n="feat5.title">For Dogs &amp; Cats</h3>
+          <p data-i18n="feat5.text">Carefully curated for both dogs and cats. Every product is designed with your specific companion's needs in mind.</p>
+        </div>
+
+        <div class="feature-card" data-animate="fade-up" data-delay="200">
+          <div class="feature-icon">
+            <svg viewBox="0 0 48 48" fill="none" width="40">
+              <circle cx="24" cy="24" r="22" fill="#77AE3A" opacity="0.15"/>
+              <path d="M24 14l2.5 7.5H34l-6.5 4.7 2.5 7.6L24 29l-6 4.8 2.5-7.6L14.5 21.5H22z" fill="#234C2F"/>
+            </svg>
+          </div>
+          <h3 data-i18n="feat6.title">Loved by 50K+ Pets</h3>
+          <p data-i18n="feat6.text">Join a growing community of happy pet owners who trust Velunoo to bring joy to their furry companions every day.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DOG FETCH GAME ===== -->
+  <section class="game-section section" id="game">
+    <div class="container">
+      <div class="section-header" data-animate="fade-up">
+        <span class="section-tag" data-i18n="game.tag">Play with Us</span>
+        <h2 class="section-title" data-i18n="game.title">Play Fetch with Max</h2>
+        <p class="section-sub" data-i18n="game.sub">Drag &amp; throw the ball — Max fetches it and brings it back!</p>
+      </div>
+      <div class="game-wrapper" data-animate="fade-up">
+        <div class="game-container" id="gameContainer">
+          <canvas id="gameCanvas"></canvas>
+          <!-- Start overlay -->
+          <div class="game-overlay" id="gameOverlay">
+            <div class="game-overlay-dog">🐕</div>
+            <p class="game-overlay-sub" data-i18n="game.overlaySub">Meet Max — he loves to play!</p>
+            <button class="btn btn-primary btn-large" id="gameStartBtn">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="18"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <span data-i18n="game.start">Start Game</span>
+            </button>
+          </div>
+          <!-- In-game UI -->
+          <div class="game-ui" id="gameUI" style="display:none">
+            <div class="game-hint" id="gameHint">
+              <span data-i18n="game.hint">👆 Drag to aim &amp; throw</span>
+            </div>
+            <div class="game-score-wrap">
+              <span data-i18n="game.throws">Throws:</span>
+              <strong id="throwCount">0</strong>
+            </div>
+          </div>
+        </div>
+        <div class="game-actions" id="gameActions" style="display:none">
+          <button class="btn btn-outline" id="gameRestartBtn" data-i18n="game.restart">Play Again</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIALS ===== -->
+  <section class="testimonials section" id="testimonials">
+    <div class="container">
+      <div class="section-header" data-animate="fade-up">
+        <span class="section-tag" data-i18n="testi.tag">Happy Customers</span>
+        <h2 class="section-title" data-i18n="testi.title">What Pet Parents Say</h2>
+        <p class="section-sub" data-i18n="testi.sub">Real stories from real pet owners</p>
+      </div>
+      <div class="testimonial-grid">
+        <div class="testimonial-card" data-animate="fade-up" data-delay="0">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text" data-i18n="t1.text">"My golden retriever has never been happier. Velunoo truly understands what pets need — and their customer support is outstanding!"</p>
+          <div class="testi-author">
+            <div class="testi-avatar dog-avatar">S</div>
+            <div>
+              <div class="testi-name" data-i18n="t1.name">Sarah M.</div>
+              <div class="testi-pet"  data-i18n="t1.pet">Golden Retriever owner</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card" data-animate="fade-up" data-delay="100">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text" data-i18n="t2.text">"Finally a brand my picky Siamese cat approves of! Fast delivery and an incredibly helpful team. Highly recommended."</p>
+          <div class="testi-author">
+            <div class="testi-avatar cat-avatar">J</div>
+            <div>
+              <div class="testi-name" data-i18n="t2.name">James K.</div>
+              <div class="testi-pet"  data-i18n="t2.pet">Siamese cat owner</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card" data-animate="fade-up" data-delay="200">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text" data-i18n="t3.text">"The subscription service is a game changer. Everything arrives on time every month. My dog and I are both very happy!"</p>
+          <div class="testi-author">
+            <div class="testi-avatar dog-avatar">A</div>
+            <div>
+              <div class="testi-name" data-i18n="t3.name">Amelia R.</div>
+              <div class="testi-pet"  data-i18n="t3.pet">Labrador owner</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card" data-animate="fade-up" data-delay="0">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text" data-i18n="t4.text">"Vet-recommended and genuinely caring about animals. My cats are thriving and I couldn't be more satisfied with Velunoo."</p>
+          <div class="testi-author">
+            <div class="testi-avatar cat-avatar">P</div>
+            <div>
+              <div class="testi-name" data-i18n="t4.name">Priya D.</div>
+              <div class="testi-pet"  data-i18n="t4.pet">Multi-cat household</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NEWSLETTER ===== -->
+  <section class="newsletter section" id="contact">
+    <div class="container">
+      <div class="newsletter-card" data-animate="fade-up">
+        <div class="newsletter-icon">
+          <svg viewBox="0 0 48 48" fill="none" width="56">
+            <circle cx="24" cy="24" r="22" fill="#77AE3A" opacity="0.2"/>
+            <path d="M8 16l16 11 16-11" stroke="#234C2F" stroke-width="2.5" stroke-linecap="round"/>
+            <rect x="8" y="14" width="32" height="22" rx="3" stroke="#234C2F" stroke-width="2.5"/>
+          </svg>
+        </div>
+        <h2 data-i18n="nl.title">Stay in the Loop</h2>
+        <p data-i18n="nl.sub">Get exclusive deals, pet care tips, and new product alerts delivered to your inbox.</p>
+        <form class="newsletter-form" onsubmit="handleNewsletterSubmit(event)">
+          <div class="newsletter-input-wrap">
+            <input type="email" data-i18n-placeholder="nl.placeholder" placeholder="Enter your email address" required class="newsletter-input" />
+            <button type="submit" class="btn btn-primary" data-i18n="nl.btn">Subscribe</button>
+          </div>
+          <p class="newsletter-note" data-i18n="nl.note">No spam, unsubscribe at any time.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <img src="brand_assets/Velunoo Logo.png" alt="Velunoo" class="footer-logo" />
+        <p data-i18n="footer.tagline">Premium products crafted with care for dogs and cats. Giving your furry family members the best life possible.</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/velunoo.ch/" target="_blank" rel="noopener" aria-label="Instagram" class="social-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          </a>
+          <a href="#" aria-label="Facebook" class="social-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@velunoo.ch" target="_blank" rel="noopener" aria-label="TikTok" class="social-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer.col1">Explore</h4>
+        <ul>
+          <li><a href="#features" data-i18n="nav.why">Why Velunoo</a></li>
+          <li><a href="#game"     data-i18n="nav.game">Play with Max</a></li>
+          <li><a href="#testimonials" data-i18n="nav.reviews">Reviews</a></li>
+          <li><a href="#contact"  data-i18n="nav.contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer.col2">Help</h4>
+        <ul>
+          <li><a href="#" data-i18n="footer.faq">FAQ</a></li>
+          <li><a href="#" data-i18n="footer.shipping">Shipping Info</a></li>
+          <li><a href="#" data-i18n="footer.returns">Returns</a></li>
+          <li><a href="#" data-i18n="footer.track">Track Order</a></li>
+          <li><a href="#" data-i18n="footer.contactUs">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer.col3">Company</h4>
+        <ul>
+          <li><a href="#" data-i18n="footer.about">About Us</a></li>
+          <li><a href="#" data-i18n="footer.blog">Blog</a></li>
+          <li><a href="#" data-i18n="footer.privacy">Privacy Policy</a></li>
+          <li><a href="#" data-i18n="footer.terms">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p data-i18n="footer.copy">© 2026 Velunoo. All rights reserved. Made with love for pets.</p>
+        <div class="payment-icons">
+          <span class="payment-icon">VISA</span>
+          <span class="payment-icon">MC</span>
+          <span class="payment-icon">AMEX</span>
+          <span class="payment-icon">PayPal</span>
+          <span class="payment-icon">Apple Pay</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+
+  <script src="script.js"></script>
+  <script src="api.js"></script>
+</body>
+</html>
