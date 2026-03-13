@@ -225,33 +225,64 @@
     document.getElementById('productForm').addEventListener('submit', async (e) => {
       e.preventDefault()
       const btn = document.getElementById('saveBtn')
-      btn.textContent = '...'
       btn.disabled = true
 
       try {
         const id = document.getElementById('productId').value
-        const formData = new FormData()
-        formData.append('name_de', document.getElementById('name_de').value)
-        formData.append('name_en', document.getElementById('name_en').value)
-        formData.append('name_fr', document.getElementById('name_fr').value)
-        formData.append('name_it', document.getElementById('name_it').value)
-        formData.append('desc_de', document.getElementById('desc_de').value)
-        formData.append('desc_en', document.getElementById('desc_en').value)
-        formData.append('price', document.getElementById('price').value)
-        formData.append('stock', document.getElementById('stock').value)
-        formData.append('category', document.getElementById('category').value)
-
-        const imageFile = document.getElementById('productImage').files[0]
-        if (imageFile) formData.append('image', imageFile)
-
         const token = localStorage.getItem('velunoo_admin_token')
+
+        // Step 1: Save product data as JSON
+        btn.textContent = 'Speichert…'
+        const payload = {
+          name_de:  document.getElementById('name_de').value,
+          name_en:  document.getElementById('name_en').value,
+          name_fr:  document.getElementById('name_fr').value,
+          name_it:  document.getElementById('name_it').value,
+          desc_de:  document.getElementById('desc_de').value,
+          desc_en:  document.getElementById('desc_en').value,
+          price:    document.getElementById('price').value,
+          stock:    document.getElementById('stock').value,
+          category: document.getElementById('category').value
+        }
+
         const res = await fetch(`${ADMIN_API}${id ? `/products/${id}` : '/products'}`, {
           method: id ? 'PUT' : 'POST',
-          headers: { 'Authorization': `Bearer ${token}` },
-          body: formData
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(payload)
         })
 
-        if (!res.ok) throw new Error('Fehler beim Speichern')
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}))
+          throw new Error(err.error || 'Fehler beim Speichern')
+        }
+
+        const saved = await res.json()
+        const productId = saved.id || id
+
+        // Step 2: Upload image separately if a file was selected
+        const imageFile = document.getElementById('productImage').files[0]
+        if (imageFile && productId) {
+          btn.textContent = 'Bild hochladen…'
+          const imgForm = new FormData()
+          imgForm.append('image', imageFile)
+
+          const imgRes = await fetch(`${ADMIN_API}/products/${productId}/images`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token}` },
+            body: imgForm
+          })
+
+          if (!imgRes.ok) {
+            showAdminToast('Produkt gespeichert, aber Bild-Upload fehlgeschlagen ⚠️', true)
+            closeModal()
+            loadProducts()
+            return
+          }
+        }
+
         showAdminToast(id ? 'Produkt aktualisiert ✅' : 'Produkt hinzugefügt ✅')
         closeModal()
         loadProducts()

@@ -11,20 +11,20 @@ const translations = {
   /* ── ZÜRICH GERMAN ── */
   'zh-züri': {
     'nav.why':'Warum Velunoo','nav.game':'Spile','nav.reviews':'Bwertinge','nav.contact':'Kontakt','nav.cta':'Entdecke',
-    'hero.badge':'Vo 50\'000+ Tierhalter vertraut',
+    'hero.badge':'500 glückliche Tier-Familien',
     'hero.title':'Gib dim Tier s\'<br /><span class="highlight">Bäschte Läbe</span>',
     'hero.sub':'Premium-Produkt mit Liebi für Hünd und Chätze. Fröid, Gmüetlichkeit und Liebi — für jeds pelzigs Familiemitglied.',
     'hero.cta1':'Meh entdecke','hero.cta2':'Mit em Max spile',
     'hero.stat1':'Glückliche Tier','hero.stat2':'Produkt','hero.stat3':'Ø Bwertung',
-    'fc1.label':'Bstellig glieferet','fc1.value':'Grad itz','fc2.text':'"Mim Hund gfallt\'s mega!"','fc3.text':'50K+ Glückliche Tier',
-    'trust.1':'Vom Tierarzt bestätiget','trust.2':'Gratis Versand ab €50','trust.3':'30 Tag Rückgab','trust.4':'Mit Liebi gmacht',
+    'fc1.label':'Bstellig glieferet','fc1.value':'Grad itz','fc2.text':'"Mim Hund gfallt\'s mega!"','fc3.text':'500 Glückliche Tiere',
+    'trust.1':'Premium Qualität','trust.2':'Gratis Versand ab CHF 50','trust.3':'30 Tag Rückgab','trust.4':'Mit Liebi gmacht',
     'features.tag':'Warum mir?','features.title':'De Velunoo-Unterschied','features.sub':'Mir gond über s\'Normalmaass use, um dim Tier es usserordentlichs Läbe z\'gä',
-    'feat1.title':'Vom Tierarzt bestätiget','feat1.text':'Jeds Produkt wird vo zertifizierte Tierärzt überprüeft und fröigä, damit s\'Wohlbefinde vo dim Tier gwährleischtet isch.',
+    'feat1.title':'Sorgfältig usegsuecht','feat1.text':'Jeds Produkt wird sorgfältig überprüeft und usegsuecht — für s\'Wohlbefinde, d\'Gsundheit und d\'Fröid vo dim Tier.',
     'feat2.title':'Schnälli Lieferig','feat2.text':'Versand am gliche Tag bi Bsteltige vor 14 Uhr. Dis Tier mues nöd lang warte.',
-    'feat3.title':'Automatisch nachbstelle','feat3.text':'Stell wiederkehrendie Lieferige ii und spar bis zu 15 %. Nie wider ohne d\'Essentials vo dim Tier.',
+    'feat3.title':'Persönliche Beratig','feat3.text':'Hast du Fraage? Üses Team isch für dich do — per Chat oder E-Mail. Mir hälfe dir, s\'Beschte für dim Tier z\'finde.',
     'feat4.title':'Experte-Support','feat4.text':'Üses Team vo Tierexperte steit dir 7 Tag die Wuche zur Verfüegig, damit mer dir d\'beschte Entscheidiging ermögliche chönd.',
     'feat5.title':'Für Hünd und Chätze','feat5.text':'Sorgfältig usegsuecht für Hünd und Chätze. Jeds Produkt isch uf d\'Bedürfnis vo dim Begleiter abgschtimmt.',
-    'feat6.title':'Vo 50K+ Tier gliäbt','feat6.text':'Wärd Teil vo ener wachsende Gmeinschaft vo glückliche Tierhalter, wo Velunoo vertrauend.',
+    'feat6.title':'Vo 500 Tierbesitzern gliäbt','feat6.text':'Wärd Teil vo ener wachsende Gmeinschaft vo glückliche Tierhalter, wo Velunoo vertrauend.',
     'game.tag':'Spil mit üs','game.title':'Apportiere mit em Max','game.sub':'Züüg und wirf de Ball — de Max holt ne und bringt ne zruck!',
     'game.overlaySub':'Das isch de Max — er spilt mega gern!','game.start':'Spil starte','game.hint':'👆 Züüg zum Wärfe','game.throws':'Würf:','game.restart':'Nomol spile',
     'testi.tag':'Glückliche Kunde','testi.title':'Was Tiereltern säged','testi.sub':'Echti Gschichte vo echte Tierhalter',
@@ -32,9 +32,9 @@ const translations = {
     't1.name':'Sarah M.','t1.pet':'Golden-Retriever-Besitzerin',
     't2.text':'"Endscho e Marke, wo mim wählerische Siamkater gfallt! Schnälli Lieferig und es top Team."',
     't2.name':'James K.','t2.pet':'Siamchatze-Besitzer',
-    't3.text':'"S\'Abo isch e echter Game-Changer. Alles chunnt pünktlich jede Monet. Min Hund und ich sind beidi sehr glücklich!"',
+    't3.text':'"D\'Produkt sind eifach top. Alles chunnt pünktlich und min Hund freut sich jedes Mol riesig. Ich bi sehr zfride!"',
     't3.name':'Amelia R.','t3.pet':'Labrador-Besitzerin',
-    't4.text':'"Vom Tierarzt empfohle und wirklich fürsorglich. Mini Chätze gediehe und ich bi vollständig zfride."',
+    't4.text':'"Wunderbare Produkt und es tolls Team. Mini Chätze sind glücklich und ich bi vollständig zfride mit Velunoo."',
     't4.name':'Priya D.','t4.pet':'Mehreri Chätze',
     'nl.title':'Blib uf em Laufende','nl.sub':'Krieg exklusivi Angebote, Tipps zur Tierhaltig und Nouikeite in dim Poschtfach.',
     'nl.placeholder':'E-Mail-Adress iigä','nl.btn':'Abonniere','nl.note':'Kei Spam, jederziit chündbar.',
@@ -48,20 +48,20 @@ const translations = {
   /* ── BERN GERMAN ── */
   'zh-bern': {
     'nav.why':'Warum Velunoo','nav.game':'Spile','nav.reviews':'Bewärtige','nav.contact':'Kontakt','nav.cta':'Entdecke',
-    'hero.badge':'Vo 50\'000+ Tierhalter vertrut',
+    'hero.badge':'500 glückliche Tier-Familien',
     'hero.title':'Gib dim Tier s\'<br /><span class="highlight">Beschte Läbe</span>',
     'hero.sub':'Premium-Produkt mit Sorg für Hung und Chatze. Freud, Gmüetlichkeit und Liebi — für jedes pelzige Familiemitglied.',
     'hero.cta1':'Meh entdecke','hero.cta2':'Mit em Max spile',
     'hero.stat1':'Glückliche Tier','hero.stat2':'Produkt','hero.stat3':'Ø Bewärtig',
-    'fc1.label':'Bstellig gliefere','fc1.value':'Grad jetzt','fc2.text':'"Mim Hung gfallt\'s super!"','fc3.text':'50K+ Glückliche Tier',
-    'trust.1':'Vom Tierarzt bestätiget','trust.2':'Gratis Versand ab €50','trust.3':'30 Tag Rückgab','trust.4':'Mit Liebi gmacht',
+    'fc1.label':'Bstellig gliefere','fc1.value':'Grad jetzt','fc2.text':'"Mim Hung gfallt\'s super!"','fc3.text':'500 Glückliche Tiere',
+    'trust.1':'Premium Qualität','trust.2':'Gratis Versand ab CHF 50','trust.3':'30 Tag Rückgab','trust.4':'Mit Liebi gmacht',
     'features.tag':'Warum mir?','features.title':'De Velunoo-Unterschied','features.sub':'Mir gönd über s\'Normalmaass use, um dim Tier es usserordentlichs Läbe z\'gä',
-    'feat1.title':'Vom Tierarzt bestätiget','feat1.text':'Jedes Produkt wird vo zertifizierte Tierärzt überprüeft und fröigä, damit s\'Wohlbefinde vo dim Tier sichergstellt isch.',
+    'feat1.title':'Sorgfältig usegsuecht','feat1.text':'Jedes Produkt wird sorgfältig überprüeft und usegsuecht — für s\'Wohlbefinde, d\'Gsundheit und d\'Fröid vo dim Tier.',
     'feat2.title':'Schnälli Lieferig','feat2.text':'Versand am gliche Tag bi Bstellige vor 14 Uhr. Dis Tier mues nit lang warte.',
-    'feat3.title':'Automatisch nachbstelle','feat3.text':'Stell wiederkehrendie Lieferige ii und spar bis zu 15 %. Nie wieder ohni d\'Essentials vo dim Tier.',
+    'feat3.title':'Persönliche Beratig','feat3.text':'Hast du Fraage? Üses Team isch für dich do — per Chat oder E-Mail. Mir hälfe dir, s\'Beschte für dim Tier z\'finde.',
     'feat4.title':'Experte-Unterstützig','feat4.text':'Üses Team vo Tierexperte isch 7 Tag die Wuche für dich do, damit du d\'beschte Entscheide für dis Tier träffe chasch.',
     'feat5.title':'Für Hung und Chatze','feat5.text':'Sorgfältig usegsuecht für Hung und Chatze. Jedes Produkt isch uf d\'Bedürfnis vo dim Begleiter abgstimmt.',
-    'feat6.title':'Vo 50K+ Tier gliäbt','feat6.text':'Wärd Teil vo einer wachsende Gmeinschaft vo glückliche Tierhalter, wo Velunoo vertrauet.',
+    'feat6.title':'Vo 500 Tierbesitzern gliäbt','feat6.text':'Wärd Teil vo einer wachsende Gmeinschaft vo glückliche Tierhalter, wo Velunoo vertrauet.',
     'game.tag':'Spil mit üs','game.title':'Apportiere mit em Max','game.sub':'Züüg und wirf de Ball — de Max holt ihn und bringt ihn zruck!',
     'game.overlaySub':'Das isch de Max — ehr spilt dr am liebste!','game.start':'Spil starte','game.hint':'👆 Züüg zum Werfe','game.throws':'Würf:','game.restart':'Nomol spile',
     'testi.tag':'Glückliche Kunde','testi.title':'Was Tiereltern säge','testi.sub':'Echti Gschichte vo echte Tierhalter',
@@ -69,9 +69,9 @@ const translations = {
     't1.name':'Sarah M.','t1.pet':'Golden-Retriever-Besitzerin',
     't2.text':'"Endscho e Marke, wo mim wählerische Siamkater gfallt! Schnälli Lieferig und es super hilfrichs Team."',
     't2.name':'James K.','t2.pet':'Siamchatze-Besitzer',
-    't3.text':'"S\'Abo isch en echte Game-Changer. Alles chunnt pünktlich jede Monet. Mim Hung und mir göt\'s beidi mega guet!"',
+    't3.text':'"D\'Produkt sind eifach top. Alles chunnt pünktlich und mim Hung gfallt\'s mega. Ich bi sehr zfride!"',
     't3.name':'Amelia R.','t3.pet':'Labrador-Besitzerin',
-    't4.text':'"Vom Tierarzt empfohle und wirklich fürsorglich. Mini Chatze gediehe und ich bi vollständig zfride."',
+    't4.text':'"Wunderbare Produkt und es tolls Team. Mini Chatze sind glücklich und ich bi vollständig zfride mit Velunoo."',
     't4.name':'Priya D.','t4.pet':'Mehreri Chatze',
     'nl.title':'Blib uf em Laufende','nl.sub':'Krieg exklusivi Angebote, Tipps zur Tierhaltig und Neuikete i dim Poschtfach.',
     'nl.placeholder':'E-Mail-Adresse iigä','nl.btn':'Abonniere','nl.note':'Kei Spam, jederziit chündbar.',
@@ -85,20 +85,20 @@ const translations = {
   /* ── BASEL GERMAN ── */
   'zh-basel': {
     'nav.why':'Warum Velunoo','nav.game':'Spiele','nav.reviews':'Rezensione','nav.contact':'Kontakt','nav.cta':'Entdecke',
-    'hero.badge':'Vo 50\'000+ Tierhaltere vertraut',
+    'hero.badge':'500 glückliche Tier-Familien',
     'hero.title':'Gib dim Dier s\'<br /><span class="highlight">Beschte Läbe</span>',
     'hero.sub':'Premium-Produkt mit Sorg für Hund und Chatz. Freud, Gmüetlichkeit und Liebi — für jede pelzige Familienangehörige.',
     'hero.cta1':'Meh entdecke','hero.cta2':'Mit em Max spiele',
     'hero.stat1':'Glückliche Dier','hero.stat2':'Produkt','hero.stat3':'Ø Bewärtig',
-    'fc1.label':'Bstellig glieferet','fc1.value':'Grad jetzt','fc2.text':'"Mim Hund gfallt\'s sehr guet!"','fc3.text':'50K+ Glückliche Dier',
-    'trust.1':'Vom Tierarzt bestätiget','trust.2':'Gratis Versand ab €50','trust.3':'30 Tag Rückgab','trust.4':'Mit Liebi gmacht',
+    'fc1.label':'Bstellig glieferet','fc1.value':'Grad jetzt','fc2.text':'"Mim Hund gfallt\'s sehr guet!"','fc3.text':'500 Glückliche Tiere',
+    'trust.1':'Premium Qualität','trust.2':'Gratis Versand ab CHF 50','trust.3':'30 Tag Rückgab','trust.4':'Mit Liebi gmacht',
     'features.tag':'Warum mir?','features.title':'De Velunoo-Unterschied','features.sub':'Mir gönt über s\'Normalmaass usi, um dim Dier es usserordentlichs Läbe z\'gä',
-    'feat1.title':'Vom Tierarzt bestätiget','feat1.text':'Jedes Produkt wird vo zertifizierte Tierärzte überprüeft und fröigä, damit s\'Wohlbefinde vo dim Dier gwährleischtet isch.',
+    'feat1.title':'Sorgfältig usegsuecht','feat1.text':'Jedes Produkt wird sorgfältig überprüeft und usegsuecht — für s\'Wohlbefinde, d\'Gsundheit und d\'Fröid vo dim Dier.',
     'feat2.title':'Schnälli Lieferig','feat2.text':'Versand am gliche Tag bi Bstellige vor 14 Uhr. Dis Dier mues nit lang warte.',
-    'feat3.title':'Automatisch nachbstelle','feat3.text':'Stell wiederkehrendie Lieferige ii und spar bis zu 15 %. Nie wieder ohni d\'Essentials vo dim Dier.',
+    'feat3.title':'Persönliche Beratig','feat3.text':'Hast du Fraage? Üses Team isch für dich do — per Chat oder E-Mail. Mir hälfe dir, s\'Beschte für dim Dier z\'finde.',
     'feat4.title':'Experte-Support','feat4.text':'Üses Team vo Dier-Experte isch 7 Tag die Wuche für dich do, damit du d\'beschte Entscheide trefffe chasch.',
     'feat5.title':'Für Hund und Chatz','feat5.text':'Sorgfältig usegsuecht für Hund und Chatz. Jedes Produkt isch uf d\'Bedürfnis vo dim Begleiter abgstimmt.',
-    'feat6.title':'Vo 50K+ Dier gliäbt','feat6.text':'Wärd Teil vo ere wachsende Gmeinschaft vo glückliche Tierhaltere, wo Velunoo vertrauet.',
+    'feat6.title':'Vo 500 Tierbesitzern gliäbt','feat6.text':'Wärd Teil vo ere wachsende Gmeinschaft vo glückliche Tierhaltere, wo Velunoo vertrauet.',
     'game.tag':'Spiel mit üs','game.title':'Apportiere mit em Max','game.sub':'Züüg und wirf de Ball — de Max holt ihn und bringt ihn zruck!',
     'game.overlaySub':'Das isch de Max — er spielt sehr gern!','game.start':'Spiel starte','game.hint':'👆 Züüg zum Werfe','game.throws':'Würf:','game.restart':'Nomol spiele',
     'testi.tag':'Glückliche Kunde','testi.title':'Was Dier-Elter säge','testi.sub':'Echti Gschichte vo echte Tierhaltere',
@@ -108,7 +108,7 @@ const translations = {
     't2.name':'James K.','t2.pet':'Siamchatz-Besitzer',
     't3.text':'"S\'Abo isch e echte Game-Changer. Alles chunnt pünktlich jede Monet. I und min Hund sind beidi sehr glücklich!"',
     't3.name':'Amelia R.','t3.pet':'Labrador-Besitzerin',
-    't4.text':'"Vom Tierarzt empfohle und wirklich fürsorglich. Mini Chätze gediehe und i bi vollständig zfride."',
+    't4.text':'"Wunderbare Produkt und es tolls Team. Mini Chätze sind glücklich und i bi vollständig zfride mit Velunoo."',
     't4.name':'Priya D.','t4.pet':'Mehreri Chätze',
     'nl.title':'Blib uf em Laufende','nl.sub':'Krieg exklusivi Angebote, Tipps zur Dierhaltung und Neuikeite in dim Poschtfach.',
     'nl.placeholder':'E-Mail-Adresse iigä','nl.btn':'Abonniere','nl.note':'Kei Spam, jederziit chündbar.',
@@ -122,20 +122,20 @@ const translations = {
   /* ── GERMAN ── */
   de: {
     'nav.why':'Warum Velunoo','nav.game':'Spielen','nav.reviews':'Bewertungen','nav.contact':'Kontakt','nav.cta':'Entdecken',
-    'hero.badge':'Von 50.000+ Tierbesitzern vertraut',
+    'hero.badge':'500 glückliche Tier-Familien',
     'hero.title':'Schenke deinem Tier das<br /><span class="highlight">Beste Leben</span>',
     'hero.sub':'Premium-Produkte mit Sorgfalt für Hunde und Katzen. Glück, Komfort und Freude — für jedes Familienmitglied mit Fell.',
     'hero.cta1':'Mehr entdecken','hero.cta2':'Mit Max spielen',
     'hero.stat1':'Glückliche Tiere','hero.stat2':'Produkte','hero.stat3':'Ø Bewertung',
     'fc1.label':'Bestellung geliefert','fc1.value':'Gerade eben','fc2.text':'"Mein Hund liebt es!"','fc3.text':'50K+ Glückliche Tiere',
-    'trust.1':'Tierarzt-geprüft','trust.2':'Kostenloser Versand ab €50','trust.3':'30 Tage Rückgabe','trust.4':'Mit Liebe gemacht',
+    'trust.1':'Premium Qualität','trust.2':'Kostenloser Versand ab CHF 50','trust.3':'30 Tage Rückgabe','trust.4':'Mit Liebe gemacht',
     'features.tag':'Warum wir?','features.title':'Der Velunoo-Unterschied','features.sub':'Wir gehen über das Gewöhnliche hinaus, um deinem Tier ein außergewöhnliches Leben zu geben',
-    'feat1.title':'Tierarzt-geprüft','feat1.text':'Jedes Produkt wird von zertifizierten Tierärzten geprüft und freigegeben, um die Sicherheit deines Tieres zu gewährleisten.',
+    'feat1.title':'Sorgfältig ausgewählt','feat1.text':'Jedes Produkt wird sorgfältig geprüft und ausgewählt — für das Wohlbefinden, die Gesundheit und die Freude deines Tieres.',
     'feat2.title':'Schnelle Lieferung','feat2.text':'Versand am gleichen Tag bei Bestellungen vor 14 Uhr. Dein Tier muss nicht lange warten.',
-    'feat3.title':'Automatisch nachbestellen','feat3.text':'Richte wiederkehrende Lieferungen ein und spare bis zu 15 %. Nie wieder ohne die Essentials deines Tieres.',
+    'feat3.title':'Persönliche Beratung','feat3.text':'Hast du Fragen? Unser Team ist für dich da — per Chat oder E-Mail. Wir helfen dir, das Beste für dein Tier zu finden.',
     'feat4.title':'Experten-Support','feat4.text':'Unser Team aus Tierexperten steht dir 7 Tage die Woche zur Verfügung, um dir die besten Entscheidungen zu ermöglichen.',
     'feat5.title':'Für Hunde & Katzen','feat5.text':'Sorgfältig für Hunde und Katzen zusammengestellt. Jedes Produkt ist auf die Bedürfnisse deines Begleiters abgestimmt.',
-    'feat6.title':'Von 50K+ Tieren geliebt','feat6.text':'Werde Teil einer wachsenden Gemeinschaft glücklicher Tierbesitzer, die Velunoo vertrauen.',
+    'feat6.title':'Von 500 Tierbesitzern geliebt','feat6.text':'Werde Teil einer wachsenden Gemeinschaft glücklicher Tierbesitzer, die Velunoo jeden Tag vertrauen.',
     'game.tag':'Spiel mit uns','game.title':'Apportieren mit Max','game.sub':'Ziehe & wirf den Ball — Max holt ihn und bringt ihn zurück!',
     'game.overlaySub':'Das ist Max — er spielt sehr gerne!','game.start':'Spiel starten','game.hint':'👆 Ziehen zum Werfen','game.throws':'Würfe:','game.restart':'Nochmal spielen',
     'testi.tag':'Glückliche Kunden','testi.title':'Was Tiereltern sagen','testi.sub':'Echte Geschichten von echten Tierbesitzern',
@@ -143,9 +143,9 @@ const translations = {
     't1.name':'Sarah M.','t1.pet':'Golden-Retriever-Besitzerin',
     't2.text':'"Endlich eine Marke, die meine wählerische Siamkatze liebt! Schnelle Lieferung und ein unglaublich hilfreiches Team."',
     't2.name':'James K.','t2.pet':'Siamkatzen-Besitzer',
-    't3.text':'"Das Abo ist ein echter Game-Changer. Alles kommt pünktlich jeden Monat an. Mein Hund und ich sind beide sehr glücklich!"',
+    't3.text':'"Die Produkte sind einfach top. Alles kommt pünktlich an und mein Hund freut sich jedes Mal riesig. Ich bin sehr zufrieden!"',
     't3.name':'Amelia R.','t3.pet':'Labrador-Besitzerin',
-    't4.text':'"Vom Tierarzt empfohlen und echte Fürsorge für Tiere. Meine Katzen gedeihen und ich bin rundum zufrieden."',
+    't4.text':'"Wunderbare Produkte und ein tolles Team. Meine Katzen sind glücklich und ich bin vollständig zufrieden mit Velunoo."',
     't4.name':'Priya D.','t4.pet':'Mehrere Katzen',
     'nl.title':'Bleib auf dem Laufenden','nl.sub':'Erhalte exklusive Angebote, Tipps zur Tierpflege und Neuheitenbenachrichtigungen.',
     'nl.placeholder':'E-Mail-Adresse eingeben','nl.btn':'Abonnieren','nl.note':'Kein Spam, jederzeit kündbar.',
@@ -159,20 +159,20 @@ const translations = {
   /* ── ENGLISH ── */
   en: {
     'nav.why':'Why Velunoo','nav.game':'Play','nav.reviews':'Reviews','nav.contact':'Contact','nav.cta':'Discover',
-    'hero.badge':'Trusted by 50,000+ pet owners',
+    'hero.badge':'500 happy pet families',
     'hero.title':'Give Your Pet the<br /><span class="highlight">Best Life</span> Possible',
     'hero.sub':'Premium products made with care for dogs and cats. Happiness, comfort, and joy — for every furry family member.',
     'hero.cta1':'Discover More','hero.cta2':'Play with Max',
     'hero.stat1':'Happy Pets','hero.stat2':'Products','hero.stat3':'Avg. Rating',
-    'fc1.label':'Order Delivered','fc1.value':'Just now','fc2.text':'"My dog loves it!"','fc3.text':'50K+ Happy Pets',
-    'trust.1':'Vet Approved','trust.2':'Free Shipping Over €50','trust.3':'30-Day Returns','trust.4':'Made with Love',
+    'fc1.label':'Order Delivered','fc1.value':'Just now','fc2.text':'"My dog loves it!"','fc3.text':'500 Happy Pets',
+    'trust.1':'Premium Quality','trust.2':'Free Shipping Over CHF 50','trust.3':'30-Day Returns','trust.4':'Made with Love',
     'features.tag':'Why Choose Us','features.title':'The Velunoo Difference','features.sub':'We go beyond the ordinary to give your pet an extraordinary life',
-    'feat1.title':'Vet-Approved','feat1.text':'Every product is reviewed and approved by certified veterinarians to ensure your pet\'s safety and wellbeing.',
+    'feat1.title':'Carefully Selected','feat1.text':'Every product is carefully chosen for your pet\'s wellbeing, health and happiness — with love and attention to detail.',
     'feat2.title':'Fast Delivery','feat2.text':'Same-day dispatch on orders placed before 2 pm. Your pet won\'t have to wait long for their new favourites.',
-    'feat3.title':'Auto-Refill Subscriptions','feat3.text':'Set up recurring deliveries and save up to 15%. Never run out of your pet\'s essentials again.',
+    'feat3.title':'Personal Support','feat3.text':'Have questions? Our team is here for you — via chat or email. We help you find the best products for your pet.',
     'feat4.title':'Expert Pet Support','feat4.text':'Our team of pet care experts is available 7 days a week to help you make the best choices for your pet.',
     'feat5.title':'For Dogs & Cats','feat5.text':'Carefully curated for both dogs and cats. Every product is designed with your specific companion\'s needs in mind.',
-    'feat6.title':'Loved by 50K+ Pets','feat6.text':'Join a growing community of happy pet owners who trust Velunoo to bring joy to their companions every day.',
+    'feat6.title':'Loved by 500 Pet Owners','feat6.text':'Join a growing community of happy pet owners who trust Velunoo to bring joy to their companions every day.',
     'game.tag':'Play with Us','game.title':'Play Fetch with Max','game.sub':'Drag & throw the ball — Max fetches it and brings it back!',
     'game.overlaySub':'Meet Max — he loves to play!','game.start':'Start Game','game.hint':'👆 Drag to aim & throw','game.throws':'Throws:','game.restart':'Play Again',
     'testi.tag':'Happy Customers','testi.title':'What Pet Parents Say','testi.sub':'Real stories from real pet owners',
@@ -180,9 +180,9 @@ const translations = {
     't1.name':'Sarah M.','t1.pet':'Golden Retriever owner',
     't2.text':'"Finally a brand my picky Siamese cat approves of! Fast delivery and an incredibly helpful team. Highly recommended."',
     't2.name':'James K.','t2.pet':'Siamese cat owner',
-    't3.text':'"The subscription service is a game changer. Everything arrives on time every month. My dog and I are both very happy!"',
+    't3.text':'"The products are simply amazing. Everything arrives on time and my dog gets so excited every time. Very happy!"',
     't3.name':'Amelia R.','t3.pet':'Labrador owner',
-    't4.text':'"Vet-recommended and genuinely caring about animals. My cats are thriving and I couldn\'t be more satisfied with Velunoo."',
+    't4.text':'"Wonderful products and a great team. My cats are happy and I couldn\'t be more satisfied with Velunoo."',
     't4.name':'Priya D.','t4.pet':'Multi-cat household',
     'nl.title':'Stay in the Loop','nl.sub':'Get exclusive deals, pet care tips, and new product alerts delivered to your inbox.',
     'nl.placeholder':'Enter your email address','nl.btn':'Subscribe','nl.note':'No spam, unsubscribe at any time.',
@@ -196,20 +196,20 @@ const translations = {
   /* ── DUTCH ── */
   nl: {
     'nav.why':'Waarom Velunoo','nav.game':'Spelen','nav.reviews':'Beoordelingen','nav.contact':'Contact','nav.cta':'Ontdekken',
-    'hero.badge':'Vertrouwd door 50.000+ huisdiereigenaren',
+    'hero.badge':'500 gelukkige dierenfamilies',
     'hero.title':'Geef je huisdier het<br /><span class="highlight">Beste Leven</span> Mogelijk',
     'hero.sub':'Premium producten gemaakt met zorg voor honden en katten. Geluk, comfort en vreugde — voor elk bont familielid.',
     'hero.cta1':'Ontdek meer','hero.cta2':'Speel met Max',
     'hero.stat1':'Blije huisdieren','hero.stat2':'Producten','hero.stat3':'Gem. beoordeling',
-    'fc1.label':'Bestelling geleverd','fc1.value':'Zojuist','fc2.text':'"Mijn hond is er dol op!"','fc3.text':'50K+ Blije huisdieren',
-    'trust.1':'Goedgekeurd door dierenartsen','trust.2':'Gratis verzending vanaf €50','trust.3':'30 dagen retour','trust.4':'Gemaakt met liefde',
+    'fc1.label':'Bestelling geleverd','fc1.value':'Zojuist','fc2.text':'"Mijn hond is er dol op!"','fc3.text':'500 Blije huisdieren',
+    'trust.1':'Premium kwaliteit','trust.2':'Gratis verzending vanaf CHF 50','trust.3':'30 dagen retour','trust.4':'Gemaakt met liefde',
     'features.tag':'Waarom wij?','features.title':'Het Velunoo-verschil','features.sub':'We gaan verder dan het gewone om jouw huisdier een buitengewoon leven te geven',
-    'feat1.title':'Goedgekeurd door dierenartsen','feat1.text':'Elk product wordt beoordeeld en goedgekeurd door gecertificeerde dierenartsen om de veiligheid van je huisdier te waarborgen.',
+    'feat1.title':'Zorgvuldig geselecteerd','feat1.text':'Elk product wordt zorgvuldig geselecteerd voor het welzijn, de gezondheid en het geluk van je huisdier.',
     'feat2.title':'Snelle levering','feat2.text':'Dezelfde dag verzonden bij bestellingen voor 14:00 uur. Je huisdier hoeft niet lang te wachten.',
-    'feat3.title':'Automatisch aanvullen','feat3.text':'Stel terugkerende leveringen in en bespaar tot 15%. Nooit meer zonder de essentials van je huisdier.',
+    'feat3.title':'Persoonlijke ondersteuning','feat3.text':'Heb je vragen? Ons team staat voor je klaar — via chat of e-mail. We helpen je het beste voor je huisdier te vinden.',
     'feat4.title':'Expert huisdierondersteuning','feat4.text':'Ons team van huisdierexperts is 7 dagen per week beschikbaar om je te helpen de beste keuzes te maken.',
     'feat5.title':'Voor honden en katten','feat5.text':'Zorgvuldig samengesteld voor zowel honden als katten. Elk product is ontworpen met de behoeften van jouw metgezel in gedachten.',
-    'feat6.title':'Geliefd door 50K+ huisdieren','feat6.text':'Word lid van een groeiende gemeenschap van gelukkige huisdiereigenaren die Velunoo dagelijks vertrouwen.',
+    'feat6.title':'Geliefd door 500 huisdiereigenaren','feat6.text':'Word lid van een groeiende gemeenschap van gelukkige huisdiereigenaren die Velunoo dagelijks vertrouwen.',
     'game.tag':'Speel met ons','game.title':'Apporteren met Max','game.sub':'Sleep en gooi de bal — Max haalt hem op en brengt hem terug!',
     'game.overlaySub':'Dit is Max — hij speelt heel graag!','game.start':'Start spel','game.hint':'👆 Sleep om te gooien','game.throws':'Worpen:','game.restart':'Opnieuw spelen',
     'testi.tag':'Tevreden klanten','testi.title':'Wat huisdiereigenaren zeggen','testi.sub':'Echte verhalen van echte huisdiereigenaren',
@@ -217,9 +217,9 @@ const translations = {
     't1.name':'Sarah M.','t1.pet':'Golden retriever eigenaar',
     't2.text':'"Eindelijk een merk dat mijn kieskeurige Siamees goedkeurt! Snelle levering en een ongelooflijk behulpzaam team."',
     't2.name':'James K.','t2.pet':'Siamees kat eigenaar',
-    't3.text':'"De abonnementservice is een game changer. Alles komt elke maand op tijd aan. Mijn hond en ik zijn allebei heel blij!"',
+    't3.text':'"De producten zijn gewoon geweldig. Alles komt op tijd en mijn hond is elke keer zo blij. Heel tevreden!"',
     't3.name':'Amelia R.','t3.pet':'Labrador eigenaar',
-    't4.text':'"Aanbevolen door de dierenarts en echt zorgzaam voor dieren. Mijn katten gedijen en ik ben volledig tevreden."',
+    't4.text':'"Prachtige producten en een geweldig team. Mijn katten zijn gelukkig en ik ben volledig tevreden met Velunoo."',
     't4.name':'Priya D.','t4.pet':'Meerdere katten',
     'nl.title':'Blijf op de hoogte','nl.sub':'Ontvang exclusieve deals, huisdierenverzorgingstips en nieuwe productalerts in je inbox.',
     'nl.placeholder':'Vul je e-mailadres in','nl.btn':'Abonneren','nl.note':'Geen spam, op elk moment uitschrijven.',
@@ -233,20 +233,20 @@ const translations = {
   /* ── FRENCH ── */
   fr: {
     'nav.why':'Pourquoi Velunoo','nav.game':'Jouer','nav.reviews':'Avis','nav.contact':'Contact','nav.cta':'Découvrir',
-    'hero.badge':'Approuvé par 50 000+ propriétaires',
+    'hero.badge':'500 familles d\'animaux heureuses',
     'hero.title':'Offrez à votre animal la<br /><span class="highlight">Meilleure Vie</span> Possible',
     'hero.sub':'Des produits premium conçus avec soin pour les chiens et les chats. Bonheur, confort et joie — pour chaque membre de la famille.',
     'hero.cta1':'Découvrir','hero.cta2':'Jouer avec Max',
     'hero.stat1':'Animaux heureux','hero.stat2':'Produits','hero.stat3':'Note moy.',
-    'fc1.label':'Commande livrée','fc1.value':'À l\'instant','fc2.text':'« Mon chien adore ! »','fc3.text':'50K+ Animaux heureux',
-    'trust.1':'Approuvé par les vétérinaires','trust.2':'Livraison gratuite dès €50','trust.3':'Retours sous 30 jours','trust.4':'Fait avec amour',
+    'fc1.label':'Commande livrée','fc1.value':'À l\'instant','fc2.text':'« Mon chien adore ! »','fc3.text':'500 Animaux heureux',
+    'trust.1':'Qualité premium','trust.2':'Livraison gratuite dès CHF 50','trust.3':'Retours sous 30 jours','trust.4':'Fait avec amour',
     'features.tag':'Pourquoi nous choisir','features.title':'La différence Velunoo','features.sub':'Nous allons au-delà de l\'ordinaire pour offrir une vie extraordinaire à votre animal',
-    'feat1.title':'Approuvé par les vétérinaires','feat1.text':'Chaque produit est examiné et approuvé par des vétérinaires certifiés pour garantir la sécurité de votre animal.',
+    'feat1.title':'Sélectionné avec soin','feat1.text':'Chaque produit est soigneusement sélectionné pour le bien-être, la santé et le bonheur de votre animal.',
     'feat2.title':'Livraison rapide','feat2.text':'Expédition le jour même pour les commandes passées avant 14h. Votre animal n\'attendra pas longtemps.',
-    'feat3.title':'Abonnements automatiques','feat3.text':'Configurez des livraisons récurrentes et économisez jusqu\'à 15 %. Ne manquez plus jamais les essentiels de votre animal.',
+    'feat3.title':'Support personnalisé','feat3.text':'Des questions ? Notre équipe est là pour vous — par chat ou e-mail. Nous vous aidons à trouver le meilleur pour votre animal.',
     'feat4.title':'Support expert','feat4.text':'Notre équipe d\'experts en soins animaliers est disponible 7 jours sur 7 pour vous aider à faire les meilleurs choix.',
     'feat5.title':'Pour chiens & chats','feat5.text':'Soigneusement sélectionné pour les chiens et les chats. Chaque produit est conçu en fonction des besoins de votre compagnon.',
-    'feat6.title':'Adoré par 50K+ animaux','feat6.text':'Rejoignez une communauté grandissante de propriétaires heureux qui font confiance à Velunoo chaque jour.',
+    'feat6.title':'Adoré par 500 propriétaires','feat6.text':'Rejoignez une communauté grandissante de propriétaires heureux qui font confiance à Velunoo chaque jour.',
     'game.tag':'Jouez avec nous','game.title':'Jouez à la balle avec Max','game.sub':'Faites glisser et lancez la balle — Max la rapporte !',
     'game.overlaySub':'Voici Max — il adore jouer !','game.start':'Démarrer le jeu','game.hint':'👆 Glissez pour lancer','game.throws':'Lancers :','game.restart':'Rejouer',
     'testi.tag':'Clients heureux','testi.title':'Ce que disent les parents d\'animaux','testi.sub':'Des histoires vraies de vrais propriétaires',
@@ -254,9 +254,9 @@ const translations = {
     't1.name':'Sarah M.','t1.pet':'Propriétaire de golden retriever',
     't2.text':'« Enfin un merk que mon siamois difficile approuve ! Livraison rapide et équipe incroyablement serviable. »',
     't2.name':'James K.','t2.pet':'Propriétaire de siamois',
-    't3.text':'« L\'abonnement est révolutionnaire. Tout arrive à temps chaque mois. Mon chien et moi sommes très heureux ! »',
+    't3.text':'« Les produits sont tout simplement géniaux. Tout arrive à temps et mon chien est ravi. Je suis très satisfaite ! »',
     't3.name':'Amelia R.','t3.pet':'Propriétaire de labrador',
-    't4.text':'« Recommandé par le vétérinaire et vraiment attentionné. Mes chats s\'épanouissent et je suis entièrement satisfaite. »',
+    't4.text':'« Produits merveilleux et équipe formidable. Mes chats sont heureux et je suis entièrement satisfaite de Velunoo. »',
     't4.name':'Priya D.','t4.pet':'Foyer multi-chats',
     'nl.title':'Restez informé','nl.sub':'Recevez des offres exclusives, des conseils et des alertes de nouveaux produits dans votre boîte mail.',
     'nl.placeholder':'Entrez votre adresse e-mail','nl.btn':'S\'abonner','nl.note':'Pas de spam, désinscription à tout moment.',
@@ -270,20 +270,20 @@ const translations = {
   /* ── ITALIAN ── */
   it: {
     'nav.why':'Perché Velunoo','nav.game':'Giocare','nav.reviews':'Recensioni','nav.contact':'Contatto','nav.cta':'Scopri',
-    'hero.badge':'Scelto da 50.000+ proprietari',
+    'hero.badge':'500 famiglie di animali felici',
     'hero.title':'Dai al tuo animale la<br /><span class="highlight">Vita Migliore</span> Possibile',
     'hero.sub':'Prodotti premium realizzati con cura per cani e gatti. Felicità, comfort e gioia — per ogni membro peloso della famiglia.',
     'hero.cta1':'Scopri di più','hero.cta2':'Gioca con Max',
     'hero.stat1':'Animali felici','hero.stat2':'Prodotti','hero.stat3':'Val. media',
-    'fc1.label':'Ordine consegnato','fc1.value':'Adesso','fc2.text':'"Al mio cane piace tantissimo!"','fc3.text':'50K+ Animali felici',
-    'trust.1':'Approvato dai veterinari','trust.2':'Spedizione gratuita oltre €50','trust.3':'Resi entro 30 giorni','trust.4':'Fatto con amore',
+    'fc1.label':'Ordine consegnato','fc1.value':'Adesso','fc2.text':'"Al mio cane piace tantissimo!"','fc3.text':'500 Animali felici',
+    'trust.1':'Qualità premium','trust.2':'Spedizione gratuita oltre CHF 50','trust.3':'Resi entro 30 giorni','trust.4':'Fatto con amore',
     'features.tag':'Perché sceglierci','features.title':'La differenza Velunoo','features.sub':'Andiamo oltre l\'ordinario per dare al tuo animale una vita straordinaria',
-    'feat1.title':'Approvato dai veterinari','feat1.text':'Ogni prodotto viene esaminato e approvato da veterinari certificati per garantire la sicurezza del tuo animale.',
+    'feat1.title':'Selezionato con cura','feat1.text':'Ogni prodotto è selezionato con cura per il benessere, la salute e la felicità del tuo animale.',
     'feat2.title':'Consegna rapida','feat2.text':'Spedizione in giornata per ordini effettuati entro le 14:00. Il tuo animale non dovrà aspettare a lungo.',
-    'feat3.title':'Abbonamento automatico','feat3.text':'Imposta consegne ricorrenti e risparmia fino al 15%. Non rimanere mai senza gli essenziali del tuo animale.',
+    'feat3.title':'Supporto personale','feat3.text':'Hai domande? Il nostro team è qui per te — via chat o e-mail. Ti aiutiamo a trovare il meglio per il tuo animale.',
     'feat4.title':'Supporto esperto','feat4.text':'Il nostro team di esperti è disponibile 7 giorni su 7 per aiutarti a fare le scelte migliori per il tuo animale.',
     'feat5.title':'Per cani e gatti','feat5.text':'Selezionato con cura per cani e gatti. Ogni prodotto è progettato tenendo conto delle esigenze del tuo compagno.',
-    'feat6.title':'Amato da 50K+ animali','feat6.text':'Unisciti a una comunità crescente di proprietari felici che si fidano di Velunoo ogni giorno.',
+    'feat6.title':'Amato da 500 proprietari','feat6.text':'Unisciti a una comunità crescente di proprietari felici che si fidano di Velunoo ogni giorno.',
     'game.tag':'Gioca con noi','game.title':'Gioca a palla con Max','game.sub':'Trascina e lancia la palla — Max la va a prendere e la riporta!',
     'game.overlaySub':'Ecco Max — ama giocare!','game.start':'Inizia il gioco','game.hint':'👆 Trascina per lanciare','game.throws':'Lanci:','game.restart':'Gioca ancora',
     'testi.tag':'Clienti felici','testi.title':'Cosa dicono i proprietari','testi.sub':'Storie vere di veri proprietari di animali',
@@ -291,9 +291,9 @@ const translations = {
     't1.name':'Sarah M.','t1.pet':'Proprietaria di golden retriever',
     't2.text':'"Finalmente un brand approvato dal mio esigente siamese! Consegna rapida e un team incredibilmente disponibile."',
     't2.name':'James K.','t2.pet':'Proprietario di siamese',
-    't3.text':'"L\'abbonamento è rivoluzionario. Tutto arriva puntuale ogni mese. Io e il mio cane siamo felicissimi!"',
+    't3.text':'"I prodotti sono semplicemente fantastici. Tutto arriva puntuale e il mio cane è entusiasta ogni volta. Molto soddisfatta!"',
     't3.name':'Amelia R.','t3.pet':'Proprietaria di labrador',
-    't4.text':'"Consigliato dal veterinario e davvero attento agli animali. I miei gatti stanno benissimo e sono pienamente soddisfatta."',
+    't4.text':'"Prodotti meravigliosi e un team fantastico. I miei gatti sono felici e sono pienamente soddisfatta di Velunoo."',
     't4.name':'Priya D.','t4.pet':'Casa con più gatti',
     'nl.title':'Rimani aggiornato','nl.sub':'Ricevi offerte esclusive, consigli sulla cura degli animali e avvisi sui nuovi prodotti nella tua casella di posta.',
     'nl.placeholder':'Inserisci il tuo indirizzo email','nl.btn':'Iscriviti','nl.note':'Nessuno spam, disdici in qualsiasi momento.',
@@ -501,7 +501,10 @@ function initFetchGame() {
 
   function canvasPos(e) {
     const r = canvas.getBoundingClientRect();
-    const c = e.touches ? e.touches[0] : e;
+    // touchend has empty touches[] — use changedTouches instead
+    const c = e.changedTouches ? e.changedTouches[0]
+            : e.touches        ? e.touches[0]
+            : e;
     return { x: c.clientX - r.left, y: c.clientY - r.top };
   }
 
@@ -523,7 +526,7 @@ function initFetchGame() {
     const gy = gnd();
     dog.x = DOG_HOME_X; dog.facingRight = true; dog.bobPhase = 0; dog.bobY = 0;
     ball.active = true;
-    ball.x = DOG_HOME_X + 55; ball.y = gy - 14;
+    ball.x = DOG_HOME_X + 70; ball.y = gy - 18;
     ball.vx = 0; ball.vy = 0;
     state = 'ready';
     hintEl.classList.remove('hidden');
@@ -656,16 +659,18 @@ function initFetchGame() {
     // Player hand hint
     if (state === 'ready' || state === 'aiming') {
       ctx.save();
-      ctx.font = '24px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      const hintSize = Math.max(32, Math.round(canvas.height * 0.1));
+      ctx.font = `${hintSize}px serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.globalAlpha = 0.5;
-      ctx.fillText('🙋', canvas.width * 0.35, gy - 55);
+      ctx.fillText('🙋', canvas.width * 0.35, gy - hintSize * 1.8);
       ctx.restore();
     }
 
     // Ball
     if (ball.active) {
       ctx.save();
-      ctx.font = '22px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      const ballSize = Math.max(28, Math.round(canvas.height * 0.09));
+      ctx.font = `${ballSize}px serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.fillText('🎾', ball.x, ball.y);
       ctx.restore();
     }
@@ -860,3 +865,52 @@ function initFetchGame() {
     paw.style.transform = '';
   });
 })();
+
+
+/* ── Unboxing Video: Scroll-triggered play/pause ── */
+(function () {
+  const video   = document.getElementById('unboxingVideo')
+  const overlay = document.getElementById('unboxingOverlay')
+  const playBtn = document.getElementById('unboxingPlayBtn')
+  if (!video) return
+
+  let userPaused = false
+
+  // Toggle on play button click
+  playBtn && playBtn.addEventListener('click', () => {
+    if (video.paused) {
+      video.play()
+      userPaused = false
+      overlay.classList.add('hidden')
+    } else {
+      video.pause()
+      userPaused = true
+      overlay.classList.remove('hidden')
+    }
+  })
+
+  // Also hide overlay once video starts playing
+  video.addEventListener('play', () => overlay.classList.add('hidden'))
+  video.addEventListener('pause', () => {
+    if (userPaused) overlay.classList.remove('hidden')
+  })
+
+  // IntersectionObserver: auto play when 50% visible, pause when out
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        if (!userPaused && video.paused) {
+          video.play().catch(() => {})
+          overlay.classList.add('hidden')
+        }
+      } else {
+        if (!video.paused) {
+          video.pause()
+          // Don't set userPaused — auto pause due to scroll
+        }
+      }
+    })
+  }, { threshold: 0.5 })
+
+  observer.observe(video)
+})()

@@ -51,7 +51,7 @@
     <!-- Gewinn/Verlust Balken -->
     <div class="profit-bar-card" id="profitBarCard">
       <div class="profit-bar-header">
-        <span class="profit-bar-title">Gewinn / Verlust — aktueller Monat</span>
+        <span class="profit-bar-title">Gewinn / Verlust — Gesamte Zeit</span>
         <a href="admin-finanzen.html" style="font-size:12px;color:#77AE3A;font-weight:700;text-decoration:none;">Kosten bearbeiten →</a>
       </div>
       <div class="profit-bar-numbers">
@@ -129,22 +129,22 @@
           .reduce((s, o) => s + parseFloat(o.total || 0), 0)
         document.getElementById('statRevenue').textContent = `CHF ${revenue.toFixed(2)}`
 
-        // Gewinn/Verlust aktueller Monat
-        const now = new Date()
-        const period = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`
-        const monthRevenue = (orders || [])
-          .filter(o => {
-            const d = new Date(o.created_at)
-            const p = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`
-            return o.status === 'paid' && p === period
-          })
-          .reduce((s, o) => s + parseFloat(o.total || 0), 0)
+        // Gewinn/Verlust gesamte Zeit
+        const allRevenue = revenue  // already computed above as all paid orders
 
-        const costs = getTotalKosten(period)
-        const profit = monthRevenue - costs
+        // Sum all costs across all periods in localStorage
+        const allTxs = getAllTransactions()
+        const allCosts = allTxs
+          .filter(t => t.type === 'aufwand')
+          .reduce((s, t) => s + (parseFloat(t.amount) || 0), 0)
+        const allManualErtrag = allTxs
+          .filter(t => t.type === 'ertrag')
+          .reduce((s, t) => s + (parseFloat(t.amount) || 0), 0)
 
-        document.getElementById('pbRevenue').textContent = `CHF ${monthRevenue.toFixed(2)}`
-        document.getElementById('pbCosts').textContent = `CHF ${costs.toFixed(2)}`
+        const profit = allRevenue + allManualErtrag - allCosts
+
+        document.getElementById('pbRevenue').textContent = `CHF ${(allRevenue + allManualErtrag).toFixed(2)}`
+        document.getElementById('pbCosts').textContent = `CHF ${allCosts.toFixed(2)}`
 
         const profitEl = document.getElementById('pbProfit')
         profitEl.textContent = `${profit >= 0 ? '+' : '−'} CHF ${Math.abs(profit).toFixed(2)}`
@@ -152,7 +152,8 @@
 
         // Balken
         const fill = document.getElementById('pbFill')
-        const pct = monthRevenue > 0 ? Math.min((monthRevenue - costs) / monthRevenue * 100, 100) : 0
+        const totalIn = allRevenue + allManualErtrag
+        const pct = totalIn > 0 ? Math.min((totalIn - allCosts) / totalIn * 100, 100) : 0
         fill.style.width = `${Math.max(pct, 0)}%`
         fill.style.background = profit >= 0 ? '#22c55e' : '#e53e3e'
 

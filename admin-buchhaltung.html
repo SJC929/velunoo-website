@@ -144,6 +144,7 @@
 
   <div class="admin-toast" id="adminToast"></div>
 
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
   <script src="admin.js"></script>
   <script>
     requireAuth()
@@ -337,54 +338,125 @@
     }
 
     function exportExcel() {
-      const BOM = '\uFEFF'
-      let csv = BOM
-      csv += `Velunoo Buchhaltung ${selectedYear}\r\n`
-      csv += `Erstellt am;${new Date().toLocaleDateString('de-CH')}\r\n\r\n`
-
-      // Alle Buchungen
-      csv += `ALLE BUCHUNGEN\r\n`
-      csv += `Datum;Typ;Kategorie;Beschreibung;Betrag (CHF)\r\n`
-
       const txs = getAllTransactions()
         .filter(t => t.date?.startsWith(String(selectedYear)))
         .sort((a,b) => a.date.localeCompare(b.date))
 
-      txs.forEach(t => {
-        const cat = AUFWAND_KATEGORIEN[t.category] || ERTRAG_KATEGORIEN[t.category] || t.category
-        const catClean = cat.replace(/[^\w\s\/\-]/gu, '').trim()
-        csv += `${t.date};${t.type==='aufwand'?'Aufwand':'Ertrag'};${catClean};${t.description||''};${t.type==='aufwand'?'-':''}${parseFloat(t.amount).toFixed(2)}\r\n`
-      })
-
-      // Bestellungen
-      csv += `\r\nBESTELLUNGEN (Erträge)\r\n`
-      csv += `Datum;Typ;Kategorie;Bestellnr.;Betrag (CHF)\r\n`
-      allOrders
+      const orderRows = allOrders
         .filter(o => new Date(o.created_at).getFullYear() === selectedYear && o.status === 'paid')
         .sort((a,b) => a.created_at.localeCompare(b.created_at))
-        .forEach(o => {
-          csv += `${new Date(o.created_at).toLocaleDateString('de-CH')};Ertrag;Produktverkauf;${o.order_number||o.id?.slice(0,8)};${parseFloat(o.total||0).toFixed(2)}\r\n`
-        })
 
-      // T-Konto Zusammenfassung
+      // ── Sheet 1: Alle Buchungen ────────────────────────────────
+      const sheet1Data = [
+        [`Velunoo Buchhaltung ${selectedYear}`, '', '', '', ''],
+        [`Erstellt am: ${new Date().toLocaleDateString('de-CH')}`, '', '', '', ''],
+        [],
+        ['Datum', 'Typ', 'Kategorie', 'Beschreibung', 'Betrag (CHF)']
+      ]
+
+      txs.forEach(t => {
+        const cat = (AUFWAND_KATEGORIEN[t.category] || ERTRAG_KATEGORIEN[t.category] || t.category).replace(/[^\w\s\/\-]/gu, '').trim()
+        sheet1Data.push([
+          t.date,
+          t.type === 'aufwand' ? 'Aufwand' : 'Ertrag',
+          cat,
+          t.description || '',
+          (t.type === 'aufwand' ? -1 : 1) * parseFloat(t.amount)
+        ])
+      })
+
+      if (orderRows.length > 0) {
+        sheet1Data.push([])
+        sheet1Data.push(['BESTELLUNGEN (Erträge)', '', '', '', ''])
+        sheet1Data.push(['Datum', 'Typ', 'Kategorie', 'Bestellnr.', 'Betrag (CHF)'])
+        orderRows.forEach(o => {
+          sheet1Data.push([
+            new Date(o.created_at).toLocaleDateString('de-CH'),
+            'Ertrag',
+            'Produktverkauf',
+            o.order_number || o.id?.slice(0,8),
+            parseFloat(o.total || 0)
+          ])
+        })
+      }
+
       const totalKosten = txs.filter(t=>t.type==='aufwand').reduce((s,t)=>s+parseFloat(t.amount),0)
       const totalErtrag = txs.filter(t=>t.type==='ertrag').reduce((s,t)=>s+parseFloat(t.amount),0) + getOrderRevenue(selectedYear)
       const saldo = totalErtrag - totalKosten
 
-      csv += `\r\nT-KONTO ZUSAMMENFASSUNG ${selectedYear}\r\n`
-      csv += `Total Soll (Aufwände);${totalKosten.toFixed(2)}\r\n`
-      csv += `Total Haben (Erträge);${totalErtrag.toFixed(2)}\r\n`
-      csv += `Saldo (Gewinn/Verlust);${saldo.toFixed(2)}\r\n`
-      csv += `\r\nMWST-Grenze;100000.00 CHF (Art. 10 MWSTG)\r\n`
-      csv += `Status;${totalErtrag >= 100000 ? 'MWST-PFLICHTIG - Bei ESTV anmelden!' : 'Nicht MWST-pflichtig'}\r\n`
+      sheet1Data.push([])
+      sheet1Data.push(['ZUSAMMENFASSUNG', '', '', '', ''])
+      sheet1Data.push(['Total Aufwände', '', '', '', -totalKosten])
+      sheet1Data.push(['Total Erträge', '', '', '', totalErtrag])
+      sheet1Data.push([`Saldo ${selectedYear >= 0 ? '(Gewinn)' : '(Verlust)'}`, '', '', '', saldo])
+      sheet1Data.push([])
+      sheet1Data.push(['MWST-Grenze', '100\'000 CHF (Art. 10 MWSTG)', '', '', ''])
+      sheet1Data.push(['Status', totalErtrag >= 100000 ? 'MWST-PFLICHTIG — Bei ESTV anmelden!' : 'Nicht MWST-pflichtig', '', '', ''])
 
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = `Velunoo_Buchhaltung_${selectedYear}.csv`
-      a.click()
-      URL.revokeObjectURL(url)
+      // ── Sheet 2: T-Konto ──────────────────────────────────────
+      const aufwaende = txs.filter(t => t.type === 'aufwand')
+      const ertraege = [
+        ...orderRows.map(o => ({
+          date: new Date(o.created_at).toLocaleDateString('de-CH'),
+          category: 'Produktverkauf',
+          description: `Bestellung ${o.order_number || o.id?.slice(0,8)}`,
+          amount: parseFloat(o.total || 0)
+        })),
+        ...txs.filter(t => t.type === 'ertrag').map(t => ({
+          date: t.date,
+          category: (ERTRAG_KATEGORIEN[t.category] || t.category).replace(/[^\w\s\/\-]/gu, '').trim(),
+          description: t.description || '',
+          amount: parseFloat(t.amount)
+        }))
+      ]
+
+      const maxRows = Math.max(aufwaende.length, ertraege.length)
+      const sheet2Data = [
+        [`T-Konto ${selectedYear}`, '', '', '', '', '', '', ''],
+        [],
+        ['SOLL — Aufwände', '', '', '', 'HABEN — Erträge', '', '', ''],
+        ['Datum', 'Kategorie', 'Beschreibung', 'CHF', 'Datum', 'Kategorie', 'Beschreibung', 'CHF']
+      ]
+
+      for (let i = 0; i < maxRows; i++) {
+        const a = aufwaende[i]
+        const e = ertraege[i]
+        sheet2Data.push([
+          a ? a.date : '',
+          a ? (AUFWAND_KATEGORIEN[a.category] || a.category).replace(/[^\w\s\/\-]/gu,'').trim() : '',
+          a ? (a.description || '') : '',
+          a ? parseFloat(a.amount) : '',
+          e ? e.date : '',
+          e ? e.category : '',
+          e ? e.description : '',
+          e ? e.amount : ''
+        ])
+      }
+
+      sheet2Data.push([])
+      sheet2Data.push([
+        'TOTAL SOLL', '', '', totalKosten,
+        'TOTAL HABEN', '', '', totalErtrag
+      ])
+      sheet2Data.push([])
+      sheet2Data.push([
+        `SALDO ${selectedYear}`, '', '',
+        saldo >= 0 ? `+ CHF ${saldo.toFixed(2)} (Gewinn)` : `− CHF ${Math.abs(saldo).toFixed(2)} (Verlust)`,
+        '', '', '', ''
+      ])
+
+      // ── Build workbook ────────────────────────────────────────
+      const wb = XLSX.utils.book_new()
+
+      const ws1 = XLSX.utils.aoa_to_sheet(sheet1Data)
+      ws1['!cols'] = [{ wch: 14 }, { wch: 10 }, { wch: 22 }, { wch: 34 }, { wch: 14 }]
+      XLSX.utils.book_append_sheet(wb, ws1, `Buchungen ${selectedYear}`)
+
+      const ws2 = XLSX.utils.aoa_to_sheet(sheet2Data)
+      ws2['!cols'] = [{ wch: 12 }, { wch: 22 }, { wch: 30 }, { wch: 12 }, { wch: 12 }, { wch: 22 }, { wch: 30 }, { wch: 12 }]
+      XLSX.utils.book_append_sheet(wb, ws2, `T-Konto ${selectedYear}`)
+
+      XLSX.writeFile(wb, `Velunoo_Buchhaltung_${selectedYear}.xlsx`)
       showAdminToast('Excel wird heruntergeladen ✅')
     }
 
