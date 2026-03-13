@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Velunoo Admin — Finanzen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body class="admin-page">
+  <aside class="sidebar"></aside>
+
+  <main class="admin-main">
+    <div class="admin-header">
+      <h1>Finanzen</h1>
+      <div style="display:flex;gap:12px;align-items:center;">
+        <select id="periodSelect" class="period-select" onchange="loadPeriod()"></select>
+      </div>
+    </div>
+
+    <!-- Gewinn/Verlust Banner -->
+    <div class="profit-banner" id="profitBanner">
+      <div class="profit-left">
+        <span class="profit-label">Aktueller Monat</span>
+        <div class="profit-value" id="profitValue">CHF —</div>
+        <span class="profit-sub" id="profitSub"></span>
+      </div>
+      <div class="profit-breakdown">
+        <div class="breakdown-item">
+          <span>Umsatz</span>
+          <span id="bRevenue">CHF —</span>
+        </div>
+        <div class="breakdown-item">
+          <span>Produktkosten</span>
+          <span id="bProductCost">− CHF —</span>
+        </div>
+        <div class="breakdown-item">
+          <span>Werbe- & Betriebskosten</span>
+          <span id="bOpCost">− CHF —</span>
+        </div>
+        <div class="breakdown-divider"></div>
+        <div class="breakdown-item breakdown-total">
+          <span>Nettogewinn</span>
+          <span id="bProfit">CHF —</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kostenformular -->
+    <div class="finance-grid">
+      <div class="finance-card">
+        <h2 class="finance-card-title">Werbekosten</h2>
+
+        <div class="finance-field">
+          <label>
+            <span class="finance-icon">📱</span> TikTok Ads
+          </label>
+          <div class="chf-input">
+            <span>CHF</span>
+            <input type="number" id="tiktok_ads" min="0" step="0.05" placeholder="0.00" oninput="updatePreview()" />
+          </div>
+        </div>
+
+        <div class="finance-field">
+          <label>
+            <span class="finance-icon">📘</span> Meta Ads (Facebook/Instagram)
+          </label>
+          <div class="chf-input">
+            <span>CHF</span>
+            <input type="number" id="meta_ads" min="0" step="0.05" placeholder="0.00" oninput="updatePreview()" />
+          </div>
+        </div>
+      </div>
+
+      <div class="finance-card">
+        <h2 class="finance-card-title">Betriebskosten</h2>
+
+        <div class="finance-field">
+          <label>
+            <span class="finance-icon">🤖</span> Kosten für AI-Tools
+          </label>
+          <div class="chf-input">
+            <span>CHF</span>
+            <input type="number" id="ai_tools" min="0" step="0.05" placeholder="0.00" oninput="updatePreview()" />
+          </div>
+        </div>
+
+        <div class="finance-field">
+          <label>
+            <span class="finance-icon">🚚</span> Transportkosten Einkauf
+          </label>
+          <div class="chf-input">
+            <span>CHF</span>
+            <input type="number" id="transport_einkauf" min="0" step="0.05" placeholder="0.00" oninput="updatePreview()" />
+          </div>
+        </div>
+
+        <div class="finance-field">
+          <label>
+            <span class="finance-icon">📦</span> Transportkosten Verkauf (Versand)
+          </label>
+          <div class="chf-input">
+            <span>CHF</span>
+            <input type="number" id="transport_verkauf" min="0" step="0.05" placeholder="0.00" oninput="updatePreview()" />
+          </div>
+        </div>
+
+        <div class="finance-field">
+          <label>
+            <span class="finance-icon">📎</span> Sonstige Kosten
+          </label>
+          <div class="chf-input">
+            <span>CHF</span>
+            <input type="number" id="sonstige" min="0" step="0.05" placeholder="0.00" oninput="updatePreview()" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notizen -->
+    <div class="finance-card" style="margin-top:0;">
+      <h2 class="finance-card-title">📝 Notizen / Bemerkungen</h2>
+      <textarea id="notizen" rows="5" placeholder="z.B. Neue Lieferanten kontaktiert, TikTok-Kampagne gestartet, Probleme mit Versand..." style="width:100%;padding:12px;border:2px solid #E8EDE8;border-radius:10px;font-family:Montserrat,sans-serif;font-size:14px;resize:vertical;outline:none;" oninput="updatePreview()"></textarea>
+    </div>
+
+    <div style="display:flex;justify-content:flex-end;margin-top:8px;">
+      <button class="btn-primary" style="width:auto;padding:14px 36px;" onclick="savePeriod()">
+        💾 Speichern
+      </button>
+    </div>
+
+  </main>
+
+  <div class="admin-toast" id="adminToast"></div>
+
+  <script src="admin.js"></script>
+  <script>
+    requireAuth()
+
+    const fields = ['tiktok_ads', 'meta_ads', 'ai_tools', 'transport_einkauf', 'transport_verkauf', 'sonstige', 'notizen']
+    let currentRevenue = 0
+    let currentProductCost = 0
+
+    // Periode-Dropdown aufbauen (letzte 12 Monate)
+    function buildPeriodSelect() {
+      const sel = document.getElementById('periodSelect')
+      const now = new Date()
+      const options = []
+      for (let i = 0; i < 12; i++) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1)
+        const val = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`
+        const label = d.toLocaleDateString('de-CH', { month: 'long', year: 'numeric' })
+        options.push(`<option value="${val}" ${i===0?'selected':''}>${label}</option>`)
+      }
+      sel.innerHTML = options.join('')
+    }
+
+    function getPeriod() {
+      return document.getElementById('periodSelect').value
+    }
+
+    function loadPeriod() {
+      const data = getMonthData(getPeriod())
+      fields.forEach(f => {
+        const el = document.getElementById(f)
+        if (el) el.value = data[f] || (f === 'notizen' ? '' : 0)
+      })
+      loadRevenueForPeriod()
+    }
+
+    async function loadRevenueForPeriod() {
+      try {
+        const orders = await authFetch('/orders')
+        const period = getPeriod()
+        const paid = (orders || []).filter(o => {
+          const d = new Date(o.created_at)
+          const p = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`
+          return o.status === 'paid' && p === period
+        })
+        currentRevenue = paid.reduce((s, o) => s + parseFloat(o.total || 0), 0)
+
+        // Produktkosten berechnen (wenn cost_price vorhanden)
+        const products = await authFetch('/products')
+        const productMap = {}
+        ;(products || []).forEach(p => { productMap[p.id] = parseFloat(p.cost_price || 0) })
+        currentProductCost = paid.reduce((sum, o) => {
+          return sum + (o.items || []).reduce((s, item) => {
+            return s + (productMap[item.product_id] || 0) * (item.quantity || 1)
+          }, 0)
+        }, 0)
+
+        updatePreview()
+      } catch(e) {
+        updatePreview()
+      }
+    }
+
+    function updatePreview() {
+      const opCost = fields
+        .filter(f => f !== 'notizen')
+        .reduce((s, f) => s + (parseFloat(document.getElementById(f)?.value) || 0), 0)
+
+      const profit = currentRevenue - currentProductCost - opCost
+
+      document.getElementById('bRevenue').textContent = `CHF ${currentRevenue.toFixed(2)}`
+      document.getElementById('bProductCost').textContent = `− CHF ${currentProductCost.toFixed(2)}`
+      document.getElementById('bOpCost').textContent = `− CHF ${opCost.toFixed(2)}`
+
+      const profitEl = document.getElementById('profitValue')
+      const bProfitEl = document.getElementById('bProfit')
+      const subEl = document.getElementById('profitSub')
+      const banner = document.getElementById('profitBanner')
+
+      const formatted = `CHF ${Math.abs(profit).toFixed(2)}`
+      if (profit >= 0) {
+        profitEl.textContent = `+ ${formatted}`
+        profitEl.style.color = '#22c55e'
+        bProfitEl.textContent = `+ ${formatted}`
+        bProfitEl.style.color = '#22c55e'
+        subEl.textContent = 'Gewinn'
+        subEl.style.color = '#22c55e'
+        banner.style.borderColor = '#22c55e'
+      } else {
+        profitEl.textContent = `− ${formatted}`
+        profitEl.style.color = '#e53e3e'
+        bProfitEl.textContent = `− ${formatted}`
+        bProfitEl.style.color = '#e53e3e'
+        subEl.textContent = 'Verlust'
+        subEl.style.color = '#e53e3e'
+        banner.style.borderColor = '#e53e3e'
+      }
+    }
+
+    function savePeriod() {
+      const data = {}
+      fields.forEach(f => {
+        const el = document.getElementById(f)
+        data[f] = f === 'notizen' ? (el?.value || '') : (parseFloat(el?.value) || 0)
+      })
+      saveMonthData(getPeriod(), data)
+      showAdminToast('Gespeichert ✅')
+    }
+
+    buildPeriodSelect()
+    loadPeriod()
+  </script>
+</body>
+</html>

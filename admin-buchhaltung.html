@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Velunoo Admin — Buchhaltung</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body class="admin-page">
+  <aside class="sidebar"></aside>
+
+  <main class="admin-main">
+    <div class="admin-header">
+      <h1>Buchhaltung</h1>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <select id="yearSelect" class="period-select" onchange="loadYear()"></select>
+        <button class="btn-primary" style="width:auto;padding:10px 20px;" onclick="exportExcel()">
+          📊 Excel exportieren
+        </button>
+      </div>
+    </div>
+
+    <!-- Jahresübersicht -->
+    <div class="stats-grid" style="margin-bottom:24px;">
+      <div class="stat-card">
+        <div class="stat-icon">📈</div>
+        <div class="stat-info">
+          <div class="stat-value" id="yearRevenue" style="font-size:20px;">CHF —</div>
+          <div class="stat-label">Jahresumsatz</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📉</div>
+        <div class="stat-info">
+          <div class="stat-value" id="yearCosts" style="font-size:20px;">CHF —</div>
+          <div class="stat-label">Gesamtkosten</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">💰</div>
+        <div class="stat-info">
+          <div class="stat-value" id="yearProfit" style="font-size:20px;">CHF —</div>
+          <div class="stat-label">Jahresgewinn/-verlust</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🧾</div>
+        <div class="stat-info">
+          <div class="stat-value" id="yearMwst" style="font-size:20px;">CHF —</div>
+          <div class="stat-label">MWST 8.1% (geschätzt)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Monatstabelle -->
+    <div class="table-wrap">
+      <table class="admin-table" id="buchTable">
+        <thead>
+          <tr>
+            <th>Monat</th>
+            <th>Umsatz</th>
+            <th>TikTok Ads</th>
+            <th>Meta Ads</th>
+            <th>AI-Tools</th>
+            <th>Transport</th>
+            <th>Sonstige</th>
+            <th>Total Kosten</th>
+            <th>Gewinn/Verlust</th>
+          </tr>
+        </thead>
+        <tbody id="buchBody">
+          <tr><td colspan="9" style="text-align:center;padding:32px;color:#888;">Lädt...</td></tr>
+        </tbody>
+        <tfoot id="buchFoot"></tfoot>
+      </table>
+    </div>
+
+    <!-- Schweizer Hinweis -->
+    <div class="swiss-note">
+      <strong>🇨🇭 Hinweis für Schweizer Einzelunternehmen:</strong>
+      Umsatz unter CHF 100'000/Jahr → keine MWST-Pflicht (Art. 10 MWSTG).
+      Ab CHF 100'000 → MWST-Anmeldung bei ESTV erforderlich. Steuerpflichtiger Gewinn wird im Steuererklärungsformular C (Kanton) eingetragen.
+      Diese Übersicht dient als Grundlage für die Steuererklärung — kein Ersatz für professionelle Steuerberatung.
+    </div>
+
+  </main>
+
+  <div class="admin-toast" id="adminToast"></div>
+
+  <script src="admin.js"></script>
+  <script>
+    requireAuth()
+
+    let allOrders = []
+    let selectedYear = new Date().getFullYear()
+
+    function buildYearSelect() {
+      const sel = document.getElementById('yearSelect')
+      const now = new Date().getFullYear()
+      let opts = ''
+      for (let y = now; y >= now - 3; y--) {
+        opts += `<option value="${y}" ${y === now ? 'selected' : ''}>${y}</option>`
+      }
+      sel.innerHTML = opts
+    }
+
+    async function loadYear() {
+      selectedYear = parseInt(document.getElementById('yearSelect').value)
+      try {
+        allOrders = await authFetch('/orders') || []
+      } catch { allOrders = [] }
+      renderTable()
+    }
+
+    function getMonthName(m) {
+      return new Date(2000, m - 1, 1).toLocaleDateString('de-CH', { month: 'long' })
+    }
+
+    function renderTable() {
+      const finanzen = getFinanzenData()
+      const tbody = document.getElementById('buchBody')
+      const tfoot = document.getElementById('buchFoot')
+
+      let totalRevenue = 0, totalCosts = 0
+      const rows = []
+
+      for (let m = 1; m <= 12; m++) {
+        const period = `${selectedYear}-${String(m).padStart(2,'0')}`
+        const fd = finanzen[period] || {}
+
+        const revenue = allOrders
+          .filter(o => {
+            const d = new Date(o.created_at)
+            return o.status === 'paid' &&
+              d.getFullYear() === selectedYear &&
+              d.getMonth() + 1 === m
+          })
+          .reduce((s, o) => s + parseFloat(o.total || 0), 0)
+
+        const tiktok = fd.tiktok_ads || 0
+        const meta = fd.meta_ads || 0
+        const ai = fd.ai_tools || 0
+        const transport = (fd.transport_einkauf || 0) + (fd.transport_verkauf || 0)
+        const sonstige = fd.sonstige || 0
+        const costs = tiktok + meta + ai + transport + sonstige
+        const profit = revenue - costs
+
+        totalRevenue += revenue
+        totalCosts += costs
+
+        rows.push({ period, month: getMonthName(m), revenue, tiktok, meta, ai, transport, sonstige, costs, profit })
+      }
+
+      tbody.innerHTML = rows.map(r => `
+        <tr>
+          <td><strong>${r.month}</strong></td>
+          <td>CHF ${r.revenue.toFixed(2)}</td>
+          <td>${r.tiktok > 0 ? `CHF ${r.tiktok.toFixed(2)}` : '—'}</td>
+          <td>${r.meta > 0 ? `CHF ${r.meta.toFixed(2)}` : '—'}</td>
+          <td>${r.ai > 0 ? `CHF ${r.ai.toFixed(2)}` : '—'}</td>
+          <td>${r.transport > 0 ? `CHF ${r.transport.toFixed(2)}` : '—'}</td>
+          <td>${r.sonstige > 0 ? `CHF ${r.sonstige.toFixed(2)}` : '—'}</td>
+          <td>CHF ${r.costs.toFixed(2)}</td>
+          <td style="font-weight:700;color:${r.profit >= 0 ? '#22c55e' : '#e53e3e'};">
+            ${r.profit >= 0 ? '+' : '−'} CHF ${Math.abs(r.profit).toFixed(2)}
+          </td>
+        </tr>
+      `).join('')
+
+      const totalProfit = totalRevenue - totalCosts
+      const mwst = totalRevenue * 0.081
+
+      tfoot.innerHTML = `
+        <tr style="background:#F5F7F5;font-weight:800;">
+          <td>TOTAL ${selectedYear}</td>
+          <td>CHF ${totalRevenue.toFixed(2)}</td>
+          <td colspan="5"></td>
+          <td>CHF ${totalCosts.toFixed(2)}</td>
+          <td style="color:${totalProfit >= 0 ? '#22c55e' : '#e53e3e'};">
+            ${totalProfit >= 0 ? '+' : '−'} CHF ${Math.abs(totalProfit).toFixed(2)}
+          </td>
+        </tr>
+      `
+
+      document.getElementById('yearRevenue').textContent = `CHF ${totalRevenue.toFixed(2)}`
+      document.getElementById('yearCosts').textContent = `CHF ${totalCosts.toFixed(2)}`
+      const profitEl = document.getElementById('yearProfit')
+      profitEl.textContent = `${totalProfit >= 0 ? '+' : '−'} CHF ${Math.abs(totalProfit).toFixed(2)}`
+      profitEl.style.color = totalProfit >= 0 ? '#22c55e' : '#e53e3e'
+      document.getElementById('yearMwst').textContent = `CHF ${mwst.toFixed(2)}`
+    }
+
+    function exportExcel() {
+      const finanzen = getFinanzenData()
+      const year = selectedYear
+      const BOM = '\uFEFF'
+
+      // Header
+      let csv = BOM
+      csv += `Velunoo Buchhaltung ${year}\r\n`
+      csv += `Erstellt am;${new Date().toLocaleDateString('de-CH')}\r\n`
+      csv += `\r\n`
+      csv += `Monat;Umsatz (CHF);TikTok Ads (CHF);Meta Ads (CHF);AI-Tools (CHF);Transport Einkauf (CHF);Transport Verkauf (CHF);Sonstige (CHF);Total Kosten (CHF);Gewinn/Verlust (CHF)\r\n`
+
+      let totalRevenue = 0, totalCosts = 0
+
+      for (let m = 1; m <= 12; m++) {
+        const period = `${year}-${String(m).padStart(2,'0')}`
+        const fd = finanzen[period] || {}
+        const revenue = allOrders
+          .filter(o => {
+            const d = new Date(o.created_at)
+            return o.status === 'paid' && d.getFullYear() === year && d.getMonth() + 1 === m
+          })
+          .reduce((s, o) => s + parseFloat(o.total || 0), 0)
+
+        const tiktok = fd.tiktok_ads || 0
+        const meta = fd.meta_ads || 0
+        const ai = fd.ai_tools || 0
+        const te = fd.transport_einkauf || 0
+        const tv = fd.transport_verkauf || 0
+        const sons = fd.sonstige || 0
+        const costs = tiktok + meta + ai + te + tv + sons
+        const profit = revenue - costs
+        totalRevenue += revenue
+        totalCosts += costs
+
+        const monthName = new Date(2000, m-1, 1).toLocaleDateString('de-CH', {month:'long'})
+        csv += `${monthName};${revenue.toFixed(2)};${tiktok.toFixed(2)};${meta.toFixed(2)};${ai.toFixed(2)};${te.toFixed(2)};${tv.toFixed(2)};${sons.toFixed(2)};${costs.toFixed(2)};${profit.toFixed(2)}\r\n`
+      }
+
+      const totalProfit = totalRevenue - totalCosts
+      csv += `\r\n`
+      csv += `TOTAL ${year};${totalRevenue.toFixed(2)};;;;;;; ${totalCosts.toFixed(2)};${totalProfit.toFixed(2)}\r\n`
+      csv += `\r\n`
+      csv += `Hinweis MWST;Jahresumsatz ${totalRevenue.toFixed(2)} CHF\r\n`
+      csv += `MWST-Grenze;100000.00 CHF (Art. 10 MWSTG)\r\n`
+      if (totalRevenue >= 100000) {
+        csv += `Status;MWST-PFLICHTIG - Bei ESTV anmelden!\r\n`
+      } else {
+        csv += `Status;Nicht MWST-pflichtig (unter CHF 100 000)\r\n`
+      }
+      csv += `Steuerpflichtiger Gewinn;${totalProfit.toFixed(2)} CHF\r\n`
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `Velunoo_Buchhaltung_${year}.csv`
+      a.click()
+      URL.revokeObjectURL(url)
+      showAdminToast('Excel-Datei wird heruntergeladen ✅')
+    }
+
+    buildYearSelect()
+    loadYear()
+  </script>
+</body>
+</html>
