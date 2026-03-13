@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Velunoo Admin — Bestellungen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body class="admin-page">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="brand_assets/Velunoo Logo.png" alt="Velunoo" style="height:36px;" />
+    </div>
+    <nav class="sidebar-nav">
+      <a href="admin-dashboard.html" class="nav-item">
+        <span class="nav-icon">📊</span> Dashboard
+      </a>
+      <a href="admin-products.html" class="nav-item">
+        <span class="nav-icon">📦</span> Produkte
+      </a>
+      <a href="admin-orders.html" class="nav-item active">
+        <span class="nav-icon">🛒</span> Bestellungen
+      </a>
+      <a href="admin-newsletter.html" class="nav-item">
+        <span class="nav-icon">📧</span> Newsletter
+      </a>
+    </nav>
+    <button class="logout-btn" onclick="logout()">Ausloggen</button>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-header">
+      <h1>Bestellungen</h1>
+    </div>
+
+    <div class="table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Bestellnr.</th>
+            <th>Datum</th>
+            <th>Kunde</th>
+            <th>Total</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="ordersBody">
+          <tr><td colspan="5" style="text-align:center;padding:32px;color:#888;">Lädt...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script src="admin.js"></script>
+  <script>
+    requireAuth()
+    loadOrders()
+
+    async function loadOrders() {
+      try {
+        const orders = await authFetch('/orders')
+        const tbody = document.getElementById('ordersBody')
+        if (!orders || orders.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:32px;color:#888;">Noch keine Bestellungen</td></tr>'
+          return
+        }
+        tbody.innerHTML = orders.map(o => `
+          <tr>
+            <td><strong>${o.order_number || o.id?.slice(0,8)}</strong></td>
+            <td>${new Date(o.created_at).toLocaleDateString('de-CH')}</td>
+            <td>${o.customer_email || '—'}</td>
+            <td>CHF ${parseFloat(o.total || 0).toFixed(2)}</td>
+            <td><span class="status-badge status-${o.status}">${o.status}</span></td>
+          </tr>
+        `).join('')
+      } catch (e) {
+        document.getElementById('ordersBody').innerHTML = '<tr><td colspan="5" style="text-align:center;padding:32px;color:#e53e3e;">Fehler beim Laden</td></tr>'
+      }
+    }
+  </script>
+</body>
+</html>

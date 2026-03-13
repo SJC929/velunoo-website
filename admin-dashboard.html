@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Velunoo Admin — Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body class="admin-page">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="brand_assets/Velunoo Logo.png" alt="Velunoo" style="height:36px;" />
+    </div>
+    <nav class="sidebar-nav">
+      <a href="admin-dashboard.html" class="nav-item active">
+        <span class="nav-icon">📊</span> Dashboard
+      </a>
+      <a href="admin-products.html" class="nav-item">
+        <span class="nav-icon">📦</span> Produkte
+      </a>
+      <a href="admin-orders.html" class="nav-item">
+        <span class="nav-icon">🛒</span> Bestellungen
+      </a>
+      <a href="admin-newsletter.html" class="nav-item">
+        <span class="nav-icon">📧</span> Newsletter
+      </a>
+    </nav>
+    <button class="logout-btn" onclick="logout()">Ausloggen</button>
+  </aside>
+
+  <!-- Main -->
+  <main class="admin-main">
+    <div class="admin-header">
+      <h1>Dashboard</h1>
+      <span class="admin-badge">Admin</span>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">📦</div>
+        <div class="stat-info">
+          <div class="stat-value" id="statProducts">—</div>
+          <div class="stat-label">Produkte</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🛒</div>
+        <div class="stat-info">
+          <div class="stat-value" id="statOrders">—</div>
+          <div class="stat-label">Bestellungen</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📧</div>
+        <div class="stat-info">
+          <div class="stat-value" id="statNewsletter">—</div>
+          <div class="stat-label">Newsletter-Abos</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">💰</div>
+        <div class="stat-info">
+          <div class="stat-value" id="statRevenue">CHF —</div>
+          <div class="stat-label">Umsatz gesamt</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quick-actions">
+      <h2>Schnellzugriff</h2>
+      <div class="action-grid">
+        <a href="admin-products.html" class="action-card">
+          <span style="font-size:32px;">➕</span>
+          <span>Produkt hinzufügen</span>
+        </a>
+        <a href="admin-orders.html" class="action-card">
+          <span style="font-size:32px;">📋</span>
+          <span>Bestellungen ansehen</span>
+        </a>
+        <a href="/" target="_blank" class="action-card">
+          <span style="font-size:32px;">🌐</span>
+          <span>Website öffnen</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <script src="admin.js"></script>
+  <script>
+    requireAuth()
+    loadStats()
+
+    async function loadStats() {
+      try {
+        const [products, orders, newsletter] = await Promise.all([
+          authFetch('/products'),
+          authFetch('/orders'),
+          authFetch('/newsletter')
+        ])
+        document.getElementById('statProducts').textContent = products.length ?? '—'
+        document.getElementById('statOrders').textContent = orders.length ?? '—'
+        document.getElementById('statNewsletter').textContent = newsletter.length ?? '—'
+
+        const revenue = (orders || [])
+          .filter(o => o.status === 'paid')
+          .reduce((sum, o) => sum + parseFloat(o.total || 0), 0)
+        document.getElementById('statRevenue').textContent = `CHF ${revenue.toFixed(2)}`
+      } catch (e) {
+        console.error(e)
+      }
+    }
+  </script>
+</body>
+</html>

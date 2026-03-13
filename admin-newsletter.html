@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Velunoo Admin — Newsletter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body class="admin-page">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="brand_assets/Velunoo Logo.png" alt="Velunoo" style="height:36px;" />
+    </div>
+    <nav class="sidebar-nav">
+      <a href="admin-dashboard.html" class="nav-item">
+        <span class="nav-icon">📊</span> Dashboard
+      </a>
+      <a href="admin-products.html" class="nav-item">
+        <span class="nav-icon">📦</span> Produkte
+      </a>
+      <a href="admin-orders.html" class="nav-item">
+        <span class="nav-icon">🛒</span> Bestellungen
+      </a>
+      <a href="admin-newsletter.html" class="nav-item active">
+        <span class="nav-icon">📧</span> Newsletter
+      </a>
+    </nav>
+    <button class="logout-btn" onclick="logout()">Ausloggen</button>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-header">
+      <h1>Newsletter-Abonnenten</h1>
+      <span id="subCount" style="background:#EAF4D6;color:#234C2F;padding:6px 16px;border-radius:20px;font-weight:700;font-size:14px;">Lädt...</span>
+    </div>
+
+    <div class="table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>E-Mail</th>
+            <th>Sprache</th>
+            <th>Angemeldet am</th>
+          </tr>
+        </thead>
+        <tbody id="newsletterBody">
+          <tr><td colspan="3" style="text-align:center;padding:32px;color:#888;">Lädt...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script src="admin.js"></script>
+  <script>
+    requireAuth()
+    loadNewsletter()
+
+    async function loadNewsletter() {
+      try {
+        const subs = await authFetch('/newsletter')
+        document.getElementById('subCount').textContent = `${subs.length} Abonnenten`
+        const tbody = document.getElementById('newsletterBody')
+        if (!subs || subs.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;padding:32px;color:#888;">Noch keine Abonnenten</td></tr>'
+          return
+        }
+        tbody.innerHTML = subs.map(s => `
+          <tr>
+            <td>${s.email}</td>
+            <td>${s.language || 'de'}</td>
+            <td>${new Date(s.created_at).toLocaleDateString('de-CH')}</td>
+          </tr>
+        `).join('')
+      } catch (e) {
+        document.getElementById('newsletterBody').innerHTML = '<tr><td colspan="3" style="text-align:center;padding:32px;color:#e53e3e;">Fehler beim Laden</td></tr>'
+      }
+    }
+  </script>
+</body>
+</html>
