@@ -400,7 +400,7 @@ ul   { list-style: none; }
 .paw-hero-img {
   width: 320px; height: 320px;
   object-fit: contain;
-  mix-blend-mode: multiply;
+  filter: url(#remove-white) drop-shadow(0 12px 28px rgba(35,76,47,0.2));
   animation: float 4s ease-in-out infinite;
   transition: transform 0.3s ease;
 }
