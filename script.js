@@ -1,6 +1,6 @@
 /* ============================================================
    VELUNOO — script.js
-   Languages: zh-züri · zh-bern · zh-basel · de · en · nl · fr · it
+   Languages: de · ch-de · en · fr · it
    ============================================================ */
 
 /* ================================================================
@@ -303,20 +303,53 @@ const translations = {
     'footer.about':'Chi siamo','footer.blog':'Blog','footer.privacy':'Informativa sulla privacy','footer.terms':'Termini di servizio',
     'footer.copy':'© 2026 Velunoo. Tutti i diritti riservati. Fatto con amore per gli animali.',
   },
+  /* ── SCHWEIZERDEUTSCH ── */
+  'ch-de': {
+    'nav.why':'Warum Velunoo','nav.game':'Spile','nav.reviews':'Bwertinge','nav.contact':'Kontakt','nav.cta':'Entdecke',
+    'hero.badge':'500 glückliche Tier-Familien',
+    'hero.title':'Gib dim Tier s\'<br /><span class="highlight">Bäschte Läbe</span>',
+    'hero.sub':'Premium-Produkt mit Liebi für Hünd und Chätze. Fröid, Gmüetlichkeit und Liebi — für jeds pelzigs Familiemitglied.',
+    'hero.cta1':'Meh entdecke','hero.cta2':'Mit em Max spile',
+    'hero.stat1':'Glückliche Tier','hero.stat2':'Produkt','hero.stat3':'Ø Bwertung',
+    'fc1.label':'Bstellig glieferet','fc1.value':'Grad itz','fc2.text':'"Mim Hund gfallt\'s mega!"','fc3.text':'500 Glückliche Tiere',
+    'trust.1':'Premium Qualität','trust.2':'Gratis Versand ab CHF 50','trust.3':'Mit Liebi gmacht',
+    'features.tag':'Warum mir?','features.title':'De Velunoo-Unterschied','features.sub':'Mir gond über s\'Normalmaass use, um dim Tier es usserordentlichs Läbe z\'gä',
+    'feat1.title':'Sorgfältig usegsuecht','feat1.text':'Jeds Produkt wird sorgfältig überprüeft und usegsuecht — für s\'Wohlbefinde, d\'Gsundheit und d\'Fröid vo dim Tier.',
+    'feat2.title':'Schnälli Lieferig','feat2.text':'Versand am gliche Tag bi Bsteltige vor 14 Uhr. Dis Tier mues nöd lang warte.',
+    'feat3.title':'Persönliche Beratig','feat3.text':'Hast du Fraage? Üses Team isch für dich do — per Chat oder E-Mail. Mir hälfe dir, s\'Beschte für dim Tier z\'finde.',
+    'feat4.title':'Experte-Support','feat4.text':'Üses Team vo Tierexperte steit dir 7 Tag die Wuche zur Verfüegig, damit mer dir d\'beschte Entscheidiging ermögliche chönd.',
+    'feat5.title':'Für Hünd und Chätze','feat5.text':'Sorgfältig usegsuecht für Hünd und Chätze. Jeds Produkt isch uf d\'Bedürfnis vo dim Begleiter abgschtimmt.',
+    'feat6.title':'Vo 500 Tierbesitzern gliäbt','feat6.text':'Wärd Teil vo ener wachsende Gmeinschaft vo glückliche Tierhalter, wo Velunoo vertrauend.',
+    'game.tag':'Spil mit üs','game.title':'Apportiere mit em Max','game.sub':'Züüg und wirf de Ball — de Max holt ne und bringt ne zruck!',
+    'game.overlaySub':'Das isch de Max — er spilt mega gern!','game.start':'Spil starte','game.hint':'👆 Züüg zum Wärfe','game.throws':'Würf:','game.restart':'Nomol spile',
+    'testi.tag':'Glückliche Kunde','testi.title':'Was Tiereltern säged','testi.sub':'Echti Gschichte vo echte Tierhalter',
+    't1.text':'"Min Golden Retriever isch no nie so glücklich gsi. Velunoo versteit wirklich, was Tier bruuched — und de Kundidienst isch top!"',
+    't1.name':'Sarah M.','t1.pet':'Golden-Retriever-Besitzerin',
+    't2.text':'"Endscho e Marke, wo mim wählerische Siamkater gfallt! Schnälli Lieferig und es top Team."',
+    't2.name':'James K.','t2.pet':'Siamchatze-Besitzer',
+    't3.text':'"D\'Produkt sind eifach top. Alles chunnt pünktlich und min Hund freut sich jedes Mol riesig. Ich bi sehr zfride!"',
+    't3.name':'Amelia R.','t3.pet':'Labrador-Besitzerin',
+    't4.text':'"Wunderbare Produkt und es tolls Team. Mini Chätze sind glücklich und ich bi vollständig zfride mit Velunoo."',
+    't4.name':'Priya D.','t4.pet':'Mehreri Chätze',
+    'nl.title':'Blib uf em Laufende','nl.sub':'Krieg exklusivi Angebote, Tipps zur Tierhaltig und Nouikeite in dim Poschtfach.',
+    'nl.placeholder':'E-Mail-Adress iigä','nl.btn':'Abonniere','nl.note':'Kei Spam, jederziit chündbar.',
+    'footer.tagline':'Premium-Produkt mit Liebi für Hünd und Chätze. S\'bäschte Läbe für dini pelzige Familiemitglieder.',
+    'footer.col1':'Entdecke','footer.col2':'Hilf','footer.col3':'Firma',
+    'footer.faq':'FAQ','footer.contactUs':'Kontakt',
+    'footer.about':'Über üs','footer.blog':'Blog','footer.privacy':'Dateschütz',
+    'footer.copy':'© 2026 Velunoo. Alli Rächt vorbehalte. Mit Liebi für Tier gmacht.',
+  },
 };
 
 const langMeta = {
-  'zh-züri': { flag: '🇨🇭', code: 'ZH' },
-  'zh-bern': { flag: '🇨🇭', code: 'BE' },
-  'zh-basel':{ flag: '🇨🇭', code: 'BS' },
-  de:        { flag: '🇩🇪', code: 'DE' },
-  en:        { flag: '🇬🇧', code: 'EN' },
-  nl:        { flag: '🇳🇱', code: 'NL' },
-  fr:        { flag: '🇫🇷', code: 'FR' },
-  it:        { flag: '🇮🇹', code: 'IT' },
+  de:      { flag: '🇩🇪', code: 'DE' },
+  'ch-de': { flag: '🇨🇭', code: 'CH' },
+  en:      { flag: '🇬🇧', code: 'EN' },
+  fr:      { flag: '🇫🇷', code: 'FR' },
+  it:      { flag: '🇮🇹', code: 'IT' },
 };
 
-let currentLang = 'zh-züri';
+let currentLang = 'de';
 
 function applyLang(lang) {
   if (!translations[lang]) return;
@@ -336,13 +369,11 @@ function applyLang(lang) {
     if (t[key] !== undefined) el.placeholder = t[key];
   });
 
-  document.documentElement.lang = lang.startsWith('zh') ? 'gsw' : lang;
+  document.documentElement.lang = lang === 'ch-de' ? 'gsw' : lang;
 
   const meta = langMeta[lang];
   const flagEl = document.getElementById('currentFlag');
-  const codeEl = document.getElementById('currentLang');
   if (flagEl) flagEl.textContent = meta.flag;
-  if (codeEl) codeEl.textContent = meta.code;
 
   document.querySelectorAll('.lang-option').forEach(btn =>
     btn.classList.toggle('active', btn.dataset.lang === lang));
@@ -357,11 +388,11 @@ function applyLang(lang) {
    ================================================================ */
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Default: Züridütsch; restore saved if present
+  // Default: Deutsch; restore saved if present
   try {
     const saved = localStorage.getItem('velunoo-lang');
-    applyLang((saved && translations[saved]) ? saved : 'zh-züri');
-  } catch(e) { applyLang('zh-züri'); }
+    applyLang((saved && translations[saved]) ? saved : 'de');
+  } catch(e) { applyLang('de'); }
 
   // ── Navbar scroll ──
   const navbar    = document.getElementById('navbar');
