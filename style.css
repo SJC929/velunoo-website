@@ -397,17 +397,18 @@ ul   { list-style: none; }
   transition: transform 0.15s cubic-bezier(.4,0,.2,1);
   will-change: transform;
 }
-.paw-hero-svg {
+.paw-hero-img {
   width: 260px; height: 260px;
+  object-fit: contain;
   filter: drop-shadow(0 16px 32px rgba(35,76,47,0.22));
   animation: float 4s ease-in-out infinite;
   transition: filter 0.3s ease, transform 0.3s ease;
 }
-.hero-paw:hover .paw-hero-svg {
+.hero-paw:hover .paw-hero-img {
   filter: drop-shadow(0 20px 48px rgba(35,76,47,0.38));
   transform: scale(1.04) rotate(4deg);
 }
-.hero-paw:active .paw-hero-svg {
+.hero-paw:active .paw-hero-img {
   transform: scale(0.96) rotate(-2deg);
   filter: drop-shadow(0 8px 20px rgba(35,76,47,0.28));
 }
@@ -757,7 +758,7 @@ ul   { list-style: none; }
   .hero-subtitle { font-size: 15px; }
   .hero-card-main { width: 100%; max-width: 340px; margin: 0 auto; }
   .hero-image-wrapper { width: 260px; height: 260px; }
-  .paw-hero-svg { width: 200px; height: 200px; }
+  .paw-hero-img { width: 200px; height: 200px; }
 
   /* Float cards — tighter on mobile */
   .float-card { font-size: 12px; padding: 10px 14px; }
@@ -792,7 +793,7 @@ ul   { list-style: none; }
   .logo-paw { height: 24px; }
   .hero-card-main { width: 100%; }
   .hero-image-wrapper { width: 230px; height: 230px; }
-  .paw-hero-svg { width: 175px; height: 175px; }
+  .paw-hero-img { width: 175px; height: 175px; }
   .float-card { font-size: 11px; padding: 8px 12px; white-space: normal; max-width: 140px; }
   .float-card-1 { left: 0; bottom: 30px; }
   .float-card-2 { right: 0; top: 10px; }
@@ -811,7 +812,7 @@ ul   { list-style: none; }
 
 @media (max-width: 390px) {
   .hero-image-wrapper { width: 210px; height: 210px; }
-  .paw-hero-svg { width: 160px; height: 160px; }
+  .paw-hero-img { width: 160px; height: 160px; }
   .float-card-2 { display: none; }
   .float-card-3 { display: none; }
   .hero-badge { font-size: 12px; padding: 6px 12px; }
