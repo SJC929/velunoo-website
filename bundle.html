@@ -987,8 +987,30 @@ function renderCart() {
 }
 
 function checkout() {
-  const names = cart.map(i => i.name).join(', ');
-  alert(`✅ Bundle wird in den Warenkorb gelegt!\n\nProdukte: ${names}\nBox: ${selectedBox === 'eco' ? 'Öko Box' : 'Standard Box'}\n\nHier kannst du deinen Shopify/WooCommerce Checkout einhängen.`);
+  if (!cart.length) return;
+  // Build bundle payload for checkout page
+  const bundleItems = cart.map(i => ({
+    id: i.id,
+    name: i.name,
+    icon: i.icon,
+    price: i.price,
+    quantity: 1,
+    variant: i.variant || null
+  }));
+  // Add box as a line item (price 0 — included in bundle)
+  bundleItems.push({
+    id: 'box-' + selectedBox,
+    name: selectedBox === 'eco' ? 'Öko Box (umweltfreundlich)' : 'Standard Box',
+    icon: selectedBox === 'eco' ? '♻️' : '📦',
+    price: 0,
+    quantity: 1,
+    variant: null
+  });
+  const total = cart.reduce((sum, i) => sum + parseFloat(i.price), 0);
+  try {
+    localStorage.setItem('velunoo-bundle', JSON.stringify({ items: bundleItems, total: total.toFixed(2), box: selectedBox }));
+  } catch(e) {}
+  window.location.href = 'checkout.html';
 }
 
 function showToast(msg) {

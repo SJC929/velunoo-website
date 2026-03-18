@@ -14,7 +14,7 @@ async function createCheckout(req, res) {
 
   try {
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card', 'paypal'],
+      payment_method_types: ['card', 'twint'],
       line_items: items.map(item => ({
         price_data: {
           currency: currency.toLowerCase(),
@@ -29,8 +29,8 @@ async function createCheckout(req, res) {
       mode: 'payment',
       customer_email: customerEmail,
       metadata: { orderId: orderId || '' },
-      success_url: `${FRONTEND_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${FRONTEND_URL}/cart`
+      success_url: `${FRONTEND_URL}/order-success.html?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${FRONTEND_URL}/checkout.html`
     })
 
     res.json({ url: session.url, sessionId: session.id })

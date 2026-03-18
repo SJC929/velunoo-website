@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Checkout — Velunoo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --green-dark: #234C2F;
+  --green-mid:  #4F7A46;
+  --green-light:#77AE3A;
+  --green-pale: #EEF5E6;
+  --grey-light: #F5F5F5;
+  --grey-mid:   #DDE8CC;
+  --dark-text:  #1a2e1e;
+  --grey-text:  #6B7A5A;
+  --white:      #FFFFFF;
+  --radius:     12px;
+  --shadow:     0 4px 24px rgba(35,76,47,.10);
+}
+body { font-family: 'Montserrat', sans-serif; background: #FAFAF7; color: var(--dark-text); min-height: 100vh; }
+
+/* NAV */
+.navbar { background: var(--white); border-bottom: 1px solid var(--grey-mid); padding: 0 24px; height: 72px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+.nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+.nav-logo img { height: 54px; }
+.nav-back { display: flex; align-items: center; gap: 6px; text-decoration: none; color: var(--green-dark); font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 99px; border: 1.5px solid var(--grey-mid); transition: .2s; }
+.nav-back:hover { background: var(--green-pale); border-color: var(--green-mid); }
+
+/* LAYOUT */
+.checkout-wrap { max-width: 980px; margin: 0 auto; padding: 40px 20px 80px; display: grid; grid-template-columns: 1fr 380px; gap: 32px; align-items: start; }
+@media (max-width: 768px) { .checkout-wrap { grid-template-columns: 1fr; } }
+
+/* FORM CARD */
+.form-card { background: var(--white); border-radius: 20px; box-shadow: var(--shadow); padding: 40px; }
+.form-card h1 { font-size: 22px; font-weight: 800; color: var(--dark-text); margin-bottom: 6px; }
+.form-card .sub { font-size: 13px; color: var(--grey-text); margin-bottom: 32px; }
+.section-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--grey-text); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--grey-mid); }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 480px) { .form-grid { grid-template-columns: 1fr; } }
+.form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.form-group label { font-size: 12px; font-weight: 700; color: var(--dark-text); }
+.form-group input, .form-group select {
+  padding: 12px 14px; border: 2px solid var(--grey-mid); border-radius: var(--radius);
+  font-family: 'Montserrat', sans-serif; font-size: 14px; color: var(--dark-text);
+  outline: none; transition: border-color .2s; background: var(--white);
+}
+.form-group input:focus, .form-group select:focus { border-color: var(--green-light); }
+.form-group.full { grid-column: 1 / -1; }
+.spacer { height: 24px; }
+
+/* PAYMENT INFO */
+.payment-info { background: var(--green-pale); border-radius: var(--radius); padding: 16px; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+.payment-info svg { flex-shrink: 0; }
+.payment-info p { font-size: 12px; color: var(--green-dark); font-weight: 600; line-height: 1.5; }
+
+/* SUBMIT BUTTON */
+.btn-pay {
+  width: 100%; background: var(--green-dark); color: var(--white);
+  border: none; border-radius: 99px; padding: 16px 24px;
+  font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 700;
+  cursor: pointer; transition: background .2s, transform .1s;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.btn-pay:hover { background: var(--green-mid); }
+.btn-pay:active { transform: scale(0.98); }
+.btn-pay:disabled { background: #ccc; cursor: not-allowed; }
+.secure-note { text-align: center; font-size: 11px; color: var(--grey-text); margin-top: 12px; }
+
+/* ERROR */
+.error-msg { background: #fef2f2; border: 1px solid #fca5a5; border-radius: var(--radius); padding: 12px 16px; font-size: 13px; color: #dc2626; margin-bottom: 16px; display: none; }
+
+/* ORDER SUMMARY */
+.summary-card { background: var(--white); border-radius: 20px; box-shadow: var(--shadow); padding: 32px; position: sticky; top: 90px; }
+.summary-card h2 { font-size: 17px; font-weight: 800; margin-bottom: 20px; }
+.summary-items { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+.summary-item { display: flex; align-items: center; gap: 12px; }
+.item-icon { font-size: 20px; width: 36px; text-align: center; }
+.item-info { flex: 1; }
+.item-name { font-size: 13px; font-weight: 700; color: var(--dark-text); }
+.item-variant { font-size: 11px; color: var(--grey-text); margin-top: 2px; }
+.divider { height: 1px; background: var(--grey-mid); margin: 16px 0; }
+.summary-box { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--grey-text); margin-bottom: 16px; }
+.summary-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; }
+.summary-row.total { font-size: 17px; font-weight: 800; color: var(--green-dark); }
+.summary-row .label { color: var(--grey-text); }
+.empty-cart { text-align: center; padding: 24px; color: var(--grey-text); font-size: 14px; }
+
+.step-tag { display: inline-block; background: var(--green-pale); color: var(--green-dark); font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 4px 12px; border-radius: 99px; margin-bottom: 16px; }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="brand_assets/Velunoo Logo.png" alt="Velunoo" />
+  </a>
+  <a href="bundle.html" class="nav-back">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+    <span data-i18n="back">Zurück zum Bundle</span>
+  </a>
+</nav>
+
+<div class="checkout-wrap">
+
+  <!-- FORM -->
+  <div class="form-card">
+    <span class="step-tag" data-i18n="step.tag">Schritt 3 — Bezahlen</span>
+    <h1 data-i18n="form.title">Deine Lieferadresse</h1>
+    <p class="sub" data-i18n="form.sub">Fülle deine Daten aus und wähle deine Zahlungsmethode</p>
+
+    <div class="error-msg" id="errorMsg"></div>
+
+    <form id="checkoutForm" onsubmit="submitCheckout(event)">
+      <div class="section-label" data-i18n="section.contact">Kontaktdaten</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label data-i18n="label.name">Dein Name</label>
+          <input type="text" id="name" name="name" placeholder="Max Mustermann" required autocomplete="name" />
+        </div>
+        <div class="form-group">
+          <label data-i18n="label.email">E-Mail-Adresse</label>
+          <input type="email" id="email" name="email" placeholder="deine@email.ch" required autocomplete="email" />
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+      <div class="section-label" data-i18n="section.address">Lieferadresse</div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label data-i18n="label.street">Strasse & Hausnummer</label>
+          <input type="text" id="street" name="street" placeholder="Musterstrasse 12" required autocomplete="street-address" />
+        </div>
+        <div class="form-group">
+          <label data-i18n="label.zip">PLZ</label>
+          <input type="text" id="zip" name="zip" placeholder="8000" required autocomplete="postal-code" maxlength="10" />
+        </div>
+        <div class="form-group">
+          <label data-i18n="label.city">Stadt</label>
+          <input type="text" id="city" name="city" placeholder="Zürich" required autocomplete="address-level2" />
+        </div>
+        <div class="form-group full">
+          <label data-i18n="label.country">Land</label>
+          <select id="country" name="country" autocomplete="country">
+            <option value="CH" selected>🇨🇭 Schweiz</option>
+            <option value="DE">🇩🇪 Deutschland</option>
+            <option value="AT">🇦🇹 Österreich</option>
+            <option value="FR">🇫🇷 Frankreich</option>
+            <option value="IT">🇮🇹 Italien</option>
+            <option value="LI">🇱🇮 Liechtenstein</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+      <div class="payment-info">
+        <svg width="32" height="32" viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="12" fill="#EEF5E6"/><rect x="8" y="14" width="32" height="20" rx="4" stroke="#234C2F" stroke-width="2"/><path d="M8 20h32" stroke="#234C2F" stroke-width="2"/><rect x="12" y="26" width="8" height="4" rx="2" fill="#77AE3A"/></svg>
+        <p data-i18n="payment.info">Du wirst zu Stripe weitergeleitet — dort kannst du mit Kreditkarte oder <strong>TWINT</strong> bezahlen. 100% sicher & verschlüsselt.</p>
+      </div>
+
+      <button type="submit" class="btn-pay" id="payBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
+        <span id="payBtnText" data-i18n="pay.btn">Jetzt sicher bezahlen</span>
+      </button>
+      <p class="secure-note">🔒 <span data-i18n="pay.secure">256-bit SSL Verschlüsselung — Deine Daten sind sicher</span></p>
+    </form>
+  </div>
+
+  <!-- ORDER SUMMARY -->
+  <div class="summary-card">
+    <h2 data-i18n="summary.title">Dein Bundle</h2>
+    <div class="summary-items" id="summaryItems">
+      <div class="empty-cart" data-i18n="summary.empty">Warenkorb leer</div>
+    </div>
+    <div class="divider"></div>
+    <div class="summary-box" id="summaryBox">
+      📦 <span data-i18n="summary.box">Standard Box</span>
+    </div>
+    <div class="divider"></div>
+    <div class="summary-row"><span class="label" data-i18n="summary.price">Bundle-Preis</span><span>CHF 100.00</span></div>
+    <div class="summary-row"><span class="label" data-i18n="summary.shipping">Versand</span><span data-i18n="summary.free">Kostenlos</span></div>
+    <div class="divider"></div>
+    <div class="summary-row total"><span data-i18n="summary.total">Total</span><span>CHF 100.00</span></div>
+  </div>
+
+</div>
+
+<script>
+const API_URL = 'https://velunoo-backend.onrender.com/api';
+
+/* ── Translations ─────────────────────────────────────── */
+const t = {
+  de: {
+    'back':'Zurück zum Bundle','step.tag':'Schritt 3 — Bezahlen',
+    'form.title':'Deine Lieferadresse','form.sub':'Fülle deine Daten aus und wähle deine Zahlungsmethode',
+    'section.contact':'Kontaktdaten','section.address':'Lieferadresse',
+    'label.name':'Dein Name','label.email':'E-Mail-Adresse','label.street':'Strasse & Hausnummer',
+    'label.zip':'PLZ','label.city':'Stadt','label.country':'Land',
+    'payment.info':'Du wirst zu Stripe weitergeleitet — dort kannst du mit Kreditkarte oder <strong>TWINT</strong> bezahlen. 100% sicher & verschlüsselt.',
+    'pay.btn':'Jetzt sicher bezahlen','pay.secure':'256-bit SSL Verschlüsselung — Deine Daten sind sicher',
+    'summary.title':'Dein Bundle','summary.empty':'Warenkorb leer','summary.box':'Standard Box ausgewählt',
+    'summary.price':'Bundle-Preis','summary.shipping':'Versand','summary.free':'Kostenlos','summary.total':'Total',
+    'pay.loading':'Bezahlung wird vorbereitet…','err.fill':'Bitte fülle alle Felder aus.',
+    'err.api':'Verbindungsfehler. Bitte versuche es erneut.',
+  },
+  'ch-de': {
+    'back':'Zrug zum Bundle','step.tag':'Schritt 3 — Zahle',
+    'form.title':'Dini Lieferadrässi','form.sub':'Füll dini Date us und wähl dini Zahlungsart',
+    'section.contact':'Kontaktdate','section.address':'Lieferadrässi',
+    'label.name':'Din Name','label.email':'E-Mail-Adrässi','label.street':'Strass & Husnummere',
+    'label.zip':'PLZ','label.city':'Stadt','label.country':'Land',
+    'payment.info':'Du wirsch zu Stripe witergleitet — dert chasch mit Chreditcharte oder <strong>TWINT</strong> zahle. 100% sicher & verschlüsslet.',
+    'pay.btn':'Jetzt sicher zahle','pay.secure':'256-bit SSL Verschlüsslig — Dini Date sind sicher',
+    'summary.title':'Dis Bundle','summary.empty':'Warächorb leer','summary.box':'Standard Box usgwählt',
+    'summary.price':'Bundle-Priis','summary.shipping':'Versand','summary.free':'Gratis','summary.total':'Total',
+    'pay.loading':'Zahlig wird vorbereitet…','err.fill':'Bitte füll alli Felder us.',
+    'err.api':'Verbindigsfehler. Bitte versuechs nomol.',
+  },
+  en: {
+    'back':'Back to Bundle','step.tag':'Step 3 — Payment',
+    'form.title':'Your Delivery Address','form.sub':'Fill in your details and choose your payment method',
+    'section.contact':'Contact Details','section.address':'Delivery Address',
+    'label.name':'Your Name','label.email':'Email Address','label.street':'Street & Number',
+    'label.zip':'ZIP Code','label.city':'City','label.country':'Country',
+    'payment.info':'You will be redirected to Stripe — pay by credit card or <strong>TWINT</strong>. 100% secure & encrypted.',
+    'pay.btn':'Pay Securely Now','pay.secure':'256-bit SSL Encryption — Your data is safe',
+    'summary.title':'Your Bundle','summary.empty':'Cart is empty','summary.box':'Standard Box selected',
+    'summary.price':'Bundle price','summary.shipping':'Shipping','summary.free':'Free','summary.total':'Total',
+    'pay.loading':'Preparing payment…','err.fill':'Please fill in all fields.',
+    'err.api':'Connection error. Please try again.',
+  },
+  fr: {
+    'back':'Retour au Bundle','step.tag':'Étape 3 — Paiement',
+    'form.title':'Ton adresse de livraison','form.sub':'Remplis tes données et choisis ton mode de paiement',
+    'section.contact':'Coordonnées','section.address':'Adresse de livraison',
+    'label.name':'Ton nom','label.email':'Adresse e-mail','label.street':'Rue & numéro',
+    'label.zip':'Code postal','label.city':'Ville','label.country':'Pays',
+    'payment.info':'Tu seras redirigé vers Stripe — paiement par carte ou <strong>TWINT</strong>. 100% sécurisé & chiffré.',
+    'pay.btn':'Payer maintenant','pay.secure':'Chiffrement SSL 256 bits — Tes données sont en sécurité',
+    'summary.title':'Ton Bundle','summary.empty':'Panier vide','summary.box':'Boîte Standard sélectionnée',
+    'summary.price':'Prix du bundle','summary.shipping':'Livraison','summary.free':'Gratuit','summary.total':'Total',
+    'pay.loading':'Paiement en cours de préparation…','err.fill':'Veuillez remplir tous les champs.',
+    'err.api':'Erreur de connexion. Veuillez réessayer.',
+  },
+  it: {
+    'back':'Torna al Bundle','step.tag':'Passo 3 — Pagamento',
+    'form.title':'Il tuo indirizzo di consegna','form.sub':'Compila i tuoi dati e scegli il metodo di pagamento',
+    'section.contact':'Dati di contatto','section.address':'Indirizzo di consegna',
+    'label.name':'Il tuo nome','label.email':'Indirizzo e-mail','label.street':'Via & numero',
+    'label.zip':'CAP','label.city':'Città','label.country':'Paese',
+    'payment.info':'Sarai reindirizzato a Stripe — paga con carta o <strong>TWINT</strong>. 100% sicuro & crittografato.',
+    'pay.btn':'Paga ora in sicurezza','pay.secure':'Crittografia SSL 256 bit — I tuoi dati sono al sicuro',
+    'summary.title':'Il tuo Bundle','summary.empty':'Carrello vuoto','summary.box':'Scatola Standard selezionata',
+    'summary.price':'Prezzo bundle','summary.shipping':'Spedizione','summary.free':'Gratuita','summary.total':'Totale',
+    'pay.loading':'Preparazione pagamento…','err.fill':'Compila tutti i campi.',
+    'err.api':'Errore di connessione. Riprova.',
+  },
+};
+
+let lang = 'de';
+let bundle = null;
+
+function tr(key) { return (t[lang] || t.de)[key] || (t.de)[key] || key; }
+
+function applyLang() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = tr(el.getAttribute('data-i18n'));
+    if (v) el.innerHTML = v;
+  });
+}
+
+function loadBundle() {
+  try {
+    bundle = JSON.parse(localStorage.getItem('velunoo-bundle') || 'null');
+  } catch(e) { bundle = null; }
+
+  const container = document.getElementById('summaryItems');
+  if (!bundle || !bundle.items || !bundle.items.length) {
+    container.innerHTML = `<div class="empty-cart">${tr('summary.empty')}</div>`;
+    return;
+  }
+
+  container.innerHTML = bundle.items.map(item => `
+    <div class="summary-item">
+      <div class="item-icon">${item.icon || '📦'}</div>
+      <div class="item-info">
+        <div class="item-name">${item.name}</div>
+        ${item.variant ? `<div class="item-variant">${item.variantLabel || ''}: ${item.variant}</div>` : ''}
+      </div>
+    </div>
+  `).join('');
+
+  // Box
+  const boxEl = document.getElementById('summaryBox');
+  if (bundle.box === 'eco') {
+    boxEl.innerHTML = '♻️ <span>' + (lang === 'en' ? 'Eco Box selected' : lang === 'fr' ? 'Boîte Éco sélectionnée' : lang === 'it' ? 'Scatola Eco selezionata' : 'Öko Box ausgewählt') + '</span>';
+  } else {
+    boxEl.innerHTML = '📦 <span>' + tr('summary.box') + '</span>';
+  }
+}
+
+async function submitCheckout(e) {
+  e.preventDefault();
+  const errorEl = document.getElementById('errorMsg');
+  errorEl.style.display = 'none';
+
+  const name    = document.getElementById('name').value.trim();
+  const email   = document.getElementById('email').value.trim();
+  const street  = document.getElementById('street').value.trim();
+  const zip     = document.getElementById('zip').value.trim();
+  const city    = document.getElementById('city').value.trim();
+  const country = document.getElementById('country').value;
+
+  if (!name || !email || !street || !zip || !city) {
+    errorEl.textContent = tr('err.fill');
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  const btn = document.getElementById('payBtn');
+  const btnText = document.getElementById('payBtnText');
+  btn.disabled = true;
+  btnText.textContent = tr('pay.loading');
+
+  const address = `${street}, ${zip} ${city}`;
+  const items = bundle?.items || [];
+  const boxType = bundle?.box || 'standard';
+
+  const orderItems = items.map(item => ({
+    name: item.name,
+    quantity: 1,
+    price: 100 / (items.length || 1),
+    icon: item.icon,
+    variant: item.variant,
+  }));
+
+  // Add box as item
+  orderItems.push({
+    name: boxType === 'eco' ? 'Öko Box' : 'Standard Box',
+    quantity: 1,
+    price: 0,
+  });
+
+  try {
+    // 1. Create order
+    const orderRes = await fetch(`${API_URL}/orders`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        customer_name: name,
+        customer_email: email,
+        address,
+        country,
+        language: lang,
+        items: orderItems,
+        total_price: 100,
+        currency: 'CHF',
+      }),
+    });
+
+    if (!orderRes.ok) throw new Error(await orderRes.text());
+    const order = await orderRes.json();
+
+    // 2. Create Stripe checkout session
+    const payRes = await fetch(`${API_URL}/payment/checkout`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        orderId: order.id,
+        customerEmail: email,
+        currency: 'chf',
+        items: [{ name: 'Velunoo Bundle', price: 100, quantity: 1 }],
+      }),
+    });
+
+    if (!payRes.ok) throw new Error(await payRes.text());
+    const pay = await payRes.json();
+
+    // 3. Redirect to Stripe
+    if (pay.url) {
+      window.location.href = pay.url;
+    } else {
+      throw new Error('No payment URL received');
+    }
+
+  } catch(err) {
+    console.error(err);
+    errorEl.textContent = tr('err.api') + ' (' + err.message + ')';
+    errorEl.style.display = 'block';
+    btn.disabled = false;
+    btnText.innerHTML = tr('pay.btn');
+  }
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+  try { lang = localStorage.getItem('velunoo-lang') || 'de'; } catch(e) {}
+  applyLang();
+  loadBundle();
+});
+</script>
+</body>
+</html>

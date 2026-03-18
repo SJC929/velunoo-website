@@ -1,5 +1,5 @@
 const supabase = require('../config/supabase')
-const { sendInvoiceEmail } = require('../utils/sendEmail')
+const { sendInvoiceEmail, sendShippingEmail } = require('../utils/sendEmail')
 
 // POST /api/orders  { customer_name, customer_email, address, country, language, items, total_price, currency }
 async function createOrder(req, res) {
@@ -74,6 +74,17 @@ async function updateStatus(req, res) {
     .single()
 
   if (error) return res.status(500).json({ error: error.message })
+
+  // Send shipping confirmation email when marked as shipped
+  if (status === 'shipped') {
+    try {
+      await sendShippingEmail(data)
+    } catch (emailErr) {
+      console.error('[updateStatus] Shipping email failed:', emailErr.message)
+      // Don't fail the request — status was already updated
+    }
+  }
+
   res.json(data)
 }
 

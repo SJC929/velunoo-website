@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bestellung erfolgreich — Velunoo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --green-dark: #234C2F;
+  --green-mid:  #4F7A46;
+  --green-light:#77AE3A;
+  --green-pale: #EEF5E6;
+  --grey-light: #F5F5F5;
+  --grey-mid:   #DDE8CC;
+  --dark-text:  #1a2e1e;
+  --grey-text:  #6B7A5A;
+  --white:      #FFFFFF;
+}
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: #FAFAF7;
+  color: var(--dark-text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* NAV */
+.navbar {
+  background: var(--white);
+  border-bottom: 1px solid var(--grey-mid);
+  padding: 0 24px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nav-logo img { height: 54px; }
+
+/* MAIN */
+.success-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+}
+.success-card {
+  background: var(--white);
+  border-radius: 24px;
+  box-shadow: 0 8px 40px rgba(35,76,47,.12);
+  padding: 56px 48px;
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+}
+@media (max-width: 480px) { .success-card { padding: 36px 24px; } }
+
+.check-circle {
+  width: 80px; height: 80px;
+  background: var(--green-pale);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 28px;
+}
+.check-circle svg { width: 40px; height: 40px; }
+
+.success-card h1 {
+  font-size: 26px; font-weight: 900;
+  color: var(--green-dark); margin-bottom: 12px;
+}
+.success-card .order-num {
+  font-size: 13px; color: var(--grey-text);
+  font-weight: 600; margin-bottom: 20px;
+}
+.success-card .order-num span {
+  color: var(--green-dark); font-weight: 800;
+}
+.success-card p {
+  font-size: 14px; color: var(--grey-text);
+  line-height: 1.7; margin-bottom: 32px;
+}
+
+.divider {
+  height: 1px; background: var(--grey-mid);
+  margin: 28px 0;
+}
+
+.order-summary {
+  text-align: left;
+  background: var(--green-pale);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 32px;
+}
+.order-summary h3 {
+  font-size: 12px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--grey-text);
+  margin-bottom: 14px;
+}
+.summary-item {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 14px; padding: 6px 0;
+  border-bottom: 1px solid var(--grey-mid);
+}
+.summary-item:last-child { border-bottom: none; }
+.summary-item .name { color: var(--dark-text); font-weight: 600; }
+.summary-item .price { color: var(--green-dark); font-weight: 700; }
+.summary-total {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 16px; font-weight: 800; padding-top: 14px; margin-top: 4px;
+  border-top: 2px solid var(--grey-mid);
+  color: var(--green-dark);
+}
+
+.btn-home {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--green-dark); color: var(--white);
+  padding: 14px 32px; border-radius: 99px;
+  font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700;
+  text-decoration: none; transition: .2s;
+}
+.btn-home:hover { background: var(--green-mid); }
+
+.email-note {
+  font-size: 12px; color: var(--grey-text);
+  margin-top: 16px; display: flex; align-items: center; gap: 6px; justify-content: center;
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="brand_assets/Velunoo Logo.png" alt="Velunoo" />
+  </a>
+</header>
+
+<!-- SUCCESS -->
+<main class="success-wrap">
+  <div class="success-card">
+
+    <div class="check-circle">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#77AE3A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+
+    <h1 id="successTitle">Bestellung erfolgreich! 🐾</h1>
+    <p class="order-num" id="orderNumLine" style="display:none">
+      <span data-i18n="orderNr">Bestellnummer:</span> <span id="orderNumVal"></span>
+    </p>
+    <p id="successText">Vielen Dank für deine Bestellung! Wir haben deine Zahlung erhalten und bereiten dein Paket vor. Du erhältst in Kürze eine Bestätigungs-E-Mail mit deiner Rechnung.</p>
+
+    <div class="order-summary" id="orderSummary" style="display:none">
+      <h3 id="summaryTitle">Deine Bestellung</h3>
+      <div id="summaryItems"></div>
+      <div class="summary-total">
+        <span id="totalLabel">Total</span>
+        <span id="totalVal"></span>
+      </div>
+    </div>
+
+    <a href="index.html" class="btn-home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span id="homeBtn">Zurück zur Startseite</span>
+    </a>
+
+    <p class="email-note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2-2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+      <span id="emailNote">Bestätigung wurde an deine E-Mail gesendet</span>
+    </p>
+  </div>
+</main>
+
+<script>
+const T = {
+  de: {
+    title: 'Bestellung erfolgreich! 🐾',
+    text: 'Vielen Dank für deine Bestellung! Wir haben deine Zahlung erhalten und bereiten dein Paket vor. Du erhältst in Kürze eine Bestätigungs-E-Mail mit deiner Rechnung.',
+    orderNr: 'Bestellnummer',
+    summary: 'Deine Bestellung',
+    total: 'Total',
+    home: 'Zurück zur Startseite',
+    email: 'Bestätigung wurde an deine E-Mail gesendet'
+  },
+  'ch-de': {
+    title: 'Bstellig erfolgriich! 🐾',
+    text: 'Merci viumool für dini Bstellig! Mir händ dini Zahlig erhalte und bereite dis Päckli vor. Du bechunsch bald e Bestätigungs-E-Mail mit dinere Rechnig.',
+    orderNr: 'Bstellnummere',
+    summary: 'Dini Bstellig',
+    total: 'Total',
+    home: 'Zrugg zur Startsyte',
+    email: 'Bestätigung isch a dini E-Mail gschickt worde'
+  },
+  en: {
+    title: 'Order successful! 🐾',
+    text: 'Thank you for your order! We have received your payment and are preparing your package. You will receive a confirmation email with your invoice shortly.',
+    orderNr: 'Order number',
+    summary: 'Your order',
+    total: 'Total',
+    home: 'Back to home',
+    email: 'Confirmation sent to your email'
+  },
+  fr: {
+    title: 'Commande réussie ! 🐾',
+    text: 'Merci pour votre commande ! Nous avons reçu votre paiement et préparons votre colis. Vous recevrez bientôt un e-mail de confirmation avec votre facture.',
+    orderNr: 'Numéro de commande',
+    summary: 'Votre commande',
+    total: 'Total',
+    home: 'Retour à l\'accueil',
+    email: 'Confirmation envoyée à votre adresse e-mail'
+  },
+  it: {
+    title: 'Ordine riuscito! 🐾',
+    text: 'Grazie per il tuo ordine! Abbiamo ricevuto il tuo pagamento e stiamo preparando il tuo pacco. Riceverai a breve un\'email di conferma con la tua fattura.',
+    orderNr: 'Numero ordine',
+    summary: 'Il tuo ordine',
+    total: 'Totale',
+    home: 'Torna alla home',
+    email: 'Conferma inviata alla tua email'
+  }
+};
+
+(function() {
+  const lang = (() => { try { return localStorage.getItem('velunoo-lang') || 'de'; } catch(e) { return 'de'; } })();
+  const t = T[lang] || T.de;
+
+  document.getElementById('successTitle').textContent = t.title;
+  document.getElementById('successText').textContent = t.text;
+  document.getElementById('homeBtn').textContent = t.home;
+  document.getElementById('emailNote').textContent = t.email;
+  document.getElementById('summaryTitle').textContent = t.summary;
+  document.getElementById('totalLabel').textContent = t.total;
+  document.querySelector('[data-i18n="orderNr"]').textContent = t.orderNr + ':';
+
+  // Try to read order info from localStorage (set by checkout.html after order creation)
+  try {
+    const orderInfo = JSON.parse(localStorage.getItem('velunoo-last-order') || 'null');
+    if (orderInfo) {
+      if (orderInfo.order_number) {
+        document.getElementById('orderNumVal').textContent = '#' + String(orderInfo.order_number).padStart(4, '0');
+        document.getElementById('orderNumLine').style.display = 'block';
+      }
+
+      const items = Array.isArray(orderInfo.items) ? orderInfo.items : [];
+      if (items.length > 0) {
+        const currency = orderInfo.currency || 'CHF';
+        const total = parseFloat(orderInfo.total_price || 0);
+        document.getElementById('summaryItems').innerHTML = items.map(item => `
+          <div class="summary-item">
+            <span class="name">${item.name || 'Produkt'} ${item.variant ? '<small style="color:#6B7A5A;font-weight:400;">('+item.variant+')</small>' : ''}</span>
+            <span class="price">${currency} ${(parseFloat(item.price) * (item.quantity || 1)).toFixed(2)}</span>
+          </div>
+        `).join('');
+        document.getElementById('totalVal').textContent = currency + ' ' + total.toFixed(2);
+        document.getElementById('orderSummary').style.display = 'block';
+      }
+
+      // Clean up so refreshing doesn't re-show stale data
+      localStorage.removeItem('velunoo-last-order');
+      localStorage.removeItem('velunoo-bundle');
+    }
+  } catch(e) {}
+})();
+</script>
+</body>
+</html>

@@ -6,6 +6,152 @@
   <title>Velunoo Admin — Bestellungen</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="admin.css" />
+  <style>
+    /* ── Order cards ── */
+    .orders-grid { display: flex; flex-direction: column; gap: 16px; }
+
+    .order-card {
+      background: #fff;
+      border: 1.5px solid #e5e5e5;
+      border-radius: 14px;
+      overflow: hidden;
+      transition: box-shadow .2s;
+    }
+    .order-card:hover { box-shadow: 0 4px 20px rgba(35,76,47,.10); }
+
+    .order-card-header {
+      display: flex; align-items: center; gap: 16px;
+      padding: 18px 24px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .order-card-header:hover { background: #fafaf7; }
+
+    .order-num {
+      font-size: 15px; font-weight: 800; color: #234C2F;
+      min-width: 80px;
+    }
+    .order-date { font-size: 13px; color: #888; min-width: 90px; }
+    .order-customer { font-size: 14px; font-weight: 600; color: #1a2e1e; flex: 1; }
+    .order-email { font-size: 12px; color: #888; }
+    .order-total { font-size: 15px; font-weight: 700; color: #234C2F; min-width: 90px; text-align: right; }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 12px; border-radius: 99px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px;
+    }
+    .status-pending   { background: #FFF3CD; color: #856404; }
+    .status-paid      { background: #D1ECF1; color: #0C5460; }
+    .status-shipped   { background: #D4EDDA; color: #155724; }
+    .status-delivered { background: #C3E6CB; color: #155724; }
+    .status-cancelled { background: #F8D7DA; color: #721C24; }
+    .status-failed    { background: #F8D7DA; color: #721C24; }
+    .status-refunded  { background: #E2E3E5; color: #383D41; }
+
+    .chevron {
+      margin-left: auto;
+      transition: transform .25s;
+      color: #aaa;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .order-card.open .chevron { transform: rotate(180deg); }
+
+    /* ── Expanded detail ── */
+    .order-detail {
+      display: none;
+      padding: 0 24px 24px;
+      border-top: 1px solid #e5e5e5;
+    }
+    .order-card.open .order-detail { display: block; }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 20px;
+    }
+    @media (max-width: 640px) { .detail-grid { grid-template-columns: 1fr; } }
+
+    .detail-section h4 {
+      font-size: 11px; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; color: #6B7A5A;
+      margin-bottom: 10px; padding-bottom: 6px;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .detail-address {
+      font-size: 13px; line-height: 1.8; color: #444;
+    }
+
+    .items-table { width: 100%; border-collapse: collapse; }
+    .items-table th {
+      font-size: 11px; font-weight: 700; color: #6B7A5A;
+      text-align: left; padding: 6px 8px;
+      border-bottom: 2px solid #e5e5e5;
+    }
+    .items-table td {
+      font-size: 13px; color: #333;
+      padding: 8px 8px; border-bottom: 1px solid #f0f0f0;
+    }
+    .items-table tr:last-child td { border-bottom: none; }
+    .items-table .price { text-align: right; font-weight: 600; color: #234C2F; }
+
+    .items-total {
+      display: flex; justify-content: space-between;
+      font-size: 14px; font-weight: 800; color: #234C2F;
+      padding: 10px 8px 0; border-top: 2px solid #DDE8CC; margin-top: 4px;
+    }
+
+    /* ── Actions ── */
+    .order-actions { margin-top: 20px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+    .btn-ship {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #234C2F; color: #fff;
+      border: none; border-radius: 99px;
+      padding: 10px 22px; font-family: 'Montserrat', sans-serif;
+      font-size: 13px; font-weight: 700; cursor: pointer;
+      transition: background .2s;
+    }
+    .btn-ship:hover { background: #4F7A46; }
+    .btn-ship:disabled {
+      background: #ccc; cursor: default;
+    }
+    .btn-ship.shipped {
+      background: #D4EDDA; color: #155724; cursor: default;
+    }
+
+    .btn-invoice {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: transparent; color: #234C2F;
+      border: 1.5px solid #DDE8CC; border-radius: 99px;
+      padding: 9px 18px; font-family: 'Montserrat', sans-serif;
+      font-size: 12px; font-weight: 600; cursor: pointer;
+      transition: .2s;
+    }
+    .btn-invoice:hover { background: #EEF5E6; border-color: #77AE3A; }
+
+    .action-msg {
+      font-size: 12px; color: #77AE3A; font-weight: 600;
+    }
+
+    /* ── Filters ── */
+    .orders-filters {
+      display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;
+    }
+    .filter-btn {
+      padding: 7px 18px; border-radius: 99px;
+      border: 1.5px solid #e5e5e5; background: #fff;
+      font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600;
+      cursor: pointer; color: #555; transition: .2s;
+    }
+    .filter-btn:hover { border-color: #77AE3A; color: #234C2F; }
+    .filter-btn.active { background: #234C2F; color: #fff; border-color: #234C2F; }
+
+    .empty-state { text-align: center; padding: 60px 20px; color: #aaa; font-size: 15px; }
+  </style>
 </head>
 <body class="admin-page">
 
@@ -35,49 +181,186 @@
       <h1>Bestellungen</h1>
     </div>
 
-    <div class="table-wrap">
-      <table class="admin-table">
-        <thead>
-          <tr>
-            <th>Bestellnr.</th>
-            <th>Datum</th>
-            <th>Kunde</th>
-            <th>Total</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="ordersBody">
-          <tr><td colspan="5" style="text-align:center;padding:32px;color:#888;">Lädt...</td></tr>
-        </tbody>
-      </table>
+    <div class="orders-filters">
+      <button class="filter-btn active" onclick="filterOrders('all', this)">Alle</button>
+      <button class="filter-btn" onclick="filterOrders('paid', this)">Bezahlt</button>
+      <button class="filter-btn" onclick="filterOrders('shipped', this)">Versendet</button>
+      <button class="filter-btn" onclick="filterOrders('pending', this)">Ausstehend</button>
+      <button class="filter-btn" onclick="filterOrders('cancelled', this)">Storniert</button>
+    </div>
+
+    <div class="orders-grid" id="ordersGrid">
+      <div class="empty-state">Lädt…</div>
     </div>
   </main>
 
   <script src="admin.js"></script>
   <script>
     requireAuth()
+
+    let allOrders = []
+    let activeFilter = 'all'
+
     loadOrders()
 
     async function loadOrders() {
       try {
-        const orders = await authFetch('/orders')
-        const tbody = document.getElementById('ordersBody')
-        if (!orders || orders.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:32px;color:#888;">Noch keine Bestellungen</td></tr>'
-          return
-        }
-        tbody.innerHTML = orders.map(o => `
+        allOrders = await authFetch('/orders?limit=100')
+        renderOrders()
+      } catch (e) {
+        document.getElementById('ordersGrid').innerHTML = '<div class="empty-state" style="color:#e53e3e;">Fehler beim Laden der Bestellungen</div>'
+      }
+    }
+
+    function filterOrders(status, btn) {
+      activeFilter = status
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      renderOrders()
+    }
+
+    function renderOrders() {
+      const grid = document.getElementById('ordersGrid')
+      const orders = activeFilter === 'all' ? allOrders : allOrders.filter(o => o.status === activeFilter)
+
+      if (!orders || orders.length === 0) {
+        grid.innerHTML = '<div class="empty-state">Keine Bestellungen gefunden</div>'
+        return
+      }
+
+      grid.innerHTML = orders.map(o => {
+        const items = (() => { try { return Array.isArray(o.items) ? o.items : JSON.parse(o.items || '[]') } catch(e) { return [] } })()
+        const currency = o.currency || 'CHF'
+        const total = parseFloat(o.total_price || o.total || 0)
+        const orderNum = '#' + String(o.order_number || o.id?.slice(0,8) || '???').padStart(4, '0')
+        const date = new Date(o.created_at).toLocaleDateString('de-CH', { day:'2-digit', month:'2-digit', year:'numeric' })
+        const isShipped = ['shipped', 'delivered'].includes(o.status)
+
+        const itemRows = items.map(item => `
           <tr>
-            <td><strong>${o.order_number || o.id?.slice(0,8)}</strong></td>
-            <td>${new Date(o.created_at).toLocaleDateString('de-CH')}</td>
-            <td>${o.customer_email || '—'}</td>
-            <td>CHF ${parseFloat(o.total || 0).toFixed(2)}</td>
-            <td><span class="status-badge status-${o.status}">${o.status}</span></td>
+            <td>${item.name_de || item.name || 'Produkt'}${item.variant ? ' <span style="color:#888;font-size:11px;">('+item.variant+')</span>' : ''}</td>
+            <td style="text-align:center;">${item.quantity || 1}</td>
+            <td class="price">${currency} ${(parseFloat(item.price || 0) * (item.quantity || 1)).toFixed(2)}</td>
           </tr>
         `).join('')
-      } catch (e) {
-        document.getElementById('ordersBody').innerHTML = '<tr><td colspan="5" style="text-align:center;padding:32px;color:#e53e3e;">Fehler beim Laden</td></tr>'
+
+        const address = o.address || '—'
+        const country = o.country || ''
+
+        return `
+          <div class="order-card" id="card-${o.id}">
+            <div class="order-card-header" onclick="toggleCard('${o.id}')">
+              <span class="order-num">${orderNum}</span>
+              <span class="order-date">${date}</span>
+              <span class="order-customer">
+                ${o.customer_name || '—'}
+                <br><span class="order-email">${o.customer_email || ''}</span>
+              </span>
+              <span class="order-total">${currency} ${total.toFixed(2)}</span>
+              <span class="status-badge status-${o.status}">${statusLabel(o.status)}</span>
+              <span class="chevron">▾</span>
+            </div>
+
+            <div class="order-detail">
+              <div class="detail-grid">
+                <div class="detail-section">
+                  <h4>Produkte</h4>
+                  <table class="items-table">
+                    <thead>
+                      <tr>
+                        <th>Produkt</th>
+                        <th style="text-align:center;">Menge</th>
+                        <th style="text-align:right;">Preis</th>
+                      </tr>
+                    </thead>
+                    <tbody>${itemRows || '<tr><td colspan="3" style="color:#aaa;">Keine Produkte</td></tr>'}</tbody>
+                  </table>
+                  <div class="items-total">
+                    <span>Total</span>
+                    <span>${currency} ${total.toFixed(2)}</span>
+                  </div>
+                </div>
+
+                <div class="detail-section">
+                  <h4>Lieferadresse</h4>
+                  <div class="detail-address">
+                    <strong>${o.customer_name || '—'}</strong><br>
+                    ${address.replace(/\n/g, '<br>')}<br>
+                    ${country}
+                  </div>
+                  ${o.language ? `<p style="margin-top:12px;font-size:12px;color:#888;">Sprache: <strong>${o.language}</strong></p>` : ''}
+                  ${o.stripe_payment_id ? `<p style="margin-top:6px;font-size:11px;color:#bbb;">Stripe: ${o.stripe_payment_id}</p>` : ''}
+                </div>
+              </div>
+
+              <div class="order-actions">
+                ${isShipped
+                  ? `<button class="btn-ship shipped" disabled>✓ Versendet</button>`
+                  : `<button class="btn-ship" id="ship-${o.id}" onclick="markShipped('${o.id}')">
+                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                       Als versendet markieren
+                     </button>`
+                }
+                <button class="btn-invoice" onclick="resendInvoice('${o.id}', this)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2-2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+                  Rechnung erneut senden
+                </button>
+                <span class="action-msg" id="msg-${o.id}"></span>
+              </div>
+            </div>
+          </div>
+        `
+      }).join('')
+    }
+
+    function toggleCard(id) {
+      document.getElementById('card-' + id).classList.toggle('open')
+    }
+
+    function statusLabel(status) {
+      const map = {
+        pending: 'Ausstehend', paid: 'Bezahlt', shipped: 'Versendet',
+        delivered: 'Geliefert', cancelled: 'Storniert', failed: 'Fehlgeschlagen', refunded: 'Erstattet'
       }
+      return map[status] || status
+    }
+
+    async function markShipped(id) {
+      const btn = document.getElementById('ship-' + id)
+      const msg = document.getElementById('msg-' + id)
+      btn.disabled = true
+      btn.textContent = 'Wird gesendet…'
+
+      try {
+        await authFetch('/orders/' + id + '/status', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'shipped' })
+        })
+        // Update local state
+        const order = allOrders.find(o => o.id === id)
+        if (order) order.status = 'shipped'
+        btn.outerHTML = '<button class="btn-ship shipped" disabled>✓ Versendet</button>'
+        msg.textContent = '✉️ Versandmail wurde gesendet'
+      } catch (e) {
+        btn.disabled = false
+        btn.textContent = 'Als versendet markieren'
+        msg.style.color = '#e53e3e'
+        msg.textContent = 'Fehler: ' + e.message
+      }
+    }
+
+    async function resendInvoice(id, btn) {
+      const msg = document.getElementById('msg-' + id)
+      btn.disabled = true
+      try {
+        await authFetch('/orders/' + id + '/invoice', { method: 'POST' })
+        msg.textContent = '✉️ Rechnung gesendet'
+      } catch (e) {
+        msg.style.color = '#e53e3e'
+        msg.textContent = 'Fehler beim Senden'
+      }
+      btn.disabled = false
     }
   </script>
 </body>

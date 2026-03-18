@@ -1,6 +1,6 @@
 const { sendMail } = require('../config/mailer')
 const { generateInvoicePDF } = require('./generatePDF')
-const { buildEmailHtml } = require('../templates/emailTemplate')
+const { buildEmailHtml, buildShippingEmailHtml } = require('../templates/emailTemplate')
 const { formatOrderNumber } = require('./orderNumber')
 
 /**
@@ -39,4 +39,30 @@ async function sendInvoiceEmail(order) {
   })
 }
 
-module.exports = { sendInvoiceEmail }
+/**
+ * Send shipping confirmation email when admin marks order as shipped.
+ * @param {object} order - full order row from DB
+ */
+async function sendShippingEmail(order) {
+  const orderNum = formatOrderNumber(order.order_number)
+  const lang = order.language || 'de'
+
+  const subjects = {
+    de: `Deine Velunoo Bestellung ${orderNum} wurde versendet 🚚`,
+    'ch-de': `Dini Velunoo Bstellig ${orderNum} isch usgschickt worde 🚚`,
+    en: `Your Velunoo Order ${orderNum} has been shipped 🚚`,
+    fr: `Votre commande Velunoo ${orderNum} a été expédiée 🚚`,
+    it: `Il tuo ordine Velunoo ${orderNum} è stato spedito 🚚`
+  }
+
+  const subject = subjects[lang] || subjects['de']
+  const html = buildShippingEmailHtml(order, lang)
+
+  await sendMail({
+    to: order.customer_email,
+    subject,
+    html
+  })
+}
+
+module.exports = { sendInvoiceEmail, sendShippingEmail }
