@@ -233,7 +233,7 @@ ul   { list-style: none; }
 
 /* ── LOGO ── */
 .nav-logo { flex-shrink: 0; display: flex; align-items: center; gap: 8px; }
-.logo-img  { height: 180px; width: auto; }
+.logo-img  { height: 80px; width: auto; }
 .logo-paw  { height: 42px; width: auto; opacity: 0.85; }
 
 .nav-links { display: flex; gap: 32px; flex: 1; }
@@ -752,7 +752,7 @@ ul   { list-style: none; }
   .nav-links, .nav-actions .btn { display: none; }
   .hamburger { display: flex; }
   .nav-actions { gap: 8px; }
-  .logo-img { height: 128px; }
+  .logo-img { height: 60px; }
   .logo-paw { height: 32px; }
 
   /* Mobile menu bigger tap targets */
@@ -821,7 +821,7 @@ ul   { list-style: none; }
 @media (max-width: 480px) {
   :root { --nav-h: 72px; }
   .container { padding: 0 16px; }
-  .logo-img { height: 112px; }
+  .logo-img { height: 50px; }
   .logo-paw { height: 28px; }
   .hero-card-main { width: 100%; }
   .hero-image-wrapper { width: 260px; height: 260px; }
