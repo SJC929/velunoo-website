@@ -106,6 +106,14 @@
   </style>
 </head>
 <body>
+  <!-- SVG filter: removes white from logo PNG -->
+  <svg style="position:absolute;width:0;height:0;overflow:hidden">
+    <defs>
+      <filter id="remove-white" color-interpolation-filters="sRGB">
+        <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -1 -1 -1 3 0"/>
+      </filter>
+    </defs>
+  </svg>
 
   <!-- ===== NAVBAR ===== -->
   <header class="navbar" id="navbar">
@@ -295,16 +303,8 @@
   <footer class="footer">
     <div class="container footer-grid">
       <div class="footer-brand">
-        <a href="index.html" class="footer-brand-name">Velunoo 🐾</a>
+        <a href="index.html"><img src="brand_assets/Velunoo Logo.png" alt="Velunoo" class="footer-logo" /></a>
         <p>Premium-Produkte mit Liebe für Hunde und Katzen. Das beste Leben für deine pelzigen Familienmitglieder.</p>
-        <div class="social-links">
-          <a href="https://www.instagram.com/velunoo.ch/" target="_blank" rel="noopener" aria-label="Instagram" class="social-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
-          </a>
-          <a href="https://www.tiktok.com/@velunoo.ch" target="_blank" rel="noopener" aria-label="TikTok" class="social-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
-          </a>
-        </div>
       </div>
       <div class="footer-col">
         <h4>Entdecken</h4>

@@ -584,7 +584,7 @@ ul   { list-style: none; }
   display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
   gap: 48px; padding: 72px 24px 56px;
 }
-.footer-logo  { height: 44px; width: auto; margin-bottom: 20px; filter: brightness(0) invert(1); }
+.footer-logo  { height: 44px; width: auto; margin-bottom: 20px; filter: url(#remove-white) brightness(2); }
 .footer-brand-name {
   display: inline-block; margin-bottom: 20px;
   font-size: 24px; font-weight: 900; color: #fff;
@@ -836,9 +836,13 @@ ul   { list-style: none; }
   .features-grid { grid-template-columns: 1fr; }
   .products-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
   .product-card { border-radius: 16px; }
+  .product-card .product-img-wrap { height: 160px; }
+  .product-card .product-info { padding: 14px 12px; }
+  .product-card h3 { font-size: 13px; }
   .footer-grid { grid-template-columns: 1fr; }
   .back-to-top { bottom: 16px; right: 16px; width: 44px; height: 44px; }
   #gameCanvas { height: 320px; }
+  .btn { padding: 13px 22px; font-size: 14px; }
   .btn-large { padding: 15px 30px; font-size: 14px; }
   .newsletter-card { padding: 28px 16px; }
   .feature-card { padding: 24px 18px; }
@@ -847,7 +851,16 @@ ul   { list-style: none; }
   .section-title { font-size: clamp(22px, 7vw, 32px); }
   .section-sub { font-size: 14px; }
   .unboxing-features { grid-template-columns: 1fr; }
+  .unboxing-section { padding: 48px 0; }
   .charity-text { font-size: 14px; }
+  /* Trust bar stacks on small screens */
+  .trust-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
+  /* Promo banner */
+  .promo-inner { flex-direction: column; gap: 12px; text-align: center; }
+  .promo-code { font-size: 18px; }
+  /* Hero CTA stacks cleanly */
+  .hero-cta { flex-direction: column; align-items: center; gap: 12px; }
+  .hero-cta .btn { width: 100%; max-width: 280px; justify-content: center; }
 }
 
 @media (max-width: 390px) {

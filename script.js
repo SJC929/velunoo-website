@@ -427,13 +427,14 @@ document.addEventListener('DOMContentLoaded', () => {
     langBtn.setAttribute('aria-expanded', isOpen);
     langDropdown.setAttribute('aria-hidden', !isOpen);
   });
-  document.addEventListener('click', () => {
-    langDropdown.classList.remove('open');
-    langBtn.setAttribute('aria-expanded', 'false');
+  document.addEventListener('click', e => {
+    if (!langDropdown.contains(e.target) && !langBtn.contains(e.target)) {
+      langDropdown.classList.remove('open');
+      langBtn.setAttribute('aria-expanded', 'false');
+    }
   });
   langDropdown.querySelectorAll('.lang-option').forEach(btn =>
-    btn.addEventListener('click', e => {
-      e.stopPropagation();
+    btn.addEventListener('click', () => {
       applyLang(btn.dataset.lang);
       langDropdown.classList.remove('open');
       langBtn.setAttribute('aria-expanded', 'false');
