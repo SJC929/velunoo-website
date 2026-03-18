@@ -43,8 +43,8 @@
     height: 64px;
     position: sticky; top: 0; z-index: 100;
   }
-  .logo { display:flex; align-items:center; gap:8px; font-family:'DM Serif Display'; font-size:22px; color:var(--green-dark); text-decoration:none; }
-  .logo svg { width:28px; height:28px; }
+  .logo { display:flex; align-items:center; gap:8px; text-decoration:none; }
+  .logo img { height:48px; width:auto; }
   nav ul { list-style:none; display:flex; gap:2rem; }
   nav ul li a { text-decoration:none; color:var(--text-muted); font-size:15px; transition:color .2s; }
   nav ul li a:hover { color:var(--green-dark); }
@@ -493,11 +493,7 @@
 <!-- NAV -->
 <nav>
   <a class="logo" href="index.html">
-    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M4 22 L14 4 L24 22" stroke="#4A7C23" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M8 16 L20 16" stroke="#4A7C23" stroke-width="2" stroke-linecap="round"/>
-    </svg>
-    Velunoo
+    <img src="brand_assets/Velunoo Logo.png" alt="Velunoo">
   </a>
   <ul>
     <li><a href="warum-velunoo.html" data-i18n="nav.why">Warum Velunoo</a></li>
