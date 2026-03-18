@@ -122,10 +122,10 @@
         <img src="brand_assets/Velunoo Logo.png" alt="Velunoo" class="logo-img" />
       </a>
       <nav class="nav-links">
-        <a href="warum-velunoo.html" style="color:var(--green-dark)">Warum Velunoo</a>
-        <a href="index.html#game">Spielen</a>
-        <a href="index.html#testimonials">Bewertungen</a>
-        <a href="contact.html">Kontakt</a>
+        <a href="warum-velunoo.html" style="color:var(--green-dark)" data-i18n="nav.why">Warum Velunoo</a>
+        <a href="index.html#game" data-i18n="nav.play">Spielen</a>
+        <a href="index.html#testimonials" data-i18n="nav.reviews">Bewertungen</a>
+        <a href="contact.html" data-i18n="nav.contact">Kontakt</a>
       </nav>
       <div class="nav-actions">
         <a href="index.html#products" class="btn btn-primary">Produkte entdecken</a>
@@ -377,6 +377,26 @@
       });
     }, { threshold: 0.1 });
     document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
+  </script>
+  <script>
+  // Apply saved language from localStorage (syncs with all pages)
+  (function() {
+    const t = {
+      de:    { 'nav.why':'Warum Velunoo','nav.play':'Spielen','nav.reviews':'Bewertungen','nav.contact':'Kontakt' },
+      'ch-de':{ 'nav.why':'Warum Velunoo','nav.play':'Spile','nav.reviews':'Bwertinge','nav.contact':'Kontakt' },
+      en:    { 'nav.why':'Why Velunoo','nav.play':'Play','nav.reviews':'Reviews','nav.contact':'Contact' },
+      fr:    { 'nav.why':'Pourquoi Velunoo','nav.play':'Jouer','nav.reviews':'Avis','nav.contact':'Contact' },
+      it:    { 'nav.why':'Perché Velunoo','nav.play':'Giocare','nav.reviews':'Recensioni','nav.contact':'Contatto' },
+    };
+    try {
+      const lang = localStorage.getItem('velunoo-lang') || 'de';
+      const tr = t[lang] || t.de;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const v = tr[el.getAttribute('data-i18n')];
+        if (v) el.textContent = v;
+      });
+    } catch(e) {}
+  })();
   </script>
 </body>
 </html>
