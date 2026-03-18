@@ -44,7 +44,7 @@
     position: sticky; top: 0; z-index: 100;
   }
   .logo { display:flex; align-items:center; gap:8px; text-decoration:none; }
-  .logo img { height:48px; width:auto; }
+  .logo img { height:68px; width:auto; }
   nav ul { list-style:none; display:flex; gap:2rem; }
   nav ul li a { text-decoration:none; color:var(--text-muted); font-size:15px; transition:color .2s; }
   nav ul li a:hover { color:var(--green-dark); }
@@ -486,6 +486,84 @@
   }
   .b-lang-drop button:hover { background: var(--green-pale); color: var(--green-dark); }
   .b-lang-drop button.active { background: var(--green-pale); color: var(--green-dark); font-weight: 700; }
+
+  /* ── Fetch Game ── */
+  .game-section-bundle {
+    background: var(--green-pale, #f2f7eb);
+    padding: 56px 1.5rem;
+    text-align: center;
+  }
+  .game-section-bundle .section-tag {
+    display: inline-block;
+    background: var(--green-light, #77AE3A);
+    color: #fff; font-size: 11px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase;
+    padding: 4px 14px; border-radius: 999px; margin-bottom: 12px;
+  }
+  .game-section-bundle h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    color: var(--green-dark); margin: 0 0 8px;
+  }
+  .game-section-bundle p {
+    color: #666; font-size: 15px; margin: 0 0 28px;
+  }
+  .game-wrapper-bundle { max-width: 860px; margin: 0 auto; }
+  .game-container-bundle {
+    position: relative; border-radius: 20px;
+    overflow: hidden; box-shadow: 0 6px 28px rgba(35,76,47,.13);
+    background: linear-gradient(180deg, #D4EDFF 0%, #E8F5D0 60%, #C8E6A0 100%);
+    cursor: crosshair; user-select: none;
+  }
+  #bundleGameCanvas { display: block; width: 100%; height: 420px; touch-action: none; }
+  .game-overlay-bundle {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 16px;
+    background: linear-gradient(180deg, rgba(212,237,255,.92) 0%, rgba(200,230,160,.92) 100%);
+    backdrop-filter: blur(4px); z-index: 10;
+  }
+  .game-overlay-dog-bundle { font-size: 80px; animation: float 3s ease-in-out infinite; }
+  .game-overlay-sub-bundle { font-size: 14px; color: #777; font-weight: 600; }
+  .game-ui-bundle {
+    position: absolute; inset: 0; pointer-events: none; z-index: 5;
+  }
+  .game-hint-bundle {
+    position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+    background: rgba(255,255,255,.85); backdrop-filter: blur(6px);
+    padding: 8px 20px; border-radius: 100px;
+    font-size: 13px; font-weight: 600; color: var(--green-dark);
+    box-shadow: 0 2px 8px rgba(0,0,0,.08); white-space: nowrap;
+    transition: opacity .4s ease;
+  }
+  .game-hint-bundle.hidden { opacity: 0; }
+  .game-score-bundle {
+    position: absolute; top: 14px; right: 16px;
+    background: rgba(255,255,255,.85); backdrop-filter: blur(6px);
+    padding: 6px 16px; border-radius: 100px;
+    font-size: 13px; font-weight: 600; color: var(--green-dark);
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  }
+  .game-actions-bundle { display: flex; justify-content: center; margin-top: 20px; }
+  .game-restart-btn {
+    background: none; border: 2px solid var(--green-dark);
+    color: var(--green-dark); font-family: 'DM Sans', sans-serif;
+    font-size: 15px; font-weight: 600;
+    padding: 10px 28px; border-radius: 999px; cursor: pointer;
+    transition: background .2s, color .2s;
+  }
+  .game-restart-btn:hover { background: var(--green-dark); color: #fff; }
+  .game-start-btn-bundle {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--green-dark); color: #fff;
+    border: none; border-radius: 999px;
+    font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 700;
+    padding: 14px 32px; cursor: pointer;
+    transition: background .2s; box-shadow: 0 4px 14px rgba(35,76,47,.25);
+  }
+  .game-start-btn-bundle:hover { background: var(--green-medium, #4F7A46); }
+  @media (max-width: 600px) {
+    #bundleGameCanvas { height: 320px; }
+  }
 </style>
 </head>
 <body>
@@ -590,6 +668,33 @@
     <div class="secure-note">🔒 <span data-i18n="cart.secure">Sicher & verschlüsselt bezahlen</span></div>
   </div>
 </div>
+
+<!-- FETCH GAME -->
+<section class="game-section-bundle">
+  <div class="section-tag">Spielen</div>
+  <h2>Wirf den Ball für Max!</h2>
+  <p>Ziehe & wirf den Ball — Max holt ihn zurück!</p>
+  <div class="game-wrapper-bundle">
+    <div class="game-container-bundle" id="bundleGameContainer">
+      <canvas id="bundleGameCanvas"></canvas>
+      <div class="game-overlay-bundle" id="bundleGameOverlay">
+        <div class="game-overlay-dog-bundle">🐕</div>
+        <p class="game-overlay-sub-bundle">Triff Max — er liebt es zu spielen!</p>
+        <button class="game-start-btn-bundle" id="bundleGameStartBtn">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="18"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Spiel starten
+        </button>
+      </div>
+      <div class="game-ui-bundle" id="bundleGameUI" style="display:none">
+        <div class="game-hint-bundle" id="bundleGameHint">👆 Ziehen zum Werfen</div>
+        <div class="game-score-bundle">Würfe: <strong id="bundleThrowCount">0</strong></div>
+      </div>
+    </div>
+    <div class="game-actions-bundle" id="bundleGameActions" style="display:none">
+      <button class="game-restart-btn" id="bundleGameRestartBtn">Nochmal spielen</button>
+    </div>
+  </div>
+</section>
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
@@ -1100,6 +1205,214 @@ function applyBundleLang(lang) {
   // Save
   try { localStorage.setItem('velunoo-lang', lang); } catch(e) {}
 }
+
+// ── Fetch Game (Bundle Page) ──
+(function initBundleFetchGame() {
+  const canvas      = document.getElementById('bundleGameCanvas');
+  if (!canvas) return;
+  const ctx         = canvas.getContext('2d');
+  const overlay     = document.getElementById('bundleGameOverlay');
+  const gameUI      = document.getElementById('bundleGameUI');
+  const gameActions = document.getElementById('bundleGameActions');
+  const startBtn    = document.getElementById('bundleGameStartBtn');
+  const restartBtn  = document.getElementById('bundleGameRestartBtn');
+  const throwCountEl= document.getElementById('bundleThrowCount');
+  const hintEl      = document.getElementById('bundleGameHint');
+
+  if (!CanvasRenderingContext2D.prototype.roundRect) {
+    CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+      this.beginPath();
+      this.moveTo(x+r, y); this.lineTo(x+w-r, y);
+      this.quadraticCurveTo(x+w, y, x+w, y+r); this.lineTo(x+w, y+h-r);
+      this.quadraticCurveTo(x+w, y+h, x+w-r, y+h); this.lineTo(x+r, y+h);
+      this.quadraticCurveTo(x, y+h, x, y+h-r); this.lineTo(x, y+r);
+      this.quadraticCurveTo(x, y, x+r, y); this.closePath();
+    };
+  }
+
+  function resize() { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
+  resize();
+  window.addEventListener('resize', () => { resize(); if (gameStarted) drawFrame(); });
+
+  const GRAVITY = 0.44, GND_PCT = 0.80, DOG_HOME_X = 85, DOG_SPEED = 5;
+  let gameStarted = false, throwCount = 0;
+  let state = 'ready';
+  let dog = { x: DOG_HOME_X, facingRight: true, bobY: 0, bobPhase: 0 };
+  let ball = { x: 0, y: 0, vx: 0, vy: 0, active: false };
+  let dragStart = null, dragCurrent = null;
+
+  function gnd() { return canvas.height * GND_PCT; }
+  function canvasPos(e) {
+    const r = canvas.getBoundingClientRect();
+    const c = e.changedTouches ? e.changedTouches[0] : e.touches ? e.touches[0] : e;
+    return { x: c.clientX - r.left, y: c.clientY - r.top };
+  }
+
+  startBtn.addEventListener('click', () => {
+    overlay.style.display = 'none'; gameUI.style.display = 'block';
+    gameStarted = true; resetRound(); loop();
+  });
+  restartBtn.addEventListener('click', () => {
+    gameActions.style.display = 'none'; gameUI.style.display = 'block';
+    throwCount = 0; updateCount(); resetRound(); loop();
+  });
+
+  function resetRound() {
+    const gy = gnd();
+    dog.x = DOG_HOME_X; dog.facingRight = true; dog.bobPhase = 0; dog.bobY = 0;
+    ball.active = true; ball.x = DOG_HOME_X + 70; ball.y = gy - 18; ball.vx = 0; ball.vy = 0;
+    state = 'ready'; hintEl.classList.remove('hidden'); dragStart = null; dragCurrent = null;
+  }
+  function updateCount() { if (throwCountEl) throwCountEl.textContent = throwCount; }
+
+  canvas.addEventListener('mousedown',  e => onDown(canvasPos(e)));
+  canvas.addEventListener('mousemove',  e => onMove(canvasPos(e)));
+  canvas.addEventListener('mouseup',    e => onUp(canvasPos(e)));
+  canvas.addEventListener('mouseleave', () => { if (state === 'aiming') { state = 'ready'; dragStart = null; } });
+  canvas.addEventListener('touchstart', e => { e.preventDefault(); onDown(canvasPos(e)); }, { passive: false });
+  canvas.addEventListener('touchmove',  e => { e.preventDefault(); onMove(canvasPos(e)); }, { passive: false });
+  canvas.addEventListener('touchend',   e => { e.preventDefault(); onUp(canvasPos(e)); },  { passive: false });
+
+  function onDown(p) { if (!gameStarted || state !== 'ready') return; dragStart = p; dragCurrent = p; state = 'aiming'; }
+  function onMove(p) { if (state === 'aiming') dragCurrent = p; }
+  function onUp(p) {
+    if (state !== 'aiming' || !dragStart) return;
+    const dx = p.x - dragStart.x, dy = p.y - dragStart.y, len = Math.hypot(dx, dy);
+    if (len < 8) { state = 'ready'; dragStart = null; return; }
+    const power = Math.min(len / 11, 20), angle = Math.atan2(dy, dx);
+    ball.x = canvas.width * 0.35; ball.y = gnd() - 55;
+    ball.vx = Math.cos(angle) * power; ball.vy = Math.sin(angle) * power - 2.5;
+    ball.active = true; dog.facingRight = ball.vx >= 0;
+    state = 'flying'; throwCount++; updateCount();
+    hintEl.classList.add('hidden'); dragStart = null; dragCurrent = null;
+  }
+
+  function update() {
+    const gy = gnd();
+    if (state === 'flying') {
+      dog.facingRight = ball.x > dog.x; dog.bobPhase += 0.05;
+      ball.vy += GRAVITY; ball.x += ball.vx; ball.y += ball.vy;
+      if (ball.x < 12) { ball.x = 12; ball.vx *= -0.5; }
+      if (ball.x > canvas.width-12) { ball.x = canvas.width-12; ball.vx *= -0.5; }
+      if (ball.y >= gy - 12) {
+        ball.y = gy - 12; ball.vy *= -0.36; ball.vx *= 0.74;
+        if (Math.abs(ball.vy) < 1.5 && Math.abs(ball.vx) < 0.8) { ball.vy = 0; ball.vx = 0; state = 'fetching'; }
+      }
+    }
+    if (state === 'fetching') {
+      const dx = ball.x - dog.x; dog.facingRight = dx > 0;
+      if (Math.abs(dx) > DOG_SPEED + 1) { dog.x += Math.sign(dx) * DOG_SPEED; dog.bobPhase += 0.38; dog.bobY = Math.sin(dog.bobPhase) * 4; }
+      else { dog.x = ball.x; ball.active = false; state = 'returning'; }
+    }
+    if (state === 'returning') {
+      const dx = DOG_HOME_X - dog.x; dog.facingRight = dx > 0;
+      if (Math.abs(dx) > DOG_SPEED + 1) {
+        dog.x += Math.sign(dx) * DOG_SPEED; dog.bobPhase += 0.38; dog.bobY = Math.sin(dog.bobPhase) * 4;
+        ball.active = true; ball.x = dog.x + (dog.facingRight ? 32 : -32); ball.y = gy - 38;
+      } else {
+        dog.x = DOG_HOME_X; dog.bobY = 0; dog.facingRight = true;
+        ball.active = true; ball.x = DOG_HOME_X + 55; ball.y = gy - 14;
+        state = 'ready'; hintEl.classList.remove('hidden');
+      }
+    }
+    if (state === 'ready' || state === 'aiming') { dog.bobPhase += 0.04; dog.bobY = Math.sin(dog.bobPhase) * 2; }
+  }
+
+  function drawFrame() {
+    const W = canvas.width, H = canvas.height, gy = gnd();
+    ctx.clearRect(0, 0, W, H);
+    const sky = ctx.createLinearGradient(0, 0, 0, gy);
+    sky.addColorStop(0, '#BDE0FF'); sky.addColorStop(1, '#DDF2C8');
+    ctx.fillStyle = sky; ctx.fillRect(0, 0, W, gy);
+    drawCloud(W * 0.18, H * 0.14, 0.65); drawCloud(W * 0.65, H * 0.08, 0.48);
+    const grd = ctx.createLinearGradient(0, gy, 0, H);
+    grd.addColorStop(0, '#6DB535'); grd.addColorStop(0.4, '#4E9A22'); grd.addColorStop(1, '#357015');
+    ctx.fillStyle = grd; ctx.fillRect(0, gy, W, H - gy);
+    ctx.fillStyle = 'rgba(255,255,255,.22)'; ctx.fillRect(0, gy, W, 3);
+    if (state === 'aiming' && dragStart && dragCurrent) drawAim(dragStart, dragCurrent, canvas.width * 0.35, gy - 55);
+    if (state === 'ready' || state === 'aiming') {
+      ctx.save();
+      const hs = Math.max(32, Math.round(canvas.height * 0.1));
+      ctx.font = `${hs}px serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.globalAlpha = 0.5; ctx.fillText('🙋', canvas.width * 0.35, gy - hs * 1.8); ctx.restore();
+    }
+    if (ball.active) {
+      ctx.save();
+      const bs = Math.max(28, Math.round(canvas.height * 0.09));
+      ctx.font = `${bs}px serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('🎾', ball.x, ball.y); ctx.restore();
+    }
+    drawDog(dog.x, gy + dog.bobY, dog.facingRight);
+  }
+
+  function drawCloud(x, y, s) {
+    ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
+    ctx.fillStyle = 'rgba(255,255,255,.78)'; ctx.beginPath();
+    ctx.arc(0, 0, 28, 0, Math.PI*2); ctx.arc(26, -8, 22, 0, Math.PI*2);
+    ctx.arc(50, 0, 25, 0, Math.PI*2); ctx.arc(25, 10, 19, 0, Math.PI*2);
+    ctx.fill(); ctx.restore();
+  }
+
+  function drawAim(from, to, lx, ly) {
+    const dx = to.x - from.x, dy = to.y - from.y, len = Math.hypot(dx, dy);
+    if (len < 4) return;
+    const power = Math.min(len / 11, 20), angle = Math.atan2(dy, dx);
+    const vx = Math.cos(angle) * power, vy = Math.sin(angle) * power - 2.5;
+    const gy = gnd();
+    ctx.save(); ctx.strokeStyle = 'rgba(35,76,47,.45)'; ctx.lineWidth = 2; ctx.setLineDash([5, 8]); ctx.beginPath();
+    let px = lx, py = ly, pvx = vx, pvy = vy; ctx.moveTo(px, py);
+    for (let i = 0; i < 32; i++) { pvy += GRAVITY; px += pvx; py += pvy; if (py > gy) break; ctx.lineTo(px, py); }
+    ctx.stroke(); ctx.setLineDash([]);
+    ctx.strokeStyle = 'rgba(119,174,58,.9)'; ctx.lineWidth = 3; ctx.lineCap = 'round';
+    const al = Math.min(len * 0.55, 65);
+    const ex = lx + Math.cos(angle) * al, ey = ly + Math.sin(angle) * al;
+    ctx.beginPath(); ctx.moveTo(lx, ly); ctx.lineTo(ex, ey); ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(ex, ey); ctx.lineTo(ex - Math.cos(angle-0.5)*11, ey - Math.sin(angle-0.5)*11);
+    ctx.moveTo(ex, ey); ctx.lineTo(ex - Math.cos(angle+0.5)*11, ey - Math.sin(angle+0.5)*11);
+    ctx.stroke(); ctx.restore();
+  }
+
+  function drawDog(cx, gy, facingRight) {
+    ctx.save(); ctx.translate(cx, gy);
+    if (!facingRight) ctx.scale(-1, 1);
+    const run = (state === 'fetching' || state === 'returning');
+    const sw = run ? Math.sin(dog.bobPhase * 2.2) * 10 : 0;
+    ctx.fillStyle = 'rgba(0,0,0,0.10)'; ctx.beginPath(); ctx.ellipse(0, -2, 30, 6, 0, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#A86225'; rr(-22, -30 + sw*0.6, 12, 30, 6); rr(8, -30 - sw*0.6, 12, 30, 6);
+    ctx.fillStyle = '#E29040'; ctx.beginPath(); ctx.ellipse(-2, -44, 34, 24, 0, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#F5B060'; ctx.beginPath(); ctx.ellipse(2, -37, 18, 14, 0, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#C47830'; rr(-13, -26 - sw, 12, 28, 6); rr(2, -26 + sw, 12, 28, 6);
+    ctx.fillStyle = '#E29040'; ctx.beginPath(); ctx.ellipse(24, -58, 15, 13, -0.3, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#E29040'; ctx.beginPath(); ctx.arc(30, -72, 23, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#A86225'; ctx.save(); ctx.translate(41, -88); ctx.rotate(0.35); ctx.beginPath(); ctx.ellipse(0, 6, 10, 15, 0, 0, Math.PI*2); ctx.fill(); ctx.restore();
+    ctx.fillStyle = '#C47830'; ctx.beginPath(); ctx.ellipse(48, -66, 14, 10, 0, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#D89050'; ctx.beginPath(); ctx.ellipse(51, -64, 9, 7, 0, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(33, -78, 6, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#1A1008'; ctx.beginPath(); ctx.arc(34, -77, 4, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(35.5, -78.5, 1.5, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#1A1008'; ctx.beginPath(); ctx.ellipse(57, -68, 5, 4, 0, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,.3)'; ctx.beginPath(); ctx.ellipse(55.5, -69.5, 2, 1.5, -0.5, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = '#1A1008'; ctx.lineWidth = 1.5; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(52, -61); ctx.quadraticCurveTo(57, -57, 62, -61); ctx.stroke();
+    if (run) {
+      ctx.fillStyle = '#F07878'; ctx.beginPath(); ctx.ellipse(57, -54, 5, 6, 0.15, 0, Math.PI*2); ctx.fill();
+      ctx.strokeStyle = '#D05858'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(57, -55); ctx.lineTo(57, -49); ctx.stroke();
+    }
+    const tailWag = (state === 'ready' || state === 'aiming') ? Math.sin(dog.bobPhase * 1.6) * 18 : -8;
+    ctx.strokeStyle = '#B07028'; ctx.lineWidth = 8; ctx.lineCap = 'round';
+    ctx.save(); ctx.translate(-34, -50);
+    const rad = (tailWag * Math.PI) / 180;
+    ctx.beginPath(); ctx.moveTo(0, 0); ctx.quadraticCurveTo(-12, -16, -9 + Math.sin(rad)*14, -32 + Math.cos(rad)*6); ctx.stroke(); ctx.restore();
+    ctx.fillStyle = '#77AE3A'; ctx.beginPath(); ctx.roundRect(13, -62, 24, 8, 4); ctx.fill();
+    ctx.fillStyle = '#9DC840'; ctx.beginPath(); ctx.roundRect(13, -62, 24, 3.5, 4); ctx.fill();
+    ctx.fillStyle = '#234C2F'; ctx.beginPath(); ctx.arc(25, -54, 3.5, 0, Math.PI*2); ctx.fill();
+    if (state === 'returning' && ball.active) { ctx.font = '16px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('🎾', 64, -60); }
+    ctx.restore();
+  }
+
+  function rr(x, y, w, h, r) { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); ctx.fill(); }
+  function loop() { update(); drawFrame(); requestAnimationFrame(loop); }
+})();
 
 // Init lang switcher
 (function() {
