@@ -361,7 +361,7 @@
   .cart-item-info { flex:1; min-width:0; }
   .cart-item-name { font-weight:600; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .cart-item-variant { font-size:11px; color:var(--text-muted); }
-  .cart-item-price { font-weight:700; font-size:14px; color:var(--green-dark); flex-shrink:0; }
+  .cart-item-price { display: none; }
   .remove-btn {
     background:none; border:none; color:var(--text-muted); cursor:pointer;
     font-size:18px; line-height:1; padding:2px 4px;
@@ -1095,11 +1095,9 @@ function renderCart() {
     </div>
   `).join('');
 
-  const total = cart.reduce((sum, i) => sum + parseFloat(i.price || 0), 0);
-  const skg = (total * 0.02).toFixed(2);
-  document.getElementById('subtotal').textContent = 'CHF ' + total.toFixed(2);
-  document.getElementById('total').textContent = 'CHF ' + total.toFixed(2);
-  document.getElementById('skgAmount').textContent = 'CHF ' + skg;
+  document.getElementById('subtotal').textContent = 'CHF 100.00';
+  document.getElementById('total').textContent = 'CHF 100.00';
+  document.getElementById('skgAmount').textContent = 'CHF 2.00';
 }
 
 function checkout() {
