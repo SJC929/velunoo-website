@@ -388,6 +388,8 @@
   .cart-row { display:flex; justify-content:space-between; font-size:13px; margin-bottom:6px; }
   .cart-row.total { font-weight:700; font-size:16px; color:var(--green-dark); margin-top:4px; }
   .cart-row .label { color:var(--text-muted); }
+  .cart-row.discount { color: #c0392b; }
+  .price-original { text-decoration: line-through; color: #aaa; font-size: 12px; }
 
   .checkout-btn {
     width: 100%;
@@ -665,9 +667,10 @@
 
     <div id="cartTotals" style="display:none">
       <div class="cart-divider"></div>
-      <div class="cart-row"><span class="label" data-i18n="cart.price">Bundle-Preis</span><span id="subtotal">CHF 100.00</span></div>
-      <div class="cart-row"><span class="label" data-i18n="cart.shipping">Versand</span><span data-i18n="cart.free">Kostenlos</span></div>
-      <div class="cart-row total"><span data-i18n="cart.total">Total</span><span id="total">0.00 CHF</span></div>
+      <div class="cart-row"><span class="label">Normalpreis</span><span class="price-original">CHF 120.00</span></div>
+      <div class="cart-row discount"><span class="label">Rabatt</span><span>− CHF 20.05</span></div>
+      <div class="cart-row"><span class="label">Versand</span><span>Kostenlos</span></div>
+      <div class="cart-row total"><span>Total</span><span id="total">CHF 99.95</span></div>
       <div class="skg-note">
         <span class="skg-icon">🐕</span>
         <span><strong>2 %</strong> (<span id="skgAmount">CHF 0.00</span>) gehen an <strong>SKG</strong> – Schweizerische Kynologische Gesellschaft</span>
@@ -1095,8 +1098,7 @@ function renderCart() {
     </div>
   `).join('');
 
-  document.getElementById('subtotal').textContent = 'CHF 100.00';
-  document.getElementById('total').textContent = 'CHF 100.00';
+  document.getElementById('total').textContent = 'CHF 99.95';
   document.getElementById('skgAmount').textContent = 'CHF 2.00';
 }
 
