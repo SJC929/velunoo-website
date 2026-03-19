@@ -421,6 +421,14 @@
     justify-content: center;
     gap: 4px;
   }
+  .skg-note {
+    display: flex; align-items: center; gap: 6px;
+    background: #f0f7e8; border: 1px solid #c8e6a0;
+    border-radius: 8px; padding: 7px 10px;
+    font-size: 11px; color: var(--green-dark);
+    margin-top: 10px; line-height: 1.4;
+  }
+  .skg-note .skg-icon { font-size: 15px; flex-shrink: 0; }
 
   /* ── CATEGORY SECTION ──────────────────────────── */
   .category-section { display: none; }
@@ -660,6 +668,10 @@
       <div class="cart-row"><span class="label" data-i18n="cart.price">Bundle-Preis</span><span id="subtotal">CHF 100.00</span></div>
       <div class="cart-row"><span class="label" data-i18n="cart.shipping">Versand</span><span data-i18n="cart.free">Kostenlos</span></div>
       <div class="cart-row total"><span data-i18n="cart.total">Total</span><span id="total">0.00 CHF</span></div>
+      <div class="skg-note">
+        <span class="skg-icon">🐕</span>
+        <span><strong>2 %</strong> gehen an <strong>SKG</strong> – Schweizerische Kynologische Gesellschaft</span>
+      </div>
     </div>
 
     <button class="checkout-btn" id="checkoutBtn" disabled onclick="checkout()">
