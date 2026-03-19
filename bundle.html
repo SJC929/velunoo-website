@@ -670,7 +670,7 @@
       <div class="cart-row total"><span data-i18n="cart.total">Total</span><span id="total">0.00 CHF</span></div>
       <div class="skg-note">
         <span class="skg-icon">🐕</span>
-        <span><strong>2 %</strong> gehen an <strong>SKG</strong> – Schweizerische Kynologische Gesellschaft</span>
+        <span><strong>2 %</strong> (<span id="skgAmount">CHF 0.00</span>) gehen an <strong>SKG</strong> – Schweizerische Kynologische Gesellschaft</span>
       </div>
     </div>
 
@@ -1095,8 +1095,11 @@ function renderCart() {
     </div>
   `).join('');
 
-  document.getElementById('subtotal').textContent = 'CHF 100.00';
-  document.getElementById('total').textContent = 'CHF 100.00';
+  const total = cart.reduce((sum, i) => sum + parseFloat(i.price || 0), 0);
+  const skg = (total * 0.02).toFixed(2);
+  document.getElementById('subtotal').textContent = 'CHF ' + total.toFixed(2);
+  document.getElementById('total').textContent = 'CHF ' + total.toFixed(2);
+  document.getElementById('skgAmount').textContent = 'CHF ' + skg;
 }
 
 function checkout() {
