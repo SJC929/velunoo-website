@@ -166,6 +166,7 @@
     async function loadYear() {
       selectedYear = parseInt(document.getElementById('yearSelect').value)
       try { allOrders = await authFetch('/orders') || [] } catch { allOrders = [] }
+      await loadAllTransactions()
       renderAll()
     }
 

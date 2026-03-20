@@ -84,6 +84,17 @@ CREATE TABLE IF NOT EXISTS admins (
   password_hash TEXT NOT NULL
 );
 
+-- Transaktionen (Buchhaltung / Finanzen)
+CREATE TABLE IF NOT EXISTS transactions (
+  id          UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  date        DATE NOT NULL,
+  type        TEXT NOT NULL CHECK (type IN ('aufwand', 'ertrag')),
+  category    TEXT NOT NULL,
+  amount      DECIMAL(10,2) NOT NULL CHECK (amount > 0),
+  description TEXT,
+  created_at  TIMESTAMP DEFAULT NOW()
+);
+
 -- ── Indexes ─────────────────────────────────────────────────────────────────
 CREATE INDEX IF NOT EXISTS idx_products_category ON products(category);
 CREATE INDEX IF NOT EXISTS idx_products_active   ON products(active);
@@ -91,6 +102,8 @@ CREATE INDEX IF NOT EXISTS idx_product_images_product ON product_images(product_
 CREATE INDEX IF NOT EXISTS idx_cart_items_cart   ON cart_items(cart_id);
 CREATE INDEX IF NOT EXISTS idx_orders_email      ON orders(customer_email);
 CREATE INDEX IF NOT EXISTS idx_orders_status     ON orders(status);
+CREATE INDEX IF NOT EXISTS idx_transactions_date ON transactions(date);
+CREATE INDEX IF NOT EXISTS idx_transactions_type ON transactions(type);
 
 -- ── Row Level Security ────────────────────────────────────────────────────
 -- Products: public read, service role write

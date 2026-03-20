@@ -148,7 +148,7 @@
       const label = document.getElementById('periodSelect').selectedOptions[0]?.text || ''
       document.getElementById('entriesTitle').textContent = `Einträge — ${label}`
 
-      // Bestellungs-Umsatz laden
+      // Bestellungs-Umsatz + Transaktionen laden
       try {
         const orders = await authFetch('/orders')
         currentRevenue = (orders || [])
@@ -160,6 +160,7 @@
           .reduce((s, o) => s + parseFloat(o.total || 0), 0)
       } catch { currentRevenue = 0 }
 
+      await loadAllTransactions()
       renderEntries()
       updateBanner()
     }
@@ -229,7 +230,7 @@
       }
     }
 
-    function addEntry() {
+    async function addEntry() {
       const date = document.getElementById('txDate').value
       const type = document.getElementById('txType').value
       const category = document.getElementById('txCategory').value
@@ -239,7 +240,7 @@
       if (!date) { showAdminToast('Bitte Datum auswählen', true); return }
       if (!amount || amount <= 0) { showAdminToast('Bitte gültigen Betrag eingeben', true); return }
 
-      addTransaction({ date, type, category, amount, description })
+      await addTransaction({ date, type, category, amount, description })
       document.getElementById('txAmount').value = ''
       document.getElementById('txDesc').value = ''
       renderEntries()
@@ -247,9 +248,9 @@
       showAdminToast('Eintrag gespeichert ✅')
     }
 
-    function removeEntry(id) {
+    async function removeEntry(id) {
       if (!confirm('Eintrag löschen?')) return
-      deleteTransaction(id)
+      await deleteTransaction(id)
       renderEntries()
       updateBanner()
       showAdminToast('Eintrag gelöscht')

@@ -120,6 +120,7 @@
           authFetch('/orders'),
           authFetch('/newsletter')
         ])
+        await loadAllTransactions()
         document.getElementById('statProducts').textContent = products?.length ?? '—'
         document.getElementById('statOrders').textContent = orders?.length ?? '—'
         document.getElementById('statNewsletter').textContent = newsletter?.length ?? '—'

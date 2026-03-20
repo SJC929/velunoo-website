@@ -95,30 +95,39 @@ const ERTRAG_KATEGORIEN = {
   sonstige_einnahmen:'💡 Sonstige Einnahmen'
 }
 
+// In-Memory Cache — wird via loadAllTransactions() befüllt
+let _txCache = []
+
+async function loadAllTransactions() {
+  try {
+    const data = await authFetch('/transactions')
+    _txCache = Array.isArray(data) ? data : []
+  } catch { _txCache = [] }
+}
+
 function getAllTransactions() {
-  try { return JSON.parse(localStorage.getItem('velunoo_transactions') || '[]') } catch { return [] }
+  return _txCache
 }
 
-function saveAllTransactions(list) {
-  localStorage.setItem('velunoo_transactions', JSON.stringify(list))
+async function addTransaction(tx) {
+  await authFetch('/transactions', {
+    method: 'POST',
+    body: JSON.stringify(tx)
+  })
+  await loadAllTransactions()
 }
 
-function addTransaction(tx) {
-  const list = getAllTransactions()
-  list.push({ ...tx, id: crypto.randomUUID(), created_at: new Date().toISOString() })
-  saveAllTransactions(list)
-}
-
-function deleteTransaction(id) {
-  saveAllTransactions(getAllTransactions().filter(t => t.id !== id))
+async function deleteTransaction(id) {
+  await authFetch(`/transactions/${id}`, { method: 'DELETE' })
+  await loadAllTransactions()
 }
 
 function getTransactionsByPeriod(period) {
-  return getAllTransactions().filter(t => t.date?.startsWith(period))
+  return _txCache.filter(t => t.date?.startsWith(period))
 }
 
 function getTransactionsByYear(year) {
-  return getAllTransactions().filter(t => t.date?.startsWith(String(year)))
+  return _txCache.filter(t => t.date?.startsWith(String(year)))
 }
 
 function getTotalKosten(period) {
@@ -131,9 +140,4 @@ function getTotalErtrag(period) {
   return getTransactionsByPeriod(period)
     .filter(t => t.type === 'ertrag')
     .reduce((s, t) => s + (parseFloat(t.amount) || 0), 0)
-}
-
-/* Legacy compatibility (für alte Daten) */
-function getFinanzenData() {
-  try { return JSON.parse(localStorage.getItem('velunoo_finanzen') || '{}') } catch { return {} }
 }
