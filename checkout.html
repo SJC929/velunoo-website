@@ -335,7 +335,7 @@ async function submitCheckout(e) {
   const orderItems = items.map(item => ({
     name: item.name,
     quantity: 1,
-    price: 100 / (items.length || 1),
+    price: 99.95 / (items.length || 1),
     icon: item.icon,
     variant: item.variant,
   }));
@@ -359,7 +359,7 @@ async function submitCheckout(e) {
         country,
         language: lang,
         items: orderItems,
-        total_price: 100,
+        total_price: 99.95,
         currency: 'CHF',
       }),
     });
@@ -375,7 +375,7 @@ async function submitCheckout(e) {
         orderId: order.id,
         customerEmail: email,
         currency: 'chf',
-        items: [{ name: 'Velunoo Bundle', price: 100, quantity: 1 }],
+        items: [{ name: 'Velunoo Bundle', price: 99.95, quantity: 1 }],
       }),
     });
 
