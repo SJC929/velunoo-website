@@ -17,12 +17,7 @@ app.post(
 
 // ── Global Middleware ───────────────────────────────────────────────────────
 app.use(cors({
-  origin: [
-    process.env.FRONTEND_URL || 'https://velunoo.ch',
-    'http://localhost:3000',
-    'http://127.0.0.1:5500',  // Live Server (VS Code)
-    'http://localhost:5500'
-  ],
+  origin: (origin, callback) => callback(null, true),
   credentials: true
 }))
 app.use(express.json())
