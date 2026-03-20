@@ -87,6 +87,8 @@ body { font-family: 'Montserrat', sans-serif; background: #FAFAF7; color: var(--
 .summary-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; }
 .summary-row.total { font-size: 17px; font-weight: 800; color: var(--green-dark); }
 .summary-row .label { color: var(--grey-text); }
+.summary-row .price-original { text-decoration: line-through; color: #aaa; font-size: 12px; }
+.summary-row.discount { color: #c0392b; }
 .empty-cart { text-align: center; padding: 24px; color: var(--grey-text); font-size: 14px; }
 
 .step-tag { display: inline-block; background: var(--green-pale); color: var(--green-dark); font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 4px 12px; border-radius: 99px; margin-bottom: 16px; }
@@ -180,10 +182,11 @@ body { font-family: 'Montserrat', sans-serif; background: #FAFAF7; color: var(--
       📦 <span data-i18n="summary.box">Standard Box</span>
     </div>
     <div class="divider"></div>
-    <div class="summary-row"><span class="label" data-i18n="summary.price">Bundle-Preis</span><span>CHF 100.00</span></div>
+    <div class="summary-row"><span class="label" data-i18n="summary.price">Normalpreis</span><span class="price-original">CHF 120.00</span></div>
+    <div class="summary-row discount"><span class="label">Rabatt</span><span>− CHF 20.05</span></div>
     <div class="summary-row"><span class="label" data-i18n="summary.shipping">Versand</span><span data-i18n="summary.free">Kostenlos</span></div>
     <div class="divider"></div>
-    <div class="summary-row total"><span data-i18n="summary.total">Total</span><span>CHF 100.00</span></div>
+    <div class="summary-row total"><span data-i18n="summary.total">Total</span><span>CHF 99.95</span></div>
   </div>
 
 </div>
